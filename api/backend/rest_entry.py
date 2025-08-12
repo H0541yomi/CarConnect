@@ -1,9 +1,23 @@
 from flask import Flask
 
 from backend.db_connection import db
-from backend.customers.customer_routes import customers
-from backend.products.products_routes import products
-from backend.simple.simple_routes import simple_routes
+
+from backend.bots.bots_routes import bots
+from backend.campaigns.campaigns_routes import campaigns
+from backend.car_trends.car_trends_routes import car_trends
+from backend.cars.cars_routes import cars
+from backend.comments.comments_routes import comments
+from backend.communities.communities_routes import communities
+from backend.event_resources.event_resources_routes import event_resources
+from backend.events.events_routes import events
+from backend.follows.follows_routes import follows
+from backend.group_chats.group_chats_routes import group_chats
+from backend.messages.messages_routes import messages
+from backend.post_analytics.post_analytics_routes import post_analytics
+from backend.posts.posts_routes import posts
+from backend.rsvps.rsvps_routes import rsvps
+from backend.users.users_routes import users
+
 import os
 from dotenv import load_dotenv
 
@@ -39,9 +53,21 @@ def create_app():
     # Register the routes from each Blueprint with the app object
     # and give a url prefix to each
     app.logger.info('current_app(): registering blueprints with Flask app object.')   
-    app.register_blueprint(simple_routes)
-    app.register_blueprint(customers,   url_prefix='/c')
-    app.register_blueprint(products,    url_prefix='/p')
+    app.register_blueprint(bots, url_prefix='/bots')
+    app.register_blueprint(campaigns, url_prefix='/campaigns')
+    app.register_blueprint(car_trends, url_prefix='/car_trends')
+    app.register_blueprint(cars, url_prefix='/cars')
+    app.register_blueprint(comments, url_prefix='/comments')
+    app.register_blueprint(communities, url_prefix='/communities')
+    app.register_blueprint(event_resources, url_prefix='/event_resources')
+    app.register_blueprint(events, url_prefix='/events')
+    app.register_blueprint(follows, url_prefix='/follows')
+    app.register_blueprint(group_chats, url_prefix='/group_chats')
+    app.register_blueprint(messages, url_prefix='/messages')
+    app.register_blueprint(post_analytics, url_prefix='/post_analytics')
+    app.register_blueprint(posts, url_prefix='/posts')
+    app.register_blueprint(rsvps, url_prefix='/rsvps')
+    app.register_blueprint(users, url_prefix='/users')
 
     # Don't forget to return the app object
     return app
