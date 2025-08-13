@@ -1,3 +1,7 @@
+-- Naming conventions
+-- - No underscore in Attributes. Only use underscore in Tables
+-- - Capitalize the first letter of each word
+
 DROP DATABASE IF EXISTS RevNet;
 CREATE DATABASE IF NOT EXISTS RevNet;
 
@@ -41,10 +45,10 @@ DROP TABLE IF EXISTS Users;
 
 CREATE TABLE IF NOT EXISTS Users
 (
-   UserID            INT PRIMARY KEY AUTO_INCREMENT,
+   UserId            INT PRIMARY KEY AUTO_INCREMENT,
    Username          VARCHAR(20) NOT NULL UNIQUE,
    FirstName         VARCHAR(50),
-   MiddleName        VARCHAR(50),
+   MIddleName        VARCHAR(50),
    LastName          VARCHAR(50),
    Email             VARCHAR(100),
    BirthDate         DATE,
@@ -54,18 +58,17 @@ CREATE TABLE IF NOT EXISTS Users
    Gender            ENUM ('Male', 'Female', 'Non-Binary'),
    Bio               TEXT,
    ProfilePictureUrl VARCHAR(9999),
-   Role              SET ('Consumer', 'Event Organizer', 'Moderator') DEFAULT 'Consumer',
-   UNIQUE INDEX (Username)
+   Role              SET ('Consumer', 'Event Organizer', 'Moderator') DEFAULT 'Consumer'
 );
 
 
 CREATE TABLE IF NOT EXISTS Group_Chat
 (
-   GroupID   INT PRIMARY KEY AUTO_INCREMENT,
-   OwnerID   INT,
+   GroupId   INT PRIMARY KEY AUTO_INCREMENT,
+   OwnerId   INT,
    Name      VARCHAR(50) NOT NULL,
    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-   FOREIGN KEY (OwnerID) REFERENCES Users (UserID)
+   FOREIGN KEY (OwnerId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -73,17 +76,16 @@ CREATE TABLE IF NOT EXISTS Group_Chat
 
 CREATE TABLE IF NOT EXISTS Community
 (
-   CommunityID INT PRIMARY KEY AUTO_INCREMENT,
-   OwnerID     INT,
-   ChatID      INT         NOT NULL UNIQUE,
+   CommunityId INT PRIMARY KEY AUTO_INCREMENT,
+   OwnerId     INT,
+   ChatId      INT         NOT NULL UNIQUE,
    CreatedAt   DATETIME DEFAULT CURRENT_TIMESTAMP,
    Name        VARCHAR(20) NOT NULL UNIQUE,
    Description TEXT,
-   UNIQUE INDEX (Name),
-   FOREIGN KEY (OwnerID) REFERENCES Users (UserID)
+   FOREIGN KEY (OwnerId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE SET NULL,
-   FOREIGN KEY (ChatID) REFERENCES Group_Chat (GroupID)
+   FOREIGN KEY (ChatId) REFERENCES Group_Chat (GroupId)
        ON UPDATE CASCADE
        ON DELETE RESTRICT
 );
@@ -91,7 +93,7 @@ CREATE TABLE IF NOT EXISTS Community
 
 CREATE TABLE IF NOT EXISTS Advertiser
 (
-   AdvertiserID INT PRIMARY KEY AUTO_INCREMENT,
+   AdvertiserId INT PRIMARY KEY AUTO_INCREMENT,
    Name         VARCHAR(100),
    Email        VARCHAR(100),
    CompanyName  VARCHAR(100),
@@ -101,9 +103,9 @@ CREATE TABLE IF NOT EXISTS Advertiser
 
 CREATE TABLE IF NOT EXISTS Event
 (
-   EventID     INT PRIMARY KEY AUTO_INCREMENT,
-   HostID      INT,
-   CommunityID INT,
+   EventId     INT PRIMARY KEY AUTO_INCREMENT,
+   HostId      INT,
+   CommunityId INT,
    Name        VARCHAR(20) NOT NULL,
    Description TEXT,
    Type        VARCHAR(20),
@@ -112,10 +114,10 @@ CREATE TABLE IF NOT EXISTS Event
    Region      VARCHAR(100),
    Country     VARCHAR(50),
    INDEX (Name),
-   FOREIGN KEY (HostID) REFERENCES Users (UserID)
+   FOREIGN KEY (HostId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE SET NULL,
-   FOREIGN KEY (CommunityID) REFERENCES Community (CommunityID)
+   FOREIGN KEY (CommunityId) REFERENCES Community (CommunityId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -123,30 +125,30 @@ CREATE TABLE IF NOT EXISTS Event
 
 CREATE TABLE IF NOT EXISTS Post
 (
-   PostID       INT PRIMARY KEY AUTO_INCREMENT,
-   AuthorID     INT,
-   AdvertiserID INT,
-   CommunityID  INT,
-   EventID      INT,
-   Likes        INT UNSIGNED,
-   Dislikes     INT UNSIGNED,
+   PostId       INT PRIMARY KEY AUTO_INCREMENT,
+   AuthorId     INT,
+   AdvertiserId INT,
+   CommunityId  INT,
+   EventId      INT,
+   Likes        INT UNSIGNED DEFAULT 0,
+   Dislikes     INT UNSIGNED DEFAULT 0,
    Title        VARCHAR(128) NOT NULL,
    Body         text         NOT NULL,
    CreatedAt    DATETIME DEFAULT CURRENT_TIMESTAMP,
-   Deleted      BOOLEAN,
-   Flagged      BOOLEAN,
+   Deleted      BOOLEAN DEFAULT 0 ,
+   Flagged      BOOLEAN DEFAULT 0,
    INDEX (Title),
    INDEX (CreatedAt),
-   FOREIGN KEY (AuthorID) REFERENCES Users (UserID)
+   FOREIGN KEY (AuthorId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (AdvertiserID) REFERENCES Advertiser (AdvertiserID)
+   FOREIGN KEY (AdvertiserId) REFERENCES Advertiser (AdvertiserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (CommunityID) REFERENCES Community (CommunityID)
+   FOREIGN KEY (CommunityId) REFERENCES Community (CommunityId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (EventID) REFERENCES Event (EventID)
+   FOREIGN KEY (EventId) REFERENCES Event (EventId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -154,9 +156,9 @@ CREATE TABLE IF NOT EXISTS Post
 
 CREATE TABLE IF NOT EXISTS Campaign_Analytics
 (
-   CampaignID         INT,
+   CampaignId         INT,
    Timestamp          DATETIME      DEFAULT CURRENT_TIMESTAMP,
-   AnalystID          INT UNIQUE  NOT NULL,
+   AnalystId          INT  NOT NULL,
    Name               VARCHAR(20) NOT NULL,
    TotalClicks        INT UNSIGNED  DEFAULT 0,
    TotalViews         INT UNSIGNED  DEFAULT 0,
@@ -164,9 +166,9 @@ CREATE TABLE IF NOT EXISTS Campaign_Analytics
    AverageImpressions DECIMAL(8, 2) DEFAULT 0,
    AverageCTR         DECIMAL(4, 3) DEFAULT 0,
    AverageCPC         DECIMAL(5, 2) DEFAULT 0,
-   PRIMARY KEY (CampaignID, Timestamp),
+   PRIMARY KEY (CampaignId, Timestamp),
    INDEX (Name),
-   FOREIGN KEY (AnalystID) REFERENCES Advertiser (AdvertiserID)
+   FOREIGN KEY (AnalystId) REFERENCES Advertiser (AdvertiserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -174,15 +176,15 @@ CREATE TABLE IF NOT EXISTS Campaign_Analytics
 
 CREATE TABLE IF NOT EXISTS Message
 (
-   MessageID INT PRIMARY KEY AUTO_INCREMENT,
-   AuthorID  INT  NOT NULL,
-   GroupID   INT  NOT NULL,
+   MessageId INT PRIMARY KEY AUTO_INCREMENT,
+   AuthorId  INT  NOT NULL,
+   GroupId   INT  NOT NULL,
    Body      TEXT NOT NULL,
    CreatedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-   FOREIGN KEY (AuthorID) REFERENCES Users (UserID)
+   FOREIGN KEY (AuthorId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (GroupID) REFERENCES Group_Chat (GroupID)
+   FOREIGN KEY (GroupId) REFERENCES Group_Chat (GroupId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -190,19 +192,19 @@ CREATE TABLE IF NOT EXISTS Message
 
 CREATE TABLE IF NOT EXISTS Comment
 (
-   CommentID INT PRIMARY KEY AUTO_INCREMENT,
-   PostID    INT  NOT NULL,
-   AuthorID  INT  NOT NULL,
+   CommentId INT PRIMARY KEY AUTO_INCREMENT,
+   PostId    INT  NOT NULL,
+   AuthorId  INT  NOT NULL,
    Likes     INT UNSIGNED DEFAULT 0,
    Dislikes  INT UNSIGNED DEFAULT 0,
    Body      TEXT NOT NULL,
    CreatedAt DATETIME     DEFAULT CURRENT_TIMESTAMP,
-   Deleted   BOOLEAN,
-   Flagged   BOOLEAN,
-   FOREIGN KEY (PostID) REFERENCES Post (PostID)
+   Deleted   BOOLEAN DEFAULT 0,
+   Flagged   BOOLEAN DEFAULT 0,
+   FOREIGN KEY (PostId) REFERENCES Post (PostId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (AuthorID) REFERENCES Users (UserID)
+   FOREIGN KEY (AuthorId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -210,32 +212,32 @@ CREATE TABLE IF NOT EXISTS Comment
 
 CREATE TABLE IF NOT EXISTS Community_Members
 (
-   CommunityID INT,
-   UserID      INT,
-   JoinedAt    DATETIME DEFAULT CURRENT_TIMESTAMP,
-   PRIMARY KEY AUTO_INCREMENT (CommunityID, UserID),
-   FOREIGN KEY (CommunityID) REFERENCES Community (CommunityID)
-       ON UPDATE CASCADE
-       ON DELETE CASCADE,
-   FOREIGN KEY (UserID) REFERENCES Users (UserID)
-       ON UPDATE CASCADE
-       ON DELETE CASCADE
+    CommunityId INT NOT NULL,
+    UserId      INT NOT NULL,
+    JoinedAt    DATETIME DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (CommunityId, UserId),
+    FOREIGN KEY (CommunityId) REFERENCES Community (CommunityId)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE,
+    FOREIGN KEY (UserId) REFERENCES Users (UserId)
+        ON UPDATE CASCADE
+        ON DELETE CASCADE
 );
 
 
 CREATE TABLE IF NOT EXISTS Post_Meta
 (
-   PostMetaID INT PRIMARY KEY,
-   UserID     INT NOT NULL,
-   PostID     INT NOT NULL,
+   PostMetaId INT  AUTO_INCREMENT PRIMARY KEY,
+   UserId     INT NOT NULL,
+   PostId     INT NOT NULL,
    Liked      BOOLEAN,
    Disliked   BOOLEAN,
    Seen       BOOLEAN,
    Clicked    BOOLEAN,
-   FOREIGN KEY (UserID) REFERENCES Users (UserID)
+   FOREIGN KEY (UserId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (PostID) REFERENCES Post (PostID)
+   FOREIGN KEY (PostId) REFERENCES Post (PostId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -243,16 +245,16 @@ CREATE TABLE IF NOT EXISTS Post_Meta
 
 CREATE TABLE IF NOT EXISTS Comment_Meta
 (
-   CommentMetaID INT PRIMARY KEY,
-   UserID        INT NOT NULL,
-   CommentID     INT NOT NULL,
+   CommentMetaId INT AUTO_INCREMENT PRIMARY KEY,
+   UserId        INT NOT NULL,
+   CommentId     INT NOT NULL,
    Liked         BOOLEAN,
    Disliked      BOOLEAN,
    Seen          BOOLEAN,
-   FOREIGN KEY (UserID) REFERENCES Users (UserID)
+   FOREIGN KEY (UserId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (CommentID) REFERENCES Comment (CommentID)
+   FOREIGN KEY (CommentId) REFERENCES Comment (CommentId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -260,17 +262,17 @@ CREATE TABLE IF NOT EXISTS Comment_Meta
 
 CREATE TABLE IF NOT EXISTS Post_Analytics
 (
-   AnalyticsID INT,
+   AnalyticsId INT AUTO_INCREMENT,
    Timestamp   DATETIME      DEFAULT CURRENT_TIMESTAMP,
-   PostID      INT UNIQUE NOT NULL,
+   PostId      INT UNIQUE NOT NULL,
    Views       INT UNSIGNED  DEFAULT 0,
    Clicks      INT UNSIGNED  DEFAULT 0,
    CTR         DECIMAL(4, 3) DEFAULT 0,
    CPC         DECIMAL(5, 2) DEFAULT 0,
    Conversions INT UNSIGNED  DEFAULT 0,
    Impressions INT UNSIGNED  DEFAULT 0,
-   PRIMARY KEY (AnalyticsID, Timestamp),
-   FOREIGN KEY (PostID) REFERENCES Post (PostID)
+   PRIMARY KEY (AnalyticsId),
+   FOREIGN KEY (PostId) REFERENCES Post (PostId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -278,13 +280,15 @@ CREATE TABLE IF NOT EXISTS Post_Analytics
 
 CREATE TABLE IF NOT EXISTS Campaign_Posts_Data
 (
-   CampaignID  INT,
-   AnalyticsID INT,
-   PRIMARY KEY AUTO_INCREMENT (CampaignID, AnalyticsID),
-   FOREIGN KEY (CampaignID) REFERENCES Campaign_Analytics (CampaignID)
+   CampaignId  INT NOT NULL,
+   AnalyticsId INT NOT NULL,
+   Timestamp DATETIME NOT NULL,
+   PRIMARY KEY (CampaignId, Timestamp, AnalyticsId),
+   FOREIGN KEY (CampaignId, Timestamp) 
+        REFERENCES Campaign_Analytics (CampaignId, Timestamp)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (AnalyticsID) REFERENCES Post_Analytics (AnalyticsID)
+   FOREIGN KEY (AnalyticsId) REFERENCES Post_Analytics (AnalyticsId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -292,9 +296,10 @@ CREATE TABLE IF NOT EXISTS Campaign_Posts_Data
 
 CREATE TABLE IF NOT EXISTS Post_Images
 (
-   PostID INT PRIMARY KEY AUTO_INCREMENT,
+    ImageId INT AUTO_INCREMENT PRIMARY KEY,
+   PostId INT NOT NULL,
    Url    TEXT NOT NULL,
-   FOREIGN KEY (PostID) REFERENCES Post (PostID)
+   FOREIGN KEY (PostId) REFERENCES Post (PostId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -302,11 +307,10 @@ CREATE TABLE IF NOT EXISTS Post_Images
 
 CREATE TABLE IF NOT EXISTS Bot
 (
-   BotID INT PRIMARY KEY AUTO_INCREMENT,
-   DevID INT UNIQUE,
+   BotId INT PRIMARY KEY AUTO_INCREMENT,
+   DevId INT UNIQUE,
    Name  VARCHAR(20) UNIQUE,
-   UNIQUE INDEX (Name),
-   FOREIGN KEY (DevID) REFERENCES Users (UserID)
+   FOREIGN KEY (DevId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -314,10 +318,10 @@ CREATE TABLE IF NOT EXISTS Bot
 
 CREATE TABLE IF NOT EXISTS Script
 (
-   ScriptID INT PRIMARY KEY AUTO_INCREMENT,
-   BotID    INT  NOT NULL,
+   ScriptId INT PRIMARY KEY AUTO_INCREMENT,
+   BotId    INT  NOT NULL,
    Script   TEXT NOT NULL,
-   FOREIGN KEY (BotID) REFERENCES Bot (BotID)
+   FOREIGN KEY (BotId) REFERENCES Bot (BotId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -325,12 +329,13 @@ CREATE TABLE IF NOT EXISTS Script
 
 CREATE TABLE IF NOT EXISTS Bot_Flags_Post
 (
-   BotID  INT NOT NULL,
-   PostID INT NOT NULL,
-   FOREIGN KEY (BotID) REFERENCES Bot (BotID)
+   BotId  INT NOT NULL,
+   PostId INT NOT NULL,
+   PRIMARY KEY (BotId, PostId),
+   FOREIGN KEY (BotId) REFERENCES Bot (BotId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (PostID) REFERENCES Post (PostID)
+   FOREIGN KEY (PostId) REFERENCES Post (PostId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -338,38 +343,41 @@ CREATE TABLE IF NOT EXISTS Bot_Flags_Post
 
 CREATE TABLE IF NOT EXISTS Bot_Flags_Comment
 (
-   BotID     INT NOT NULL,
-   CommentID INT NOT NULL,
-   FOREIGN KEY (BotID) REFERENCES Bot (BotID)
+   BotId     INT NOT NULL,
+   CommentId INT NOT NULL,
+   PRIMARY KEY (BotId, CommentId),
+   FOREIGN KEY (BotId) REFERENCES Bot (BotId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (CommentID) REFERENCES Comment (CommentID)
+   FOREIGN KEY (CommentId) REFERENCES Comment (CommentId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
 
 
-CREATE TABLE Moderator_Deletes_Comment
+CREATE TABLE IF NOT EXISTS Moderator_Deletes_Comment
 (
-   UserID    INT NOT NULL,
-   CommentID INT NOT NULL,
-   FOREIGN KEY (UserID) REFERENCES Users (UserID)
+   UserId    INT NOT NULL,
+   CommentId INT NOT NULL,
+   PRIMARY KEY (UserId, CommentId),
+   FOREIGN KEY (UserId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (CommentID) REFERENCES Comment (CommentID)
+   FOREIGN KEY (CommentId) REFERENCES Comment (CommentId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
 
 
-CREATE TABLE Moderator_Deletes_Post
+CREATE TABLE IF NOT EXISTS Moderator_Deletes_Post
 (
-   UserID INT NOT NULL,
-   PostID INT NOT NULL,
-   FOREIGN KEY (UserID) REFERENCES Users (UserID)
+   UserId INT NOT NULL,
+   PostId INT NOT NULL,
+   PRIMARY KEY (UserId, PostId),
+   FOREIGN KEY (UserId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (PostID) REFERENCES Post (PostID)
+   FOREIGN KEY (PostId) REFERENCES Post (PostId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -377,14 +385,14 @@ CREATE TABLE Moderator_Deletes_Post
 
 CREATE TABLE IF NOT EXISTS Group_Users
 (
-   GroupID  INT,
-   UserID   INT,
+   GroupId  INT NOT NULL,
+   UserId   INT NOT NULL,
    JoinedAt DATETIME DEFAULT CURRENT_TIMESTAMP,
-   PRIMARY KEY AUTO_INCREMENT (GroupID, UserID),
-   FOREIGN KEY (GroupID) REFERENCES Group_Chat (GroupID)
+   PRIMARY KEY (GroupId, UserId),
+   FOREIGN KEY (GroupId) REFERENCES Group_Chat (GroupId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (UserID) REFERENCES Users (UserID)
+   FOREIGN KEY (UserId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -392,12 +400,12 @@ CREATE TABLE IF NOT EXISTS Group_Users
 
 CREATE TABLE IF NOT EXISTS RSVP
 (
-   RSVP_ID     INT PRIMARY KEY AUTO_INCREMENT,
-   SubmitterID INT UNIQUE NOT NULL,
+   RsvpId      INT PRIMARY KEY AUTO_INCREMENT,
+   SubmitterId INT UNIQUE NOT NULL,
    Status      VARCHAR(20),
    SubmittedAt DATETIME DEFAULT CURRENT_TIMESTAMP
        ON UPDATE CURRENT_TIMESTAMP,
-   FOREIGN KEY (SubmitterID) REFERENCES Users (UserID)
+   FOREIGN KEY (SubmitterId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -405,11 +413,11 @@ CREATE TABLE IF NOT EXISTS RSVP
 
 CREATE TABLE IF NOT EXISTS Form_Questions
 (
-   QuestionID INT PRIMARY KEY AUTO_INCREMENT,
-   RSVP_ID    INT,
+   QuestionId INT PRIMARY KEY AUTO_INCREMENT,
+   RsvpId    INT,
    Question   VARCHAR(400),
    Answer     TEXT,
-   FOREIGN KEY (RSVP_ID) REFERENCES RSVP (RSVP_ID)
+   FOREIGN KEY (RsvpId) REFERENCES RSVP (RsvpId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -417,13 +425,13 @@ CREATE TABLE IF NOT EXISTS Form_Questions
 
 CREATE TABLE IF NOT EXISTS Event_RSVPs
 (
-   RSVP_ID INT,
-   EventID INT,
-   PRIMARY KEY AUTO_INCREMENT (RSVP_ID, EventID),
-   FOREIGN KEY (RSVP_ID) REFERENCES RSVP (RSVP_ID)
+   RsvpId INT NOT NULL,
+   EventId INT NOT NULL,
+   PRIMARY KEY (RsvpId, EventId),
+   FOREIGN KEY (RsvpId) REFERENCES RSVP (RsvpId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (EventID) REFERENCES Event (EventID)
+   FOREIGN KEY (EventId) REFERENCES Event (EventId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -431,10 +439,10 @@ CREATE TABLE IF NOT EXISTS Event_RSVPs
 
 CREATE TABLE IF NOT EXISTS Resources_Templates
 (
-   PlanID  INT PRIMARY KEY AUTO_INCREMENT,
-   EventID INT,
+   PlanId  INT PRIMARY KEY AUTO_INCREMENT,
+   EventId INT,
    Notes   TEXT,
-   FOREIGN KEY (EventID) REFERENCES Event (EventID)
+   FOREIGN KEY (EventId) REFERENCES Event (EventId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -442,11 +450,11 @@ CREATE TABLE IF NOT EXISTS Resources_Templates
 
 CREATE TABLE IF NOT EXISTS Equipment_List
 (
-   SupplyListID INT PRIMARY KEY AUTO_INCREMENT,
-   PlanID       INT,
+   SupplyListId INT PRIMARY KEY AUTO_INCREMENT,
+   PlanId       INT,
    Equipment    VARCHAR(100) NOT NULL,
    Amount       INT UNSIGNED NOT NULL,
-   FOREIGN KEY (PlanID) REFERENCES Resources_Templates (PlanID)
+   FOREIGN KEY (PlanId) REFERENCES Resources_Templates (PlanId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -454,11 +462,11 @@ CREATE TABLE IF NOT EXISTS Equipment_List
 
 CREATE TABLE IF NOT EXISTS Supply_List
 (
-   EquipmentListID INT PRIMARY KEY AUTO_INCREMENT,
-   PlanID          INT,
+   EquipmentListId INT PRIMARY KEY AUTO_INCREMENT,
+   PlanId          INT,
    Supply          VARCHAR(100) NOT NULL,
    Amount          INT UNSIGNED NOT NULL,
-   FOREIGN KEY (PlanID) REFERENCES Resources_Templates (PlanID)
+   FOREIGN KEY (PlanId) REFERENCES Resources_Templates (PlanId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -466,15 +474,15 @@ CREATE TABLE IF NOT EXISTS Supply_List
 
 CREATE TABLE IF NOT EXISTS Cars
 (
-   CarID         INT PRIMARY KEY AUTO_INCREMENT,
-   OwnerID       INT,
+   CarId         INT PRIMARY KEY AUTO_INCREMENT,
+   OwnerId       INT,
    Make          VARCHAR(50),
    Model         VARCHAR(50),
    ModelYear     YEAR,
    ExteriorColor VARCHAR(50),
    InteriorColor VARCHAR(50),
    PurchaseDate  DATE,
-   FOREIGN KEY (OwnerID) REFERENCES Users (UserID)
+   FOREIGN KEY (OwnerId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -482,14 +490,14 @@ CREATE TABLE IF NOT EXISTS Cars
 
 CREATE TABLE IF NOT EXISTS Car_Build
 (
-   BuildID   INT PRIMARY KEY AUTO_INCREMENT,
-   CarID     INT,
+   BuildId   INT PRIMARY KEY AUTO_INCREMENT,
+   CarId     INT,
    Exhaust   VARCHAR(128),
    Turbo     VARCHAR(128),
    Engine    VARCHAR(128),
    Wheels    VARCHAR(128),
    Downpipes VARCHAR(128),
-   FOREIGN KEY (CarID) REFERENCES Cars (CarID)
+   FOREIGN KEY (CarId) REFERENCES Cars (CarId)
        ON UPDATE CASCADE
        ON DELETE SET NULL
 );
@@ -497,15 +505,15 @@ CREATE TABLE IF NOT EXISTS Car_Build
 
 CREATE TABLE IF NOT EXISTS Car_Meta
 (
-   CarMetaID INT PRIMARY KEY AUTO_INCREMENT,
-   CarID     INT UNIQUE NOT NULL,
+   CarMetaId INT PRIMARY KEY AUTO_INCREMENT,
+   CarId     INT UNIQUE NOT NULL,
    Weight    INT,
    Length    INT,
-   Width     INT,
+   WIdth     INT,
    Height    INT,
    TopSpeed  DECIMAL(6, 2),
    FuelType  VARCHAR(20),
-   FOREIGN KEY (CarID) REFERENCES Cars (CarID)
+   FOREIGN KEY (CarId) REFERENCES Cars (CarId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
@@ -513,13 +521,13 @@ CREATE TABLE IF NOT EXISTS Car_Meta
 
 CREATE TABLE IF NOT EXISTS Follower_Followee
 (
-   FollowerID INT NOT NULL,
-   FolloweeID INT NOT NULL,
-   PRIMARY KEY (FolloweeID, FollowerID),
-   FOREIGN KEY (FollowerID) REFERENCES Users (UserID)
+   FollowerId INT NOT NULL,
+   FolloweeId INT NOT NULL,
+   PRIMARY KEY (FolloweeId, FollowerId),
+   FOREIGN KEY (FollowerId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE,
-   FOREIGN KEY (FolloweeID) REFERENCES Users (UserID)
+   FOREIGN KEY (FolloweeId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
        ON DELETE CASCADE
 );
