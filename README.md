@@ -33,12 +33,11 @@ CarConnect brings the entire automotive world into one application.
 
 
 ## Team Members 
-Sam Penubothula
-William Wei
-Ethan Cabalona
-Brian Kubinec 
-Ayan Imran 
-
+ - Sam Penubothula
+ - William Wei
+ - Ethan Cabalona
+ - Brian Kubinec
+ - Ayan Imran
 
 
 
