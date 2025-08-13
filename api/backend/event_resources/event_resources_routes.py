@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from backend.db_connection import db
 
 event_resources = Blueprint("event_resources", __name__)
 

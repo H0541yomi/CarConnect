@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from backend.db_connection import db
 
 campaigns = Blueprint("campaigns", __name__)
 

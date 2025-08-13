@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from backend.db_connection import db
 
 post_analytics = Blueprint("post_analytics", __name__)
 

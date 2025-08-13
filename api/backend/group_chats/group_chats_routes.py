@@ -1,4 +1,5 @@
 from flask import Blueprint, jsonify
+from backend.db_connection import db
 
 group_chats = Blueprint("group_chats", __name__)
 
