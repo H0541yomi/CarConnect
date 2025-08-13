@@ -11,23 +11,23 @@ def get_posts():
 
 @posts.route("/", methods=["POST"])
 def create_post():
-    """
-    Creates a new Post.
-    Expected JSON body:
-    {
-      "AuthorID": 1,                  # required
-      "Title": "Hello",               # required (<= 128 chars)
-      "Body": "text...",              # required
-      "AdvertiserID": 2,              # optional
-      "EventID": 3,                   # optional
-      "CommunityID": 4,               # optional
-      "Likes": 0,                     # optional, default 0
-      "Dislikes": 0,                  # optional, default 0
-      "Deleted": false,               # optional, default false
-      "Flagged": false,               # optional, default false
-      "Created_At": "2025-08-12 10:30:00"  # optional; if omitted uses NOW()
-    }
-    """
+
+    # Creates a new Post.
+    # Expected JSON body:
+    # {
+    #   "AuthorID": 1,                  # required
+    #   "Title": "Hello",               # required (<= 128 chars)
+    #   "Body": "text...",              # required
+    #   "AdvertiserID": 2,              # optional
+    #   "EventID": 3,                   # optional
+    #   "CommunityID": 4,               # optional
+    #   "Likes": 0,                     # optional, default 0
+    #   "Dislikes": 0,                  # optional, default 0
+    #   "Deleted": false,               # optional, default false
+    #   "Flagged": false,               # optional, default false
+    #   "Created_At": "2025-08-12 10:30:00"  # optional; if omitted uses NOW()
+    # }
+    
     data = request.get_json(silent=True) or {}
 
     # 1) Validate required fields
@@ -47,7 +47,7 @@ def create_post():
     dislikes      = data.get("Dislikes", 0)
     deleted       = bool(data.get("Deleted", False))
     flagged       = bool(data.get("Flagged", False))
-    created_at    = data.get("Created_At")  # optional string 'YYYY-MM-DD HH:MM:SS'
+    createdat    = data.get("CreatedAt")  # optional string 'YYYY-MM-DD HH:MM:SS'
 
     try:
         conn = db.get_db()
@@ -57,7 +57,7 @@ def create_post():
         sql = """
             INSERT INTO Post
                 (AuthorID, AdvertiserID, EventID, CommunityID,
-                 Likes, Dislikes, Title, Body, Created_At, Deleted, Flagged)
+                 Likes, Dislikes, Title, Body, CreatedAt, Deleted, Flagged)
             VALUES
                 (%s, %s, %s, %s,
                  %s, %s, %s, %s,
@@ -68,7 +68,7 @@ def create_post():
             (
                 author_id, advertiser_id, event_id, community_id,
                 likes, dislikes, title, body,
-                created_at, deleted, flagged,
+                createdat, deleted, flagged,
             ),
         )
         conn.commit()
