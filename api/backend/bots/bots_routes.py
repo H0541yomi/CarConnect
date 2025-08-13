@@ -1,19 +1,48 @@
-from copy import Error
+from mysql.connector import Error
 from urllib import request
 from backend.db_connection import db
 from flask import Blueprint, jsonify
 
 bots = Blueprint("bots", __name__)
 
+# Get a list of all bots
+# Optional Parameters for filtering: UserId, Name
 @bots.route("/", methods=["GET"])
 def get_bots():
-    return jsonify({"status": "api endpoint incomplete"}), 501
+    try:
+        data = request.get_json()
+        
+        UserId = data["UserId"]
+        Name = data["Name"]
 
-@bots.route("/", methods=["POST"])
-def create_bot():
-    return jsonify({"status": "api endpoint incomplete"}), 501
+        cursor = db.get_db().cursor()
+        query = """
+        SELECT BotId, DevId, Name 
+        FROM Bot
+        WHERE 1=1
+        """
+        filters = []
 
-# Create a new automod bot
+        if UserId:
+            query += " AND DevId = %s"
+            filters.append(UserId)
+        if Name:
+            query += " AND Name LIKE %s"
+            filters.append(f"%{Name}%")
+
+        cursor.execute(
+            query,
+            filters
+        )
+        bots = cursor.fetchall()
+        cursor.close()
+        
+        return jsonify(bots, 200)
+        
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Create a new automod bot (Moderator story 1)
 # Required Fields: BotName, UserId, Scripts
 @bots.route("/", methods=["POST"])
 def create_bot():
@@ -29,8 +58,6 @@ def create_bot():
         # Inserting new bot
 
         cursor = db.get_db().cursor()
-
-        # Inserting the bot 
 
         bot_insert_query = """
         INSERT INTO Bot (Name, DevId)
@@ -64,6 +91,8 @@ def create_bot():
                 }
             )
             db.get_db().commit()
+        
+        cursor.close()
 
         return (
             jsonify({"message": "bot created successfully", "BotId": new_bot_id, "ScriptsLoaded": len(data["Scripts"])}),
