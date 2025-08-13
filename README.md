@@ -31,7 +31,8 @@ CarConnect brings the entire automotive world into one application.
 - **Containerization:** Docker & Docker Compose
 - **Data Generation:** Mockaroo / Python Faker
 
-##Team Members 
+
+## Team Members 
 Sam Penubothula
 William Wei
 Ethan Cabalona
