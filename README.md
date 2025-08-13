@@ -1,3 +1,67 @@
+
+# CarConnect – The Social Media for Car Enthusiasts
+
+## Overview
+CarConnect is a niche social media platform built for people who live and breathe cars.  
+From group chats (like Bimmerpost forums) to a personalized “Suggested for You” car parts recommendation system, CarConnect is designed to connect enthusiasts, advertisers, and organizers in one unified space.
+
+With dedicated tools for:
+- **Users** to share builds, ask questions, and join communities
+- **Advertisers** to reach an engaged audience
+- **Event organizers** to host meets and showcases
+- **Moderators** to keep the platform safe and welcoming
+
+CarConnect brings the entire automotive world into one application.
+
+---
+
+## Features
+- Group chat functionality with moderation tools and bots
+- Content feed for posts, photos, and videos
+- Personalized recommendations for car parts based on similar user builds
+- Advertiser dashboard with ad posting, analytics, and trending insights
+- Event management tools with RSVPs, updates, and media galleries
+- Profile pages for all users with bios, car lists, and posts
+- Streamlit-powered front end and Flask-based REST API
+
+## Technology Stack
+- **Frontend:** Streamlit
+- **Backend:** Flask (Python)
+- **Database:** MySQL
+- **Containerization:** Docker & Docker Compose
+- **Data Generation:** Mockaroo / Python Faker
+
+##Team Members 
+Sam Penubothula
+William Wei
+Ethan Cabalona
+Brian Kubinec 
+Ayan Imran 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # Spring 2025 CS 3200 Project Template Repository
 
 This repo is a template for your semester project. It includes most of the infrastructure setup (containers), sample databases, and example UI pages. Explore it fully and ask questions!
