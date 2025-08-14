@@ -13,6 +13,7 @@ def get_car(car_id):
     return jsonify({"status": "api endpoint incomplete"}), 501
 
 # Give a user a new car (User story 6)
+# PASSED
 @cars.route("/<int:user_id>/cars", methods=["POST"])
 def add_user_car(user_id):
     try:
@@ -21,13 +22,13 @@ def add_user_car(user_id):
 
         # Insert new car
         car_insert_query = """
-        INSERT INTO Cars (OwnerId, Make, Model, ModelYear, Color, ExteriorColor, InteriorColor, PurchaseDate)
-        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        INSERT INTO Cars (OwnerId, Make, Model, ModelYear, ExteriorColor, InteriorColor, PurchaseDate)
+        VALUES (%s, %s, %s, %s, %s, %s, %s)
         """
         
         cursor.execute(
             car_insert_query,
-            (user_id, data["Make"], data["Model"], data["ModelYear"], data["Color"],
+            (user_id, data["Make"], data["Model"], data["ModelYear"],
              data["ExteriorColor"], data["InteriorColor"], data["PurchaseDate"])
         )
         db.get_db().commit()
@@ -40,10 +41,12 @@ def add_user_car(user_id):
     except Error as e:
         return jsonify({"error": str(e)}), 500
 
+
 # Update user car (User story 6)
 # A lot of optional params, refer to relational database diagram or SQL DDL to see all options
 # (or just look at the UPDATE statements)
-@cars.route("/<int:car_id>/", methods=["PUT"])
+# PASSED
+@cars.route("/<int:car_id>", methods=["PUT"])
 def update_user_car(car_id):
     try:
         data = request.get_json()
@@ -51,15 +54,14 @@ def update_user_car(car_id):
 
         cars_query = """
         UPDATE Cars
-        SET Make = %s, Model = %s, ModelYear = %s, Color = %s, ExteriorColor = %s,
+        SET Make = %s, Model = %s, ModelYear = %s, ExteriorColor = %s,
         InteriorColor = %s, PurchaseDate = %s
-        WHERE car_id = %s
+        WHERE carid = %s
         """
         cursor.execute(cars_query, (
             data.get("Make"),
             data.get("Model"),
             data.get("ModelYear"),
-            data.get("Color"),
             data.get("ExteriorColor"),
             data.get("InteriorColor"),
             data.get("PurchaseDate"),
@@ -73,7 +75,7 @@ def update_user_car(car_id):
         build_query = """
         UPDATE Car_Build
         SET Exhaust = %s, Turbo = %s, Engine = %s, Wheels = %s, Downpipes = %s
-        WHERE car_id = %s
+        WHERE carid = %s
         """
         cursor.execute(build_query, (
             data.get("Exhaust"),
@@ -89,7 +91,7 @@ def update_user_car(car_id):
         UPDATE Car_Meta
         SET Weight = %s, Length = %s, Width = %s, Height = %s,
         TopSpeed = %s, FuelType = %s
-        WHERE car_id = %s
+        WHERE carid = %s
         """
         cursor.execute(meta_query, (
             data.get("Weight"),
@@ -109,6 +111,7 @@ def update_user_car(car_id):
         return jsonify({"error": str(e)}), 500
 
 # Delete a car from the database (User story 6)
+# PASSED
 @cars.route("/<int:car_id>", methods=["DELETE"])
 def delete_car(car_id):
     try:

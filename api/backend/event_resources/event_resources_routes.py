@@ -4,6 +4,7 @@ from backend.db_connection import db
 
 event_resources = Blueprint("event_resources", __name__)
 
+# PASSED
 @event_resources.route("/", methods=["GET"])
 def get_event_resources():
     """
@@ -99,6 +100,8 @@ def get_event_resources():
             })
 
     return jsonify(list(plans.values())), 200
+
+# PASSED
 @event_resources.route("/", methods=["POST"])
 def create_event_resources():
     """
@@ -206,7 +209,7 @@ def create_event_resources():
         return jsonify({"error": "Internal error", "detail": str(e)}), 500
 
 
-
+# PASSED
 @event_resources.route("/<int:PlanId>", methods=["PUT"])
 def update_event_resources(PlanId):
     """
