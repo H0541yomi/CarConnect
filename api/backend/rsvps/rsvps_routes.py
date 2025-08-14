@@ -1,4 +1,4 @@
-from flask import Blueprint, jsonify
+from flask import Blueprint, jsonify, request
 from mysql.connector import Error
 from backend.db_connection import db
 
