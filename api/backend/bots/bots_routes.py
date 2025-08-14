@@ -137,7 +137,7 @@ def create_bot():
 #         cursor.executemany(scripts_insert_query, script_rows)
 
 #         # 5) Commit once
-#         conn.commit()
+#         db.get_db().commit()
 #         cursor.close()
 
 #         return jsonify({

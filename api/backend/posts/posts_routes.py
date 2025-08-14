@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify, make_response, current_app, url_for
 from mysql.connector import Error
-from backend.db_connection import db  # same helper you used elsewhere
+from backend.db_connection import db 
+from backend.Utils.UserStatus import is_moderator, is_comment_author  
 
 
 posts = Blueprint("posts", __name__)
@@ -80,11 +81,9 @@ def create_post():
         # resp.headers["Location"] = url_for("posts.get_post", post_id=new_id, _external=True)
         return resp
 
-    except Exception as e:
+    except Error as e:
         current_app.logger.exception("POST /posts failed")
         return jsonify({"error": str(e)}), 500
-
-
 
 @posts.route("/<int:post_id>", methods=["GET"])
 def get_post(post_id):
@@ -97,3 +96,165 @@ def update_post(post_id):
 @posts.route("/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id):
     return jsonify({"status": "api endpoint incomplete"}), 501
+
+
+
+
+
+
+# Comments routes start here
+
+# Get a list of comments on a post (Moderator story 4, User story 1)
+@posts.route("/<int:post_id>/comments", methods=["GET"])
+def get_comments(post_id):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute("SELECT * FROM Comment WHERE PostID = %s AND Deleted = FALSE", (post_id,))
+        comments = cursor.fetchall()
+        cursor.close()
+        return jsonify(comments), 200
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Comment on a post (User story 1)
+# Required params: UserId, Body
+@posts.route("/<int:post_id>/comments", methods=["POST"])
+def create_comment(post_id):
+    try:
+        cursor = db.get_db().cursor()
+        data = request.get_json()
+
+        author_id = data.get("UserId")
+        body = data.get("Body")
+        
+        # Checking required fields
+        if not author_id or not body:
+            return jsonify({"error": "Check required fields: UserId, Body"}), 400
+
+        cursor.execute(
+            "INSERT INTO Comment (PostID, UserID, Body) VALUES (%s, %s, %s)",
+            (post_id, author_id, body)
+        )
+        db.get_db().commit()
+        cursor.close()
+        return jsonify({"status": "Comment created"}), 201
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Get info on a specific comment
+@posts.route("/<int:post_id>/comments/<int:comment_id>", methods=["GET"])
+def get_comment(post_id, comment_id):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute("SELECT * FROM Comment WHERE PostID = %s AND CommentID = %s AND Deleted = FALSE", (post_id, comment_id))
+        comment = cursor.fetchone()
+        cursor.close()
+        if comment:
+            return jsonify(comment), 200
+        else:
+            return jsonify({"error": "Comment not found"}), 404
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Update a comment (edit body, like/dislike) (User story 1)
+# Required params: UserId
+# Use booleans when passing in the following optional params: Like, Dislike, UndoLike, UndoDislike
+@posts.route("/<int:post_id>/comments/<int:comment_id>", methods=["PUT"])
+def update_comment(post_id, comment_id):
+    try:
+        cursor = db.get_db().cursor()
+        data = request.get_json()
+        
+        user_id = data.get("UserId")
+        
+        # Verifying params
+        if not user_id:
+            return jsonify({"error": "UserId is required"}), 400
+        
+        new_body = data.get("Body")
+        like = data.get("Like") # boolean
+        dislike = data.get("Dislike") # boolean
+        undo_like = data.get("UndoLike") # boolean
+        undo_dislike = data.get("UndoDislike") # boolean
+
+        # User updates body action
+        if new_body:
+            author = is_comment_author(user_id, comment_id)
+            if not author:
+                return jsonify({"error": "User is not authorized to update this comment"}), 403
+
+            cursor.execute("UPDATE Comment SET Body = %s WHERE CommentId = %s", (new_body, comment_id))
+            db.get_db().commit()
+            return jsonify({"status": "Comment updated"}), 200
+
+        # User liking actions
+        if like:
+            cursor.execute("UPDATE Comment SET Likes = Likes + 1 WHERE CommentId = %s", (comment_id,))
+            db.get_db().commit()
+            return jsonify({"status": "Comment liked"}), 200
+        if dislike:
+            cursor.execute("UPDATE Comment SET Dislikes = Dislikes + 1 WHERE CommentId = %s", (comment_id,))
+            db.get_db().commit()
+            return jsonify({"status": "Comment disliked"}), 200
+        if undo_like:
+            cursor.execute("UPDATE Comment SET Likes = GREATEST(Likes - 1, 0) WHERE CommentId = %s", (comment_id,))
+            db.get_db().commit()
+            return jsonify({"status": "Like undone"}), 200
+        if undo_dislike:
+            cursor.execute("UPDATE Comment SET Dislikes = GREATEST(Dislikes - 1, 0) WHERE CommentId = %s", (comment_id,))
+            db.get_db().commit()
+            return jsonify({"status": "Dislike undone"}), 200
+
+        return jsonify({"error": "No action taken"}), 400
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Mark a comment as deleted or flagged (Moderator story 1/3, User story 1)
+# Required params: Either BotId or UserId
+@posts.route("/<int:post_id>/comments/<int:comment_id>", methods=["DELETE"])
+def delete_comment(post_id, comment_id):
+    try:
+        cursor = db.get_db().cursor()
+        data = request.get_json()
+
+        bot_id = data.get("BotId")
+        user_id = data.get("UserId")
+        
+        # Bot flag action
+        if bot_id:
+            # Checking for bot existence
+            cursor.execute("SELECT * FROM Bot WHERE BotId = %s", (bot_id,))
+            if not cursor.fetchone():
+                return jsonify({"error": "Bot not found, cannot flag post!"}), 404
+            
+            # If the bot exists, then flag the post
+            cursor.execute("INSERT INTO Bot_Flags_Comment (BotId, CommentId) VALUES (%s, %s)", (bot_id, comment_id))
+            db.get_db().commit()
+
+            cursor.execute("UPDATE Comment SET Flagged = TRUE WHERE CommentId = %s", (comment_id,))
+            db.get_db().commit()
+            
+        # Moderator/User delete action
+        elif user_id:
+            # Verify that user is a moderator
+            moderator = is_moderator(user_id)
+
+            # Or verify if the user is the author
+            author = is_comment_author(user_id, comment_id)
+
+            if not moderator and not author:
+                return jsonify({"error": "User is not authorized to delete this comment"}), 403
+
+            cursor.execute("UPDATE Comment SET Deleted = TRUE WHERE CommentId = %s", (comment_id,))
+            db.get_db().commit()
+            
+            if moderator:
+                cursor.execute("INSERT INTO Moderator_Deletes_Comment (UserId, CommentId) VALUES (%s, %s)", (user_id, comment_id))
+                db.get_db().commit()
+
+            return jsonify({"status": "Comment deleted"}), 200
+            
+        else:
+            return jsonify({"error": "Pass in a user id or bot id"}), 400
+    except Error as e:
+        return jsonify({"error": str(e)}), 500

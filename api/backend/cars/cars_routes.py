@@ -43,7 +43,7 @@ def add_user_car(user_id):
 # Update user car (User story 6)
 # A lot of optional params, refer to relational database diagram or SQL DDL to see all options
 # (or just look at the UPDATE statements)
-@cars.route("/<int:car_id>/", methods=["PUT"])
+@cars.route("/<int:car_id>", methods=["PUT"])
 def update_user_car(car_id):
     try:
         data = request.get_json()
