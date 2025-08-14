@@ -18,3 +18,12 @@ def is_moderator(user_id):
         return cursor.fetchone() is not None
     except Error as e:
         return e
+    
+# Check if a user created a certain event
+def is_event_host(user_id, event_id):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute("SELECT * FROM Event WHERE HostId = %s AND EventId = %s", (user_id, event_id))
+        return cursor.fetchone() is not None
+    except Error as e:
+        return e

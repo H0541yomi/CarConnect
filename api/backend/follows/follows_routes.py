@@ -35,6 +35,9 @@ def get_following_info(user_id):
 @follows.route("/<int:user_id>/<int:followed_user_id>", methods=["POST"])
 def follow_user(user_id, followed_user_id):
     try:
+        if user_id == followed_user_id:
+            return jsonify({"error": "Cannot follow yourself"}), 400
+        
         cursor = db.get_db().cursor()
         cursor.execute("INSERT INTO Follower_Followee (FollowerId, FolloweeId) VALUES (%s, %s)", (user_id, followed_user_id))
         db.get_db().commit()

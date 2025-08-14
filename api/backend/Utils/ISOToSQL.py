@@ -3,16 +3,22 @@ from dateutil.tz import *
 from datetime import *
 
 def date_to_formatted_date(date):
-    parsed_date = parse_date(date)
-    if not parsed_date:
-        return None
-    return parsed_date.strftime("%Y-%m-%d")
+    try:    
+        parsed_date = parse_date(date)
+        if not parsed_date:
+            return None
+        return parsed_date.strftime("%Y-%m-%d")
+    except Exception as e:
+        raise RuntimeError(f"Error formatting date: {e}")
 
 def date_to_formatted_datetime(date):
-    parsed_date = parse_date(date)
-    if not parsed_date:
-        return None
-    return parsed_date.strftime("%Y-%m-%d %H:%M:%S")
+    try:
+        parsed_date = parse_date(date)
+        if not parsed_date:
+            return None
+        return parsed_date.strftime("%Y-%m-%d %H:%M:%S")
+    except Exception as e:
+        raise RuntimeError(f"Error formatting datetime: {e}")
 
 def parse_date(date):
     try:
@@ -62,5 +68,4 @@ def parse_date(date):
         return parsed_date
 
     except Exception as e:
-        print(f"Error parsing date: {e}")
-        return None
+        raise RuntimeError(f"Error parsing date: {e}")
