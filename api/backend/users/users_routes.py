@@ -11,12 +11,12 @@ def get_users():
     try:
         cursor = db.get_db().cursor()
         
-        filter_params = request.get_json()
-        username = filter_params.get("Username")
-        city = filter_params.get("City")
-        state = filter_params.get("State")
-        country = filter_params.get("Country")
-        role = filter_params.get("Role")
+        # Use query parameters for GET requests
+        username = request.args.get("Username")
+        city = request.args.get("City")
+        state = request.args.get("State")
+        country = request.args.get("Country")
+        role = request.args.get("Role")
 
         query = "SELECT UserId, Username FROM Users WHERE 1=1"
         params = []
@@ -34,7 +34,7 @@ def get_users():
             query += " AND Country = %s"
             params.append(country)
         if role:
-            query += " AND Role = %s"
+            query += " AND FIND_IN_SET(%s, Role) > 0"
             params.append(role)
 
         cursor.execute(query, params)

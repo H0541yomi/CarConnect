@@ -1,7 +1,7 @@
-from mysql.connector import Error
-from urllib import request
+from flask import Blueprint, jsonify, request
 from backend.db_connection import db
-from flask import Blueprint, jsonify
+from mysql.connector import Error
+from flask import current_app
 
 bots = Blueprint("bots", __name__)
 
@@ -10,10 +10,8 @@ bots = Blueprint("bots", __name__)
 @bots.route("/", methods=["GET"])
 def get_bots():
     try:
-        data = request.get_json()
-        
-        UserId = data["UserId"]
-        Name = data["Name"]
+        UserId = request.args.get('UserId')
+        Name = request.args.get('Name')
 
         cursor = db.get_db().cursor()
         query = """
@@ -66,10 +64,10 @@ def create_bot():
         
         cursor.execute(
             bot_insert_query,
-            {
+            (
                 data["BotName"],
-                data["UserId"]
-            }
+                data["UserId"],
+            )
         )
         db.get_db().commit()
         
