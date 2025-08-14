@@ -31,6 +31,101 @@ CarConnect brings the entire automotive world into one application.
 - **Containerization:** Docker & Docker Compose
 - **Data Generation:** Mockaroo / Python Faker
 
+## Quick Start And Run Instructions
+**Prereqs**: Docker Desktop + Git
+
+
+git clone https://github.com/H0541yomi/CarConnect.git
+cd CarConnect
+
+
+Create config files (already in repo for convenience, but leaving here for clarity):
+
+# API env
+cat > api/.env <<'EOF'
+SECRET_KEY=dev
+DB_USER=root
+MYSQL_ROOT_PASSWORD=revnet
+DB_HOST=db
+DB_PORT=3306
+DB_NAME=RevNet
+EOF
+
+# Streamlit secrets (UI -> API)
+mkdir -p app/src/.streamlit
+printf 'API_BASE_URL = "http://api:4000"\n' > app/src/.streamlit/secrets.toml
+
+
+Run
+
+docker compose up -d
+
+
+Open
+
+App (Streamlit): http://localhost:8501
+
+API sample JSON: http://localhost:4000/bots/
+
+Reset DB if needed:
+
+docker compose down -v
+docker compose up -d
+
+What to click in the App
+
+Persona selector → choose the role (e.g., Moderator or User).
+
+Moderator → Bot Manager page:
+
+Create a bot (POST /bots/)
+
+See bots list (GET /bots/)
+
+User → Find & Follow page:
+
+Search users (GET /users/?Name=...)
+
+Follow user (POST /follows/)
+
+API Endpoints used
+
+GET /bots/
+
+POST /bots/ with
+
+{ "BotName":"RevBot", "UserId":1, "Scripts":["flag if spam","block profanity"] }
+
+
+GET /users/?Name=Jess
+
+POST /follows/ with
+
+{ "FollowerID":1, "FolloweeID":2 }
+
+Where things live
+
+Streamlit pages: app/src/pages/
+
+Navigation helpers: app/src/modules/
+
+API client: app/src/utils/api.py (reads API_BASE_URL)
+
+Flask blueprints: api/backend/*
+
+Schema/seed SQL: database-files/*.sql (loaded on first run)
+
+Troubleshooting
+
+UI can’t reach API → check app/src/.streamlit/secrets.toml is:
+
+API_BASE_URL = "http://api:4000"
+
+
+404 hitting /api/... → client should NOT include /api/. Use "bots/", "follows/", etc.
+
+Empty DB → run a clean reset (see reset DB snippet above).
+
 
 ## Team Members 
  - Sam Penubothula
