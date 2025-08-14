@@ -7,6 +7,7 @@ bots = Blueprint("bots", __name__)
 
 # Get a list of all bots
 # Optional Parameters for filtering: UserId, Name
+# PASSED
 @bots.route("/", methods=["GET"])
 def get_bots():
     try:
@@ -35,13 +36,14 @@ def get_bots():
         bots = cursor.fetchall()
         cursor.close()
         
-        return jsonify(bots, 200)
+        return jsonify(bots), 200
         
     except Error as e:
         return jsonify({"error": str(e)}), 500
 
 # Create a new automod bot (Moderator story 1)
 # Required Fields: BotName, UserId, Scripts
+# NEEDS FIXING
 @bots.route("/", methods=["POST"])
 def create_bot():
     try:
@@ -99,6 +101,54 @@ def create_bot():
 
     except Error as e:
         return jsonify({"error": str(e)}), 500
+
+# PASSED
+# @bots.route("/", methods=["POST"])
+# def create_bot():
+#     try:
+#         data = request.get_json() or {}
+
+#         # 1) Validate required fields
+#         for field in ("BotName", "UserId", "Scripts"):
+#             if field not in data:
+#                 return jsonify({"error": f"Missing required field: {field}"}), 400
+#         if not isinstance(data["Scripts"], (list, tuple)) or not data["Scripts"]:
+#             return jsonify({"error": "Scripts must be a non-empty list"}), 400
+
+#         conn = db.get_db()
+#         cursor = conn.cursor()
+
+#         # 2) Ensure DevId exists to avoid FK 1452
+#         cursor.execute("SELECT UserId FROM Users WHERE UserId = %s", (data["UserId"],))
+#         if cursor.fetchone() is None:
+#             cursor.close()
+#             return jsonify({"error": f"UserId {data['UserId']} does not exist"}), 400
+
+#         # 3) Insert bot
+#         cursor.execute(
+#             "INSERT INTO Bot (Name, DevId) VALUES (%s, %s)",
+#             (data["BotName"], data["UserId"])
+#         )
+#         new_bot_id = cursor.lastrowid
+
+#         # 4) Insert scripts (use tuples, not a set)
+#         scripts_insert_query = "INSERT INTO Script (BotId, Script) VALUES (%s, %s)"
+#         script_rows = [(new_bot_id, s) for s in data["Scripts"]]
+#         cursor.executemany(scripts_insert_query, script_rows)
+
+#         # 5) Commit once
+#         conn.commit()
+#         cursor.close()
+
+#         return jsonify({
+#             "message": "Bot created successfully",
+#             "BotId": new_bot_id,
+#             "ScriptsLoaded": len(script_rows)
+#         }), 201
+
+#     except Error as e:
+#         return jsonify({"error": str(e)}), 500
+
 
 @bots.route("/<int:bot_id>", methods=["GET"])
 def get_bot(bot_id):

@@ -6,6 +6,7 @@ users = Blueprint("users", __name__)
 
 # Get a list of users. (Optional: filter users based on parameters) (User story 2)
 # Optional params: Username, City, State, Country, Role
+# PASSED
 @users.route("/", methods=["GET"])
 def get_users():
     try:
@@ -48,6 +49,7 @@ def get_users():
 
 
 # Get detailed information about a specific user (User story 2, 6)
+# PASSED
 @users.route("/<int:user_id>", methods=["GET"])
 def get_user(user_id):
     try:
@@ -99,6 +101,7 @@ def get_user(user_id):
 # Create a new user
 # Required params: Username
 # Optional params: FirstName, MiddleName, LastName, Email, BirthDate, City, State, Country, Gender, Bio, ProfilePictureUrl, Role
+# PASSED
 @users.route("/", methods=["POST"])
 def create_user():
     try:
@@ -143,7 +146,8 @@ def create_user():
 
 # Verify users as event organizers (Moderator story 6)
 # Required param: UserId (for moderator verification)
-@users.route("/<int:user_id>", methods=["PUT"])
+# PASSED
+@users.route("/<int:user_id>/verify", methods=["PUT"])
 def verify_user(user_id):
     try:
         cursor = db.get_db().cursor()
@@ -184,6 +188,7 @@ def verify_user(user_id):
         return jsonify({"error": str(e)}), 500
     
 # Update user profile (User story 6)
+# PASSED
 @users.route("/<int:user_id>/profile", methods=["PUT"])
 def edit_profile(user_id):
     try:
@@ -226,6 +231,7 @@ def edit_profile(user_id):
         return jsonify({"error": str(e)}), 500
 
 # Delete a user (Moderator story 3)
+# PASSED
 @users.route("/<int:user_id>", methods=["DELETE"])
 def delete_user(user_id):
     try:
