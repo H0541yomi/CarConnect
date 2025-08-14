@@ -6,7 +6,6 @@ from backend.bots.bots_routes import bots
 from backend.campaigns.campaigns_routes import campaigns
 from backend.car_trends.car_trends_routes import car_trends
 from backend.cars.cars_routes import cars
-from backend.comments.comments_routes import comments
 from backend.communities.communities_routes import communities
 from backend.event_resources.event_resources_routes import event_resources
 from backend.events.events_routes import events
@@ -57,7 +56,6 @@ def create_app():
     app.register_blueprint(campaigns, url_prefix='/campaigns')
     app.register_blueprint(car_trends, url_prefix='/car_trends')
     app.register_blueprint(cars, url_prefix='/cars')
-    app.register_blueprint(comments, url_prefix='/comments')
     app.register_blueprint(communities, url_prefix='/communities')
     app.register_blueprint(event_resources, url_prefix='/event_resources')
     app.register_blueprint(events, url_prefix='/events')
