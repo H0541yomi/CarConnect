@@ -83,7 +83,7 @@ def create_event():
 @events.route("/<int:event_id>", methods=["GET"])
 def get_event(event_id):
     try:
-        cursor = db.get_db().cursor
+        cursor = db.get_db().cursor()
         
         basic_info_query = "SELECT * FROM Event WHERE Event.EventId = %s"
         associated_communities_query = """
