@@ -1,4 +1,5 @@
-from flask import Blueprint, jsonify
+from mysql.connector import Error
+from flask import Blueprint, jsonify, request
 from backend.db_connection import db
 
 cars = Blueprint("cars", __name__)
@@ -7,18 +8,123 @@ cars = Blueprint("cars", __name__)
 def get_cars():
     return jsonify({"status": "api endpoint incomplete"}), 501
 
-@cars.route("/", methods=["POST"])
-def create_car():
-    return jsonify({"status": "api endpoint incomplete"}), 501
-
 @cars.route("/<int:car_id>", methods=["GET"])
 def get_car(car_id):
     return jsonify({"status": "api endpoint incomplete"}), 501
 
-@cars.route("/<int:car_id>", methods=["PUT"])
-def update_car(car_id):
-    return jsonify({"status": "api endpoint incomplete"}), 501
+# Give a user a new car (User story 6)
+@cars.route("/<int:user_id>/cars", methods=["POST"])
+def add_user_car(user_id):
+    try:
+        data = request.get_json()
+        cursor = db.get_db().cursor()
 
+        # Insert new car
+        car_insert_query = """
+        INSERT INTO Cars (OwnerId, Make, Model, ModelYear, Color, ExteriorColor, InteriorColor, PurchaseDate)
+        VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+        """
+        
+        cursor.execute(
+            car_insert_query,
+            (user_id, data["Make"], data["Model"], data["ModelYear"], data["Color"],
+             data["ExteriorColor"], data["InteriorColor"], data["PurchaseDate"])
+        )
+        db.get_db().commit()
+        
+        new_car_id = cursor.lastrowid
+        cursor.close()
+
+        return jsonify({"message": "Car added successfully", "CarId": new_car_id}), 201
+
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Update user car (User story 6)
+# A lot of optional params, refer to relational database diagram or SQL DDL to see all options
+# (or just look at the UPDATE statements)
+@cars.route("/<int:car_id>/", methods=["PUT"])
+def update_user_car(car_id):
+    try:
+        data = request.get_json()
+        cursor = db.get_db().cursor()
+
+        cars_query = """
+        UPDATE Cars
+        SET Make = %s, Model = %s, ModelYear = %s, Color = %s, ExteriorColor = %s,
+        InteriorColor = %s, PurchaseDate = %s
+        WHERE car_id = %s
+        """
+        cursor.execute(cars_query, (
+            data.get("Make"),
+            data.get("Model"),
+            data.get("ModelYear"),
+            data.get("Color"),
+            data.get("ExteriorColor"),
+            data.get("InteriorColor"),
+            data.get("PurchaseDate"),
+            car_id
+        ))
+        db.get_db().commit()
+        
+        if cursor.rowcount == 0:
+            return jsonify({"error": "CarId not found"}), 404
+        
+        build_query = """
+        UPDATE Car_Build
+        SET Exhaust = %s, Turbo = %s, Engine = %s, Wheels = %s, Downpipes = %s
+        WHERE car_id = %s
+        """
+        cursor.execute(build_query, (
+            data.get("Exhaust"),
+            data.get("Turbo"),
+            data.get("Engine"),
+            data.get("Wheels"),
+            data.get("Downpipes"),
+            car_id
+        ))
+        db.get_db().commit()
+        
+        meta_query = """
+        UPDATE Car_Meta
+        SET Weight = %s, Length = %s, Width = %s, Height = %s,
+        TopSpeed = %s, FuelType = %s
+        WHERE car_id = %s
+        """
+        cursor.execute(meta_query, (
+            data.get("Weight"),
+            data.get("Length"),
+            data.get("Width"),
+            data.get("Height"),
+            data.get("TopSpeed"),
+            data.get("FuelType"),
+            car_id
+        ))
+        db.get_db().commit()
+        cursor.close()
+
+        return jsonify({"message": "User cars updated successfully"}), 200
+
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Delete a car from the database (User story 6)
 @cars.route("/<int:car_id>", methods=["DELETE"])
 def delete_car(car_id):
-    return jsonify({"status": "api endpoint incomplete"}), 501
+    try:
+        cursor = db.get_db().cursor()
+
+        # Delete from Cars, Car_Meta and Car_Build will cascade the delete
+        cars_query = """
+        DELETE FROM Cars
+        WHERE CarId = %s
+        """
+        cursor.execute(cars_query, (car_id,))
+        db.get_db().commit()
+
+        cursor.close()
+
+        return jsonify({"message": "Car deleted successfully"}), 200
+
+    except Error as e:
+        return jsonify({"error": str(e)}), 500

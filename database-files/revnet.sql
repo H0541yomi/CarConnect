@@ -48,7 +48,7 @@ CREATE TABLE IF NOT EXISTS Users
    UserId            INT PRIMARY KEY AUTO_INCREMENT,
    Username          VARCHAR(20) NOT NULL UNIQUE,
    FirstName         VARCHAR(50),
-   MIddleName        VARCHAR(50),
+   MiddleName        VARCHAR(50),
    LastName          VARCHAR(50),
    Email             VARCHAR(100),
    BirthDate         DATE,
@@ -450,7 +450,7 @@ CREATE TABLE IF NOT EXISTS Resources_Templates
 
 CREATE TABLE IF NOT EXISTS Equipment_List
 (
-   SupplyListId INT PRIMARY KEY AUTO_INCREMENT,
+   EquipmentListId INT PRIMARY KEY AUTO_INCREMENT,
    PlanId       INT,
    Equipment    VARCHAR(100) NOT NULL,
    Amount       INT UNSIGNED NOT NULL,
@@ -462,7 +462,7 @@ CREATE TABLE IF NOT EXISTS Equipment_List
 
 CREATE TABLE IF NOT EXISTS Supply_List
 (
-   EquipmentListId INT PRIMARY KEY AUTO_INCREMENT,
+   SupplyListId INT PRIMARY KEY AUTO_INCREMENT,
    PlanId          INT,
    Supply          VARCHAR(100) NOT NULL,
    Amount          INT UNSIGNED NOT NULL,
@@ -509,7 +509,7 @@ CREATE TABLE IF NOT EXISTS Car_Meta
    CarId     INT UNIQUE NOT NULL,
    Weight    INT,
    Length    INT,
-   WIdth     INT,
+   Width     INT,
    Height    INT,
    TopSpeed  DECIMAL(6, 2),
    FuelType  VARCHAR(20),
