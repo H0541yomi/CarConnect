@@ -9,8 +9,6 @@ VALUES
  'Seattle', 'WA', 'USA', 'Non-Binary', 'Automation developer',
  'https://picsum.photos/seed/alex/200/200', 'Consumer,Moderator');
 
-
-
 INSERT INTO Group_Chat (OwnerId, Name)
 VALUES 
 (1, 'General Chat'),
