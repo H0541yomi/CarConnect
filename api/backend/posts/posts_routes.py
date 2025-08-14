@@ -1,4 +1,5 @@
 from flask import Blueprint, request, jsonify, make_response, current_app, url_for
+from mysql.connector import Error
 from backend.db_connection import db  # same helper you used elsewhere
 
 
