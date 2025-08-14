@@ -4,13 +4,46 @@ from backend.db_connection import db
 
 cars = Blueprint("cars", __name__)
 
+# Get a list of cars (Advertiser story 4/6, User story 2/4)
+# Optional params for filtering: Make, Model, PurchaseDate, Exhaust, Turbo, Engine, Wheels, Downpipes
+# MinWeight, MaxWeight, MinLength, MaxLength, MinHeight, MaxHeight, MinTopSpeed, FuelType
 @cars.route("/", methods=["GET"])
 def get_cars():
-    return jsonify({"status": "api endpoint incomplete"}), 501
+    try:
+        cursor = db.get_db().cursor()
+        
+        query = """
+        SELECT *
+        FROM Cars AS c JOIN Car_Meta ON c.CarId = Car_Meta.CarId
+        JOIN Car_Build ON Car_Build.CarId = c.CarId
+        WHERE 1=1
+        """
 
-@cars.route("/<int:car_id>", methods=["GET"])
-def get_car(car_id):
-    return jsonify({"status": "api endpoint incomplete"}), 501
+        filters = []
+        string_params = ["Make", "Model", "Exhaust", "Turbo", "Engine", "Wheels", "Downpipes", "FuelType"]
+        min_params = ["MinWeight", "MinLength", "MinHeight", "MinTopSpeed"]
+        max_params = ["MaxWeight", "MaxLength", "MaxHeight"]
+
+        for param in string_params:
+            if param in request.args:
+                query += f" AND {param} = %s"
+                filters.append(param)
+        for param in min_params:
+            if param in request.args:
+                query += f" AND {param} >= %s"
+                filters.append(param)
+        for param in max_params:
+            if param in request.args:
+                query += f" AND {param} <= %s"
+                filters.append(param)
+
+        cursor.execute(query, filters)
+        cars = cursor.fetchall()
+        cursor.close()
+
+        return jsonify(cars), 200
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
 
 # Give a user a new car (User story 6)
 # PASSED
