@@ -87,7 +87,7 @@ CREATE TABLE IF NOT EXISTS Community
        ON DELETE SET NULL,
    FOREIGN KEY (ChatId) REFERENCES Group_Chat (GroupId)
        ON UPDATE CASCADE
-       ON DELETE RESTRICT
+       ON DELETE SET NULL
 );
 
 
@@ -116,10 +116,10 @@ CREATE TABLE IF NOT EXISTS Event
    INDEX (Name),
    FOREIGN KEY (HostId) REFERENCES Users (UserId)
        ON UPDATE CASCADE
-       ON DELETE SET NULL,
+       ON DELETE CASCADE,
    FOREIGN KEY (CommunityId) REFERENCES Community (CommunityId)
        ON UPDATE CASCADE
-       ON DELETE SET NULL
+       ON DELETE CASCADE
 );
 
 
@@ -150,7 +150,7 @@ CREATE TABLE IF NOT EXISTS Post
        ON DELETE CASCADE,
    FOREIGN KEY (EventId) REFERENCES Event (EventId)
        ON UPDATE CASCADE
-       ON DELETE SET NULL
+       ON DELETE CASCADE
 );
 
 
@@ -444,7 +444,7 @@ CREATE TABLE IF NOT EXISTS Resources_Templates
    Notes   TEXT,
    FOREIGN KEY (EventId) REFERENCES Event (EventId)
        ON UPDATE CASCADE
-       ON DELETE SET NULL
+       ON DELETE CASCADE
 );
 
 
@@ -456,7 +456,7 @@ CREATE TABLE IF NOT EXISTS Equipment_List
    Amount       INT UNSIGNED NOT NULL,
    FOREIGN KEY (PlanId) REFERENCES Resources_Templates (PlanId)
        ON UPDATE CASCADE
-       ON DELETE SET NULL
+       ON DELETE CASCADE
 );
 
 
@@ -468,7 +468,7 @@ CREATE TABLE IF NOT EXISTS Supply_List
    Amount          INT UNSIGNED NOT NULL,
    FOREIGN KEY (PlanId) REFERENCES Resources_Templates (PlanId)
        ON UPDATE CASCADE
-       ON DELETE SET NULL
+       ON DELETE CASCADE
 );
 
 
@@ -499,7 +499,7 @@ CREATE TABLE IF NOT EXISTS Car_Build
    Downpipes VARCHAR(128),
    FOREIGN KEY (CarId) REFERENCES Cars (CarId)
        ON UPDATE CASCADE
-       ON DELETE SET NULL
+       ON DELETE CASCADE
 );
 
 

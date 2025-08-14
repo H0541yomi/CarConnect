@@ -5,6 +5,7 @@ from backend.db_connection import db
 group_chats = Blueprint("group_chats", __name__)
 
 # Get group chat information (Moderator story 4/5, User story 3, Event organizer story 3)
+# PASSED
 @group_chats.route("/<int:group_id>", methods=["GET"])
 def get_group_chat(group_id):
     try:
@@ -22,6 +23,7 @@ def get_group_chat(group_id):
         return jsonify({"error": str(e)}), 500
 
 # Edit group chat information (Moderator story 4/5, User story 3, Event organizer story 3)
+# PASSED
 @group_chats.route("/<int:group_id>", methods=["PUT"])
 def update_group_chat(group_id):
     try:
@@ -38,11 +40,17 @@ def update_group_chat(group_id):
         return jsonify({"error": str(e)}), 500
 
 # Delete group chat (Moderator story 4/5, User story 3, Event organizer story 3)
+# PASSED
 @group_chats.route("/<int:group_id>", methods=["DELETE"])
 def delete_group_chat(group_id):
     try:
         cursor = db.get_db().cursor()
         
+        cursor.execute("SELECT 1 FROM Community WHERE ChatId = %s LIMIT 1", (group_id,))
+        if cursor.fetchone():
+            cursor.close()
+            return jsonify({"error": "Unable to delete. Group chat is linked to communities; detach or change FK rule"}), 409
+
         cursor.execute("DELETE FROM Group_Chat WHERE GroupId = %s", (group_id,))
         
         db.get_db().commit()
