@@ -27,15 +27,15 @@ def get_cars():
         for param in string_params:
             if param in request.args:
                 query += f" AND {param} = %s"
-                filters.append(param)
+                filters.append(request.args.get(param))
         for param in min_params:
             if param in request.args:
                 query += f" AND {param} >= %s"
-                filters.append(param)
+                filters.append(request.args.get(param))
         for param in max_params:
             if param in request.args:
                 query += f" AND {param} <= %s"
-                filters.append(param)
+                filters.append(request.args.get(param))
 
         cursor.execute(query, filters)
         cars = cursor.fetchall()

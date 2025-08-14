@@ -1,3 +1,4 @@
+from api.backend.Utils.ISOToSQL import date_to_formatted_date
 from mysql.connector import Error
 from flask import Blueprint, jsonify, request
 from backend.db_connection import db
@@ -115,7 +116,7 @@ def create_user():
         MiddleName = data.get("MiddleName") 
         LastName = data.get("LastName")
         Email = data.get("Email")
-        BirthDate = data.get("BirthDate")
+        BirthDate = date_to_formatted_date(data.get("BirthDate"))
         City = data.get("City")
         State = data.get("State")
         Country = data.get("Country")
