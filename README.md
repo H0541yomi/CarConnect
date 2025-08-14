@@ -34,7 +34,7 @@ CarConnect brings the entire automotive world into one application.
 
 ## Team Members 
  - Sam Penubothula
- - William Wei
+ - Haoran Wei
  - Ethan Cabalona
  - Brian Kubinec
  - Ayan Imran
