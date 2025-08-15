@@ -182,8 +182,8 @@ def verify_user(user_id):
         cursor.close()
         
         return jsonify(
-            {"message": f"User {user_id} verified successfully"}, 200
-        )
+            {"message": f"User {user_id} verified successfully"}
+        ), 200
 
     except Error as e:
         return jsonify({"error": str(e)}), 500
@@ -195,6 +195,25 @@ def edit_profile(user_id):
     try:
         data = request.get_json()
         cursor = db.get_db().cursor()
+        
+        # Getting old values as defaults
+        cursor.execute("SELECT * FROM Users WHERE UserId = %s", (user_id,))
+        old_values = cursor.fetchone()
+
+        first_name = data.get("FirstName") or old_values["FirstName"]
+        middle_name = data.get("MiddleName") or old_values["MiddleName"]
+        last_name = data.get("LastName") or old_values["LastName"]
+        email = data.get("Email") or old_values["Email"]
+        birth_date = data.get("BirthDate") or old_values["BirthDate"]
+        if birth_date:
+            birth_date = date_to_formatted_date(birth_date)
+        city = data.get("City") or old_values["City"]
+        state = data.get("State") or old_values["State"]
+        country = data.get("Country") or old_values["Country"]
+        gender = data.get("Gender") or old_values["Gender"]
+        bio = data.get("Bio") or old_values["Bio"]
+        profile_picture_url = data.get("ProfilePictureUrl") or old_values["ProfilePictureUrl"]
+        role = data.get("Role") or old_values["Role"]
 
         # Update user information
         query = """
@@ -206,19 +225,9 @@ def edit_profile(user_id):
         """
 
         cursor.execute(query, (
-            data.get("FirstName"),
-            data.get("MiddleName"),
-            data.get("LastName"),
-            data.get("Email"),
-            data.get("BirthDate"),
-            data.get("City"),
-            data.get("State"),
-            data.get("Country"),
-            data.get("Gender"),
-            data.get("Bio"),
-            data.get("ProfilePictureUrl"),
-            data.get("Role"),
-            user_id
+            first_name, middle_name, last_name, email,
+            birth_date, city, state, country,
+            gender, bio, profile_picture_url, role, user_id
         ))
         db.get_db().commit()
         cursor.close()

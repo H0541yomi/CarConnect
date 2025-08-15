@@ -1,16 +1,49 @@
+from api.backend.Utils.ISOToSQL import date_to_formatted_datetime
 from flask import Blueprint, request, jsonify, make_response, current_app, url_for
 from mysql.connector import Error
 from backend.db_connection import db 
-from backend.Utils.UserStatus import is_moderator, is_comment_author  
+from backend.Utils.UserStatus import is_moderator, is_comment_author, is_post_author  
 
 
 posts = Blueprint("posts", __name__)
 
+# Get a list of posts, filterable with params (Moderator story 3, Advertiser story 2, User story 2/4)
+# Optional params: Title, EventName, CommunityName, PostedAfter
 @posts.route("/", methods=["GET"])
 def get_posts():
-    return jsonify({"status": "api endpoint incomplete"}), 501
+    try:
+        cursor = db.get_db().cursor()
+        
+        query = """
+        SELECT *
+        FROM Post JOIN Event ON Post.EventID = Event.EventID
+        JOIN Community ON Post.CommunityID = Community.CommunityID
+        WHERE Deleted = FALSE
+        ORDER BY CreatedAt DESC
+        """
+        
+        filters = []
+        for param in ["Title", "EventName", "CommunityName"]:
+            filter = request.args.get(param)
+            if filter:
+                query += f" AND {param} = %s"
+                filters.append(filter)
+                
+        posted_after = request.args.get("PostedAfter")
+        if posted_after:
+            query += " AND CreatedAt > %s"
+            formatted_datetime = date_to_formatted_datetime(posted_after)
+            filters.append(formatted_datetime)
 
+        cursor.execute(query, filters)
+        posts = cursor.fetchall()
+        cursor.close()
+        return jsonify({"posts": posts}), 200
 
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+
+# Create a post (Moderator story 2, Advertiser story 1, User story 1, Event organizer story 3/5)
 @posts.route("/", methods=["POST"])
 def create_post():
 
@@ -49,7 +82,9 @@ def create_post():
     dislikes      = data.get("Dislikes", 0)
     deleted       = bool(data.get("Deleted", False))
     flagged       = bool(data.get("Flagged", False))
-    createdat    = data.get("CreatedAt")  # optional string 'YYYY-MM-DD HH:MM:SS'
+    createdat    =  data.get("CreatedAt")  
+
+    createdat_formatted = date_to_formatted_datetime(createdat)
 
     try:
         conn = db.get_db()
@@ -70,7 +105,7 @@ def create_post():
             (
                 author_id, advertiser_id, event_id, community_id,
                 likes, dislikes, title, body,
-                createdat, deleted, flagged,
+                createdat_formatted, deleted, flagged,
             ),
         )
         conn.commit()
@@ -79,19 +114,95 @@ def create_post():
         resp = make_response(jsonify({"PostID": new_id}), 201)
         # If you have a GET /posts/<post_id> route, set Location header:
         # resp.headers["Location"] = url_for("posts.get_post", post_id=new_id, _external=True)
+        cur.close()
         return resp
 
     except Error as e:
         current_app.logger.exception("POST /posts failed")
         return jsonify({"error": str(e)}), 500
 
+# Get information on a specific post (Advertiser story 2)
+# Optional param: AnalyticsAfter
 @posts.route("/<int:post_id>", methods=["GET"])
 def get_post(post_id):
-    return jsonify({"status": "api endpoint incomplete"}), 501
+    try:
+        cursor = db.get_db().cursor()
+        
+        basic_info_query = """
+        SELECT * FROM Post WHERE PostId = %s
+        """
+        analytics_query = """
+        SELECT * FROM Post_Analytics WHERE PostId = %s
+        """
+        analytics_after = request.args.get("AnalyticsAfter")
+        if analytics_after:
+            analytics_query += " AND Timestamp > %s"
+            formatted_datetime = date_to_formatted_datetime(analytics_after)
+            
+        cursor.execute(basic_info_query, (post_id,))
+        basic_info = cursor.fetchone()
+        cursor.execute(analytics_query, (post_id, formatted_datetime))
+        analytics_info = cursor.fetchall()
+        
+        cursor.close()
+        return jsonify({"PostInfo": basic_info, "Analytics": analytics_info}), 200
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
 
-@posts.route("/<int:post_id>", methods=["PUT"])
-def update_post(post_id):
-    return jsonify({"status": "api endpoint incomplete"}), 501
+# # Update a post, or like/dislike it
+# # Required field: Action (like, dislike, update)
+# # When updating a post, you must provide UserId and at least 1 field to be updated.
+# @posts.route("/<int:post_id>", methods=["PUT"])
+# def update_post(post_id):
+#     try:
+#         cursor = db.get_db().cursor()
+#         data = request.get_json()
+        
+#         action = data.get("Action")
+#         if not action:
+#             return jsonify({"error": "Action is required"}), 400
+#         if action not in ["like", "dislike", "update"]:
+#             return jsonify({"error": "Invalid action. Must be 'like', 'dislike', or 'update'."}), 400
+
+#         if action == "update":
+#             user_id = data.get("UserId")
+#             if not user_id:
+#                 return jsonify({"error": "UserId is required for update action"}), 400
+            
+#             # Verify that user is author of post
+#             can_update = is_post_author(user_id, post_id) or is_moderator(user_id)
+#             if not can_update:
+#                 return jsonify({"error": "User is not authorized to update this post"}), 403
+
+#             new_title = data.get("Title")
+#             new_body = data.get("Body")
+            
+#             if not new_title and not new_body:
+#                 return jsonify({"error": "At least one field (Title or Body) must be provided to update"}), 400
+            
+#             updated_fields = []
+#             params = []
+
+#             if new_title:
+#                 updated_fields.append("Title = %s")
+#                 params.append(new_title)
+
+#             if new_body:
+#                 updated_fields.append("Body = %s")
+#                 params.append(new_body)
+                
+#             set_clause = ", ".join(updated_fields)
+
+#             query = "UPDATE Post SET " + set_clause + " WHERE PostId = %s"
+#             params.append(post_id)
+
+#             cursor.execute(query, params)
+#             db.get_db().commit()
+#             cursor.close()
+
+#             return jsonify({"message": "Post updated successfully"}), 200
+            
+            
 
 @posts.route("/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id):
@@ -109,7 +220,7 @@ def delete_post(post_id):
 def get_comments(post_id):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute("SELECT * FROM Comment WHERE PostID = %s AND Deleted = FALSE", (post_id,))
+        cursor.execute("SELECT * FROM Comment WHERE PostID = %s AND Deleted = FALSE ORDER BY Likes DESC", (post_id,))
         comments = cursor.fetchall()
         cursor.close()
         return jsonify(comments), 200

@@ -1,6 +1,15 @@
 from mysql.connector import Error
 from backend.db_connection import db 
 
+# Utility function to check if user is author of post
+def is_post_author(user_id, post_id):
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute("SELECT * FROM Post WHERE AuthorId = %s AND PostId = %s", (user_id, post_id))
+        return cursor.fetchone() is not None
+    except Error as e:
+        return e
+
 # Utility function to check if user is author of original comment
 def is_comment_author(user_id, comment_id):
     try:
