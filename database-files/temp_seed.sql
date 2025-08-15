@@ -860,7 +860,7 @@ VALUES
 
 
 -- 12) Campaign_Posts_Data
-```sql
+sql
 INSERT INTO Campaign_Posts_Data
 (CampaignId, AnalyticsId, Timestamp)
 VALUES
@@ -1047,7 +1047,7 @@ VALUES
 
 
 -- 13) Post_Images
-```sql
+
 INSERT INTO Post_Images (PostId, Url) VALUES
 -- Post 1–15 (2 images each)
 (1,  'https://cdn.carsocial.app/posts/1/photo_1.jpg'),
@@ -1224,7 +1224,7 @@ INSERT INTO Bot_Flags_Post (BotId, PostId) VALUES
 
 
 -- 17) Bot_Flags_Comment
-```sql
+
 INSERT INTO Bot_Flags_Comment (BotId, CommentId) VALUES
 (1,1),(15,1),
 (2,2),(16,2),
@@ -1399,61 +1399,655 @@ INSERT INTO Group_Users (GroupId, UserId) VALUES
 (35,35),(35,2),(35,9),(35,16),(35,23),(35,30);
 
 -- 21) RSVP (needs Users)
-INSERT INTO RSVP (SubmitterId, Status)
-VALUES
-(1, 'Going'),
-(2, 'Maybe');
+INSERT INTO RSVP (SubmitterId, Status, SubmittedAt) VALUES
+(1,  'Going',      '2025-01-15 09:12:00'),
+(2,  'Interested', '2025-01-15 09:18:22'),
+(3,  'Going',      '2025-01-16 14:05:11'),
+(4,  'Declined',   '2025-01-16 20:30:45'),
+(5,  'Going',      '2025-01-17 08:41:09'),
+(6,  'Waitlist',   '2025-01-17 12:03:27'),
+(7,  'Going',      '2025-01-18 10:22:56'),
+(8,  'Going',      '2025-01-18 19:44:12'),
+(9,  'Interested', '2025-01-19 07:55:30'),
+(10, 'Declined',   '2025-01-19 21:10:00'),
+(11, 'Going',      '2025-01-20 09:02:14'),
+(12, 'Going',      '2025-01-20 13:37:48'),
+(13, 'Canceled',   '2025-01-21 11:25:33'),
+(14, 'Going',      '2025-01-21 18:49:05'),
+(15, 'Going',      '2025-01-22 07:14:22'),
+(16, 'Interested', '2025-01-22 16:02:09'),
+(17, 'Waitlist',   '2025-01-23 09:58:41'),
+(18, 'Going',      '2025-01-23 20:21:30'),
+(19, 'Going',      '2025-01-24 08:05:11'),
+(20, 'Declined',   '2025-01-24 22:44:39'),
+(21, 'Going',      '2025-01-25 10:12:05'),
+(22, 'Interested', '2025-01-25 15:33:17'),
+(23, 'Going',      '2025-01-26 09:27:50'),
+(24, 'Going',      '2025-01-26 19:41:22'),
+(25, 'Waitlist',   '2025-01-27 08:03:10'),
+(26, 'Going',      '2025-01-27 12:55:40'),
+(27, 'Declined',   '2025-01-28 17:09:33'),
+(28, 'Going',      '2025-01-28 20:14:48'),
+(29, 'Interested', '2025-01-29 07:45:21'),
+(30, 'Going',      '2025-01-29 18:22:59'),
+(31, 'Going',      '2025-01-30 09:18:44'),
+(32, 'Canceled',   '2025-01-30 13:51:12'),
+(33, 'Going',      '2025-01-31 08:40:05'),
+(34, 'Waitlist',   '2025-01-31 14:26:37'),
+(35, 'Interested', '2025-02-01 10:02:00');
+
 
 -- 22) Form_Questions
-INSERT INTO Form_Questions (RsvpId, Question, Answer)
-VALUES
-(1, 'Do you need parking?', 'Yes'),
-(2, 'Bringing guests?', 'No');
+INSERT INTO Form_Questions (RsvpId, Question, Answer) VALUES
+(1,  'Vehicle make and model', 'Subaru BRZ 2017'),
+(1,  'Experience level',       'Novice'),
+
+(2,  'Vehicle make and model', 'BMW M3 2015'),
+(2,  'Run group preference',   'B'),
+
+(3,  'Vehicle make and model', 'Mazda MX-5 2019'),
+(3,  'Helmet size',            'M'),
+
+(4,  'Vehicle make and model', 'Ford Mustang GT 2020'),
+(4,  'Number of guests',       '1'),
+
+(5,  'Vehicle make and model', 'Honda Civic Type R 2018'),
+(5,  'T-shirt size',           'L'),
+
+(6,  'Vehicle make and model', 'Porsche 911 Carrera 2016'),
+(6,  'Experience level',       'Intermediate'),
+
+(7,  'Vehicle make and model', 'Nissan 370Z 2014'),
+(7,  'Run group preference',   'A'),
+
+(8,  'Vehicle make and model', 'Audi S4 2013'),
+(8,  'Helmet size',            'L'),
+
+(9,  'Vehicle make and model', 'Toyota GR86 2022'),
+(9,  'Number of guests',       '0'),
+
+(10, 'Vehicle make and model', 'Chevrolet Camaro SS 2021'),
+(10, 'T-shirt size',           'XL'),
+
+(11, 'Vehicle make and model', 'Volkswagen Golf R 2017'),
+(11, 'Experience level',       'Advanced'),
+
+(12, 'Vehicle make and model', 'Hyundai Elantra N 2022'),
+(12, 'Run group preference',   'B'),
+
+(13, 'Vehicle make and model', 'Kia Stinger GT 2019'),
+(13, 'Helmet size',            'M'),
+
+(14, 'Vehicle make and model', 'Lexus IS350 F Sport 2020'),
+(14, 'Number of guests',       '2'),
+
+(15, 'Vehicle make and model', 'Mercedes C63 2018'),
+(15, 'T-shirt size',           'L'),
+
+(16, 'Vehicle make and model', 'Acura Integra 2023'),
+(16, 'Experience level',       'Novice'),
+
+(17, 'Vehicle make and model', 'Dodge Challenger RT 2016'),
+(17, 'Run group preference',   'C'),
+
+(18, 'Vehicle make and model', 'Tesla Model 3 Performance 2021'),
+(18, 'Helmet size',            'L'),
+
+(19, 'Vehicle make and model', 'Mini Cooper S 2015'),
+(19, 'Number of guests',       '1'),
+
+(20, 'Vehicle make and model', 'Mitsubishi Lancer Evo X 2014'),
+(20, 'T-shirt size',           'M'),
+
+(21, 'Vehicle make and model', 'Volvo S60 Polestar 2017'),
+(21, 'Experience level',       'Intermediate'),
+
+(22, 'Vehicle make and model', 'Alfa Romeo Giulia Quadrifoglio 2018'),
+(22, 'Run group preference',   'A'),
+
+(23, 'Vehicle make and model', 'Jaguar F Type 2017'),
+(23, 'Helmet size',            'S'),
+
+(24, 'Vehicle make and model', 'Subaru WRX STI 2016'),
+(24, 'Number of guests',       '0'),
+
+(25, 'Vehicle make and model', 'BMW 340i 2018'),
+(25, 'T-shirt size',           'XL'),
+
+(26, 'Vehicle make and model', 'Audi RS3 2019'),
+(26, 'Experience level',       'Advanced'),
+
+(27, 'Vehicle make and model', 'Toyota Supra 2020'),
+(27, 'Run group preference',   'B'),
+
+(28, 'Vehicle make and model', 'Ford Focus RS 2017'),
+(28, 'Helmet size',            'M'),
+
+(29, 'Vehicle make and model', 'Honda S2000 2005'),
+(29, 'Number of guests',       '1'),
+
+(30, 'Vehicle make and model', 'Porsche Cayman S 2014'),
+(30, 'T-shirt size',           'L');
+
 
 -- 23) Event_RSVPs
-INSERT INTO Event_RSVPs (RsvpId, EventId)
-VALUES
+INSERT INTO Event_RSVPs (RsvpId, EventId) VALUES
 (1, 1),
-(2, 2);
+(1, 7),
+(1, 13),
+(1, 19),
+(2, 2),
+(2, 8),
+(2, 14),
+(2, 20),
+(3, 3),
+(3, 9),
+(3, 15),
+(3, 21),
+(4, 4),
+(4, 10),
+(4, 16),
+(4, 22),
+(5, 5),
+(5, 11),
+(5, 17),
+(5, 23),
+(6, 6),
+(6, 12),
+(6, 18),
+(6, 24),
+(7, 7),
+(7, 13),
+(7, 19),
+(7, 25),
+(8, 8),
+(8, 14),
+(8, 20),
+(8, 26),
+(9, 9),
+(9, 15),
+(9, 21),
+(9, 27),
+(10, 10),
+(10, 16),
+(10, 22),
+(10, 28),
+(11, 11),
+(11, 17),
+(11, 23),
+(11, 29),
+(12, 12),
+(12, 18),
+(12, 24),
+(12, 30),
+(13, 13),
+(13, 19),
+(13, 25),
+(13, 31),
+(14, 14),
+(14, 20),
+(14, 26),
+(14, 32),
+(15, 15),
+(15, 21),
+(15, 27),
+(15, 33),
+(16, 16),
+(16, 22),
+(16, 28),
+(16, 34),
+(17, 17),
+(17, 23),
+(17, 29),
+(17, 35),
+(18, 18),
+(18, 24),
+(18, 30),
+(18, 1),
+(19, 19),
+(19, 25),
+(19, 31),
+(19, 2),
+(20, 20),
+(20, 26),
+(20, 32),
+(20, 3),
+(21, 21),
+(21, 27),
+(21, 33),
+(21, 4),
+(22, 22),
+(22, 28),
+(22, 34),
+(22, 5),
+(23, 23),
+(23, 29),
+(23, 35),
+(23, 6),
+(24, 24),
+(24, 30),
+(24, 1),
+(24, 7),
+(25, 25),
+(25, 31),
+(25, 2),
+(25, 8),
+(26, 26),
+(26, 32),
+(26, 3),
+(26, 9),
+(27, 27),
+(27, 33),
+(27, 4),
+(27, 10),
+(28, 28),
+(28, 34),
+(28, 5),
+(28, 11),
+(29, 29),
+(29, 35),
+(29, 6),
+(29, 12),
+(30, 30),
+(30, 1),
+(30, 7),
+(30, 13),
+(31, 31),
+(31, 2),
+(31, 8),
+(31, 14),
+(32, 32),
+(32, 3),
+(32, 9),
+(32, 15),
+(33, 33),
+(33, 4),
+(33, 10),
+(33, 16),
+(34, 34),
+(34, 5),
+(34, 11),
+(34, 17),
+(35, 35),
+(35, 6),
+(35, 12),
+(35, 18);
+
 
 -- 24) Resources_Templates (needs Event)
-INSERT INTO Resources_Templates (EventId, Notes)
-VALUES
-(1, 'Need extra cameras'),
-(2, 'Stage setup required');
+INSERT INTO Resources_Templates (EventId, Notes) VALUES
+(1,  'Marshals: 6; Radios: 12; Cones: 60; First aid: yes; Tow strap: 2'),
+(1,  'Check-in desk x1; Waivers x100; Coffee station; Trash bags x10'),
+(2,  'Tech bay x2; Torque wrenches x3; Tire gauge x4; Jack stands x6'),
+(2,  'Novice briefing tent; Projector; PA system; Signage set A'),
+(3,  'Boost workshop kit; Whiteboard; Spare clamps; Fire extinguisher x2'),
+(3,  'Pizza order for 25; Water cases x4; Name tags'),
+(4,  'Coffee meet; Cones for flow; Sound meter; Parking volunteers x4'),
+(4,  'Photo zone backdrop; Chalk; Direction signs'),
+(5,  'Canyon spotters x3; High-viz vests x6; First aid kit; Radios x8'),
+(5,  'Emergency contact sheet; Route maps x30; Fuel stop coord'),
+(6,  'Drift lot layout; Water barrier check; Tire changer; Air lines'),
+(6,  'Flag kit; Spill pads; Fire bottles x3; Whistle x2'),
+(7,  'EV safety cones; HV gloves; Insulated tools; QR codes for info'),
+(7,  'Charging queue board; Extension cords; Tape lines'),
+(8,  'Coastal cruise; FRS radios x12; Reflective triangles x3'),
+(8,  'Photo permits; Parking passes x20; Sunscreen station'),
+(9,  'Time attack: transponders x15; Laptop timing; Spare batteries'),
+(9,  'Driver briefing slides; Flags full set; Pit board'),
+(10, 'Flat-six meet; dB meter; Parking marshals x4; Vendor canopy'),
+(10, 'Water coolers x2; Waste bins; Info desk'),
+(11, 'HPDE basics: inspection forms x50; Jack; Lighting for tech'),
+(11, 'Track maps x40; Passing zones boards; Wristbands color set'),
+(12, 'Brake duct clinic: sample ducts; Heat paint; Safety glasses'),
+(12, 'Table x2; Chairs x10; Demo tools; Sign-in sheet'),
+(13, 'Skidpad cones x80; Water truck; Tow rope; Spotters x4'),
+(13, 'Radio channel list; Instructor vests; Clipboard x3'),
+(14, 'OEM+ show: judging sheets; Trophies x6; Barrier ropes'),
+(14, 'PA system; Playlist; Parking layout printouts'),
+(15, 'NA meet: sound meter; Queue cones; Earplugs box'),
+(15, 'Media zone tape; Volunteer checklists; Shade tents x2'),
+(16, 'Dyno day: straps x6; Large fans x2; Wideband sensor spare'),
+(16, 'Queue board; Prize cards; Safety cones x30'),
+(17, 'Air-cooled clinic: timing light; Feeler gauges; Carb sync tools'),
+(17, 'Work mats; Shop towels; Parts tray sets'),
+(18, 'Panel talk: microphones x3; Stage riser; Chairs x12'),
+(18, 'Q&A cards; Livestream tripod; Backup power bank'),
+(19, 'Livery demo: squeegees; Heat guns x2; Vinyl scraps'),
+(19, 'Design board; Cutting mats; Safety blades x10'),
+(20, 'Heel-toe clinic: cones x40; Pedal cam; Instructor radios x4'),
+(20, 'Water station; Signage arrows; Check-in QR'),
+(21, 'Grassroots drift: tire changer; Fire bottles x4; Flag set'),
+(21, 'Tow truck contact; Waivers stack; Wristbands'),
+(22, 'Detailing workshop: polishers x3; Pads; Lighting stands x2'),
+(22, 'Panel wipes; Microfiber packs; Tape rolls'),
+(23, 'Snow prep: chains demo; Winter tire samples; Heat tent'),
+(23, 'Hot drinks table; Parking marshal vests; Salt bags'),
+(24, 'Supercharger seminar: belt routes posters; Pulley demo'),
+(24, 'Q&A mic; Seat rows x20; Timer'),
+(25, 'Rally gravel: pace note sheets; Radios x10; First aid'),
+(25, 'Course markers; Shovels x2; Recovery strap'),
+(26, 'Wagon Wednesday: family area; Picnic tables; Kid zone cones'),
+(26, 'Vendor tent x1; Raffle box; Stickers bundle'),
+(27, 'Pit & safety training: flag charts; Radios; Scenario cards'),
+(27, 'Hi-vis vests x10; Megaphone; Sign-in forms'),
+(28, 'Paint correction: test hoods; Lights; Pad matrix board'),
+(28, 'Power strips; Extension cords; Safety tape'),
+(29, 'Five-cyl meetup: heritage board; Parking map; PA speaker'),
+(29, 'Photo backdrop; Hashtag signage; Volunteer lanyards'),
+(30, 'Sunrise cruise: route GPX; Fuel stop plan; Safety brief sheet'),
+(30, 'Coffee vouchers; Marshals x3; Contingency route');
+
 
 -- 25) Equipment_List (needs Resources_Templates)
-INSERT INTO Equipment_List (PlanId, Equipment, Amount)
-VALUES
-(1, 'Camera', 5),
-(2, 'Stage Lights', 10);
+INSERT INTO Equipment_List (PlanId, Equipment, Amount) VALUES
+(1,  'Marshals', 6),
+(1,  'Radios', 12),
+
+(2,  'Check-in desk', 1),
+(2,  'Waivers', 100),
+
+(3,  'Tech bays', 2),
+(3,  'Torque wrenches', 3),
+
+(4,  'Briefing tent', 1),
+(4,  'PA system', 1),
+
+(5,  'Fire extinguishers', 2),
+(5,  'Spare clamps', 12),
+
+(6,  'Water cases', 4),
+(6,  'Name tags', 50),
+
+(7,  'Cones', 40),
+(7,  'Sound meter', 1),
+
+(8,  'Photo backdrop', 1),
+(8,  'Direction signs', 8),
+
+(9,  'Spotters', 3),
+(9,  'Radios', 8),
+
+(10, 'Route maps', 30),
+(10, 'Emergency contact sheets', 1),
+
+(11, 'Tire changer', 1),
+(11, 'Air lines', 2),
+
+(12, 'Fire bottles', 3),
+(12, 'Flag kit', 1),
+
+(13, 'EV safety cones', 12),
+(13, 'HV gloves', 4),
+
+(14, 'Extension cords', 6),
+(14, 'Tape rolls', 4),
+
+(15, 'FRS radios', 12),
+(15, 'Reflective triangles', 3),
+
+(16, 'Parking passes', 20),
+(16, 'Sunscreen station', 1),
+
+(17, 'Transponders', 15),
+(17, 'Spare batteries', 20),
+
+(18, 'Flags (full set)', 1),
+(18, 'Pit board', 1),
+
+(19, 'dB meter', 1),
+(19, 'Parking marshals', 4),
+
+(20, 'Water coolers', 2),
+(20, 'Waste bins', 6),
+
+(21, 'Inspection forms', 50),
+(21, 'Work lights', 2),
+
+(22, 'Track maps', 40),
+(22, 'Wristbands (sets)', 4),
+
+(23, 'Sample ducts', 4),
+(23, 'Safety glasses', 12),
+
+(24, 'Tables', 2),
+(24, 'Chairs', 10),
+
+(25, 'Skidpad cones', 80),
+(25, 'Spotters', 4),
+
+(26, 'Instructor vests', 8),
+(26, 'Clipboards', 3),
+
+(27, 'Trophies', 6),
+(27, 'Barrier ropes', 4),
+
+(28, 'PA system', 1),
+(28, 'Parking layout printouts', 25),
+
+(29, 'Sound meter', 1),
+(29, 'Queue cones', 30),
+
+(30, 'Shade tents', 2),
+(30, 'Volunteer checklists', 30);
 
 -- 26) Supply_List (needs Resources_Templates)
-INSERT INTO Supply_List (PlanId, Supply, Amount)
-VALUES
-(1, 'Batteries', 20),
-(2, 'Water Bottles', 50);
+INSERT INTO Supply_List (PlanId, Supply, Amount) VALUES
+(1,  'Batteries (radio)', 24),
+(1,  'First aid refills', 1),
+(2,  'Sharpies', 12),
+(2,  'Lanyards', 50),
+(3,  'Brake cleaner', 6),
+(3,  'Shop towels', 6),
+(4,  'Sign-in sheets', 50),
+(4,  'Name stickers', 50),
+(5,  'Zip ties', 100),
+(5,  'Hose clamps (assorted)', 20),
+(6,  'Ice bags', 8),
+(6,  'Pens', 20),
+(7,  'Chalk', 4),
+(7,  'Caution tape (rolls)', 3),
+(8,  'Gaffer tape', 2),
+(8,  'Poster cards', 12),
+(9,  'Hi-viz vests', 6),
+(9,  'Batteries (FRS)', 24),
+(10, 'Map sleeves', 40),
+(10, 'Clipboards', 6),
+(11, 'Valve stems', 12),
+(11, 'Tire lube', 1),
+(12, 'Fire gloves', 2),
+(12, 'Flag ties', 20),
+(13, 'Insulation mats', 2),
+(13, 'Warning labels', 20),
+(14, 'Power strips', 4),
+(14, 'Cable ties', 50),
+(15, 'Radio earpieces', 12),
+(15, 'Reflective tape', 2),
+(16, 'Sunscreen bottles', 12),
+(16, 'Parking stickers', 40),
+(17, 'Zip bags (waterproof)', 30),
+(17, 'AA batteries', 40),
+(18, 'Whistles', 3),
+(18, 'Marker pens', 8),
+(19, 'Earplugs (pairs)', 200),
+(19, 'Wristbands', 50),
+(20, 'Cups', 200),
+(20, 'Trash liners', 20),
+(21, 'Blue tape', 6),
+(21, 'Nitrile gloves', 200),
+(22, 'Staples (boxes)', 1),
+(22, 'Scissors', 4),
+(23, 'Heat paint vials', 6),
+(23, 'Zip ties (heat-resistant)', 50),
+(24, 'Tablecloths', 4),
+(24, 'Sign-in sheets', 60),
+(25, 'Chalk buckets', 2),
+(25, 'Water sprayers', 4),
+(26, 'Pens', 30),
+(26, 'Dry-erase markers', 10),
+(27, 'Certificates', 12),
+(27, 'Stanchion bases', 8),
+(28, 'Ink cartridges', 2),
+(28, 'Paper reams', 4),
+(29, 'Earplugs (pairs)', 150),
+(29, 'Queue numbers', 40),
+(30, 'Zip ties', 60),
+(30, 'Bottled water', 120);
 
 -- 27) Cars (needs Users)
-INSERT INTO Cars (OwnerId, Make, Model, ModelYear, ExteriorColor, InteriorColor, PurchaseDate)
+INSERT INTO Cars
+(OwnerId, Make, Model, ModelYear, ExteriorColor, InteriorColor, PurchaseDate)
 VALUES
-(1, 'Toyota', 'Corolla', 2020, 'Blue', 'Black', '2020-05-10'),
-(2, 'Ford', 'Mustang', 2022, 'Red', 'Black', '2022-07-15');
+(1,  'Subaru',        'BRZ',                         2017, 'World Rally Blue',          'Black',        '2019-04-12'),
+(2,  'BMW',           'M3',                          2015, 'Alpine White',              'Black',        '2017-06-23'),
+(3,  'Mazda',         'MX-5',                        2019, 'Soul Red',                  'Black',        '2020-08-15'),
+(4,  'Ford',          'Mustang GT',                  2020, 'Shadow Black',              'Ebony',        '2020-11-05'),
+(5,  'Honda',         'Civic Type R',                2018, 'Championship White',        'Black/Red',    '2019-03-30'),
+(6,  'Porsche',       '911 Carrera',                 2016, 'Guards Red',                'Black',        '2018-07-14'),
+(7,  'Nissan',        '370Z',                        2014, 'Magnetic Black',            'Black',        '2016-02-10'),
+(8,  'Audi',          'S4',                          2013, 'Mythos Black',              'Black',        '2015-10-22'),
+(9,  'Toyota',        'GR86',                        2022, 'Neptune Blue',              'Black',        '2023-03-05'),
+(10, 'Chevrolet',     'Camaro SS',                   2021, 'Riverside Blue',            'Jet Black',    '2021-09-18'),
+(11, 'Volkswagen',    'Golf R',                      2017, 'Lapis Blue',                'Titan Black',  '2019-01-27'),
+(12, 'Hyundai',       'Elantra N',                   2022, 'Performance Blue',          'Black',        '2023-06-09'),
+(13, 'Kia',           'Stinger GT',                  2019, 'Ceramic Silver',            'Red/Black',    '2020-05-20'),
+(14, 'Lexus',         'IS350 F Sport',               2020, 'Ultrasonic Blue',           'Black',        '2021-02-07'),
+(15, 'Mercedes-Benz', 'C63 AMG',                     2018, 'Obsidian Black',            'Black',        '2020-08-02'),
+(16, 'Acura',         'Integra',                     2023, 'Liquid Carbon',             'Ebony',        '2024-04-13'),
+(17, 'Dodge',         'Challenger R/T',              2016, 'Go Mango',                  'Black',        '2017-07-11'),
+(18, 'Tesla',         'Model 3 Performance',         2021, 'Pearl White Multi-Coat',    'Black/White',  '2021-12-05'),
+(19, 'Mini',          'Cooper S',                    2015, 'British Racing Green',      'Carbon Black', '2016-09-01'),
+(20, 'Mitsubishi',    'Lancer Evo X',                2014, 'Wicked White',              'Black',        '2015-03-22'),
+(21, 'Volvo',         'S60 Polestar',                2017, 'Rebel Blue',                'Charcoal',     '2018-10-19'),
+(22, 'Alfa Romeo',    'Giulia Quadrifoglio',         2018, 'Rosso Competizione',        'Black',        '2019-06-25'),
+(23, 'Jaguar',        'F-Type',                      2017, 'Caldera Red',               'Ivory',        '2018-08-30'),
+(24, 'Subaru',        'WRX STI',                     2016, 'WR Blue Pearl',             'Black',        '2017-03-15'),
+(25, 'BMW',           '340i',                        2018, 'Melbourne Red',             'Black',        '2019-07-27'),
+(26, 'Audi',          'RS3',                         2019, 'Nardo Gray',                'Black',        '2020-01-19'),
+(27, 'Toyota',        'Supra',                       2020, 'Renaissance Red',           'Black',        '2020-08-05'),
+(28, 'Ford',          'Focus RS',                    2017, 'Nitrous Blue',              'Charcoal',     '2018-05-14'),
+(29, 'Honda',         'S2000',                       2005, 'Silverstone',               'Black',        '2013-07-09'),
+(30, 'Porsche',       'Cayman S',                    2014, 'Graphite Blue Metallic',    'Black',        '2016-02-28'),
+(31, 'Chevrolet',     'Corvette C7',                 2017, 'Admiral Blue',              'Kalahari',     '2018-09-21'),
+(32, 'BMW',           'M2 Competition',              2020, 'Hockenheim Silver',         'Black',        '2021-06-03'),
+(33, 'Nissan',        'GT-R',                        2015, 'Jet Black',                 'Black',        '2018-11-12'),
+(34, 'Mazda',         'RX-7',                        1993, 'Vintage Red',               'Black',        '2012-04-17'),
+(35, 'Ford',          'Fiesta ST',                   2016, 'Molten Orange',             'Charcoal',     '2017-08-25');
+
 
 -- 28) Car_Build (needs Cars)
-INSERT INTO Car_Build (CarId, Exhaust, Turbo, Engine, Wheels, Downpipes)
+INSERT INTO Car_Build
+(CarId, Exhaust, Turbo, Engine, Wheels, Downpipes)
 VALUES
-(1, 'Sport Exhaust', 'None', '1.8L', 'Alloy', 'Stock'),
-(2, 'Performance Exhaust', 'Turbocharged', 'V8', 'Forged', 'Upgraded');
+(1,  'Invidia N1 Cat-back',            'NA (tuned)',                         'FA20 intake + tune',                 'Enkei RPF1 17x9',                 'N/A'),
+(2,  'Akrapovic Evolution',            'Twin-turbo S55 (stock)',             'S55 OTS Stage 1',                    'BBS CH-R 19x9.5',                 'Catted downpipes'),
+(3,  'Borla S-Type',                   'NA',                                 'SkyActiv-G tune',                    'Kosei K1 17x8',                    'N/A'),
+(4,  'Corsa Xtreme',                   'NA',                                 'Coyote 5.0 tune',                    'Forgestar F14 19x10',              'N/A'),
+(5,  'HKS Legamax',                    'K20C1 stock turbo',                  'Stage 1 (93)',                       'Volk TE37 18x9.5',                 'Catted downpipe'),
+(6,  'AWE SwitchPath',                 '3.0T twin-turbo (stock)',            'Cobb Stage 1',                       'HRE FF04 20x9',                    'Catted downpipes'),
+(7,  'Tomei Expreme Ti',               'NA',                                 'VQ37 intake + tune',                 'Work Emotion 18x10',               'N/A'),
+(8,  'Milltek Cat-back',               'Supercharged 3.0T',                  'Pulley + tune',                      'Rotiform 19x9',                    'High-flow test pipes'),
+(9,  'HKS Hi-Power',                   'NA',                                 'FA24 tune',                          'WedsSport 18x8.5',                 'N/A'),
+(10, 'Borla ATAK',                     'NA',                                 'LT1 cam + tune',                     'ZL1 Replica 20x10',                'N/A'),
+(11, 'AWE Track',                      'IS38 (stock)',                       'APR Stage 2',                        'Pretoria 19x8',                    'Catted downpipe'),
+(12, 'ARK Grip',                       '2.0T (stock)',                       'Stage 1+',                           'Enkei T6R 18x8.5',                 'Catted downpipe'),
+(13, 'Armytrix Valvetronic',           '3.3T twin-turbo (stock)',            'JB4 Map 2',                          'Niche 19x9.5',                     'Catted downpipes'),
+(14, 'Invidia Q300',                   'NA',                                 '2GR-FKS intake',                     'TSW 19x9',                         'N/A'),
+(15, 'Akrapovic Slip-On',              '4.0TT (stock)',                      'M177 Stage 1',                       'AMG 19x9.5',                       'Catted downpipes'),
+(16, 'Remark Cat-back',                '1.5T (stock)',                       'Hondata basemap',                    'Enkei RPF1 17x8',                  'Catted downpipe'),
+(17, 'Flowmaster Outlaw',              'NA',                                 '5.7 HEMI tune',                      'American Racing 20x10',            'N/A'),
+(18, 'N/A (EV)',                       'N/A (EV)',                           'Dual Motor Performance',             'TSW 20x9.5',                       'N/A'),
+(19, 'Milltek Sport',                  '2.0T (stock)',                       'Stage 1',                            'OZ Ultraleggera 17x7.5',           'Catted downpipe'),
+(20, 'Invidia Q300',                   'TD05H (stock)',                      'EcuTek tune',                        'Volk TE37 18x10',                  'Catted downpipe'),
+(21, 'Polestar Performance',           'Turbocharged 2.0',                   'Polestar tune',                      'OZ Leggera 19x8.5',                'Catted downpipe'),
+(22, 'Remus Cat-back',                 '2.9TT (stock)',                      'Stage 1',                            'Alfa Teledial 19x9',               'Catted downpipes'),
+(23, 'Valvetronic Exhaust',            'Supercharged V6',                    'Pulley + tune',                      'Vossen 20x9',                      'High-flow cats'),
+(24, 'COBB Cat-back',                  'IHI VF48',                           'Stage 2',                            'Enkei 18x9.5',                     'Catless downpipe'),
+(25, 'AWE Touring',                    'B58 single (stock)',                 'MHD Stage 2',                        'Apex EC-7 18x9.5',                 'Catted downpipe'),
+(26, 'APR Cat-back',                   'DAZA 2.5T (stock)',                  'Stage 2 E85',                        'Neuspeed RSe10 19x8.5',            'Catted downpipe'),
+(27, 'Akrapovic Cat-back',             'B58 single (stock)',                 'BM3 Stage 2',                        'Titan7 19x9.5',                    'Catted downpipe'),
+(28, 'Mountune Cat-back',              'BorgWarner 2.3T (stock)',            'COBB Stage 2',                       'Sparco Assetto 18x8.5',            'Catted downpipe'),
+(29, 'HKS Hi-Power',                   'NA',                                 'F20C intake + tune',                 'Regamaster 17x9',                  'N/A'),
+(30, 'Fabspeed Maxflo',                'NA',                                 '3.4 DFI tune',                       'BBS FI-R 20x9',                    'N/A'),
+(31, 'Corsa Xtreme',                   'NA',                                 'LT1 tune',                           'Z06 19x10',                        'N/A'),
+(32, 'Remus Race',                     'S55 twin-turbo (stock)',             'Stage 2 93',                         'Apex ARC-8 19x10',                 'Catless downpipes'),
+(33, 'HKS Legamax',                    'VR38DETT (stock)',                   'EcuTek tune',                        'Volk TE37 20x10.5',                'Catted downpipes'),
+(34, 'Fujitsubo Legalis R',            'Sequential twin-turbo',              '13B-REW streetport',                 'Advan RG-D2 18x9.5',               'High-flow midpipe'),
+(35, 'MBRP Cat-back',                  '1.6T (stock)',                       'Stage 2 93',                         'Sparco Terra 16x7',                'Catted downpipe'),
+
+-- additional stage builds
+(1,  'HKS Header-back',                'Jackson Racing C38 (SC)',            'E85 tune + injectors',               'Gram Lights 57CR 17x9',            'N/A'),
+(2,  'AWE Resonated',                  'Twin-turbo S55 (stock)',             'E50 custom tune',                    'Apex VS-5RS 19x10',                'Catless downpipes'),
+(3,  'MXP Comp RS',                    'NA',                                 'Header + E85 tune',                  'Rays 57Transcend 17x8',            'N/A'),
+(5,  'Invidia R400',                   'PRL big turbo',                      'Flex-fuel tune',                     'TE37SL 18x9.5',                    'Catless downpipe'),
+(6,  'Kline Inconel',                  'Hybrid turbos',                      'Protune Stage 2',                    'BBS E88 20x9.5',                   'Catless downpipes'),
+(9,  'GReddy EVOlution',               'Supercharger kit (HKS)',             'ECUTEK SC map',                      'TC105X 18x9',                      'N/A'),
+(11, 'Cobb GESI',                      'IS38+ upgrade',                      'E30 blend map',                      'OZ Hyper GT 18x8.5',               'Catted downpipe'),
+(12, 'Megan Racing',                   '2.0T (stock)',                       'Pop & crackle off',                  'Konig Hypergram 18x8.5',           'High-flow catted'),
+(15, 'IPE Valvetronic',                '4.0TT (stock)',                      'Stage 2 + TCU',                      'HRE P101 19x10',                   'Catless downpipes'),
+(18, 'N/A (EV)',                       'N/A (EV)',                           'Track Pack: pads/lines',             'Forged 20x10',                     'N/A'),
+(20, 'Greddy Revolution',              'MR stock turbo',                     'E85 map + 3-port',                   'Enkei RPF1 18x10.5',               'Catless downpipe'),
+(24, 'Invidia N1',                     'Blouch 20G',                         'Injector + pump upgrade',            'Rays ZE40 18x9.5',                 'Catless downpipe'),
+(25, 'Remus Sport',                    'Pure800',                            'HPFP + LPFP upgrade',                'Apex SM-10 18x10',                 'Catless downpipe'),
+(27, 'AWE Touring',                    'Pure800',                            'Port-injection kit',                 'Advan GT 19x10',                   'Catless downpipe'),
+(33, 'Titanium Y-Pipe',                'VR38DETT (stock)',                   'Alpha Stage 3',                      'Rays TE37 Ultra 20x11',            'Alpha catted downpipes');
+
 
 -- 29) Car_Meta (needs Cars)
-INSERT INTO Car_Meta (CarId, Weight, Length, Width, Height, TopSpeed, FuelType)
+INSERT INTO Car_Meta
+(CarId, Weight, Length, Width, Height, TopSpeed, FuelType)
 VALUES
-(1, 2800, 180, 70, 55, 120.5, 'Gasoline'),
-(2, 3500, 190, 75, 55, 155.0, 'Gasoline');
+(1,  1270, 4240, 1775, 1320, 226.00, 'Gasoline'),
+(2,  1570, 4670, 1877, 1430, 250.00, 'Gasoline'),
+(3,  1120, 3915, 1735, 1235, 215.00, 'Gasoline'),
+(4,  1680, 4784, 1916, 1381, 250.00, 'Gasoline'),
+(5,  1390, 4557, 1876, 1434, 272.00, 'Gasoline'),
+(6,  1430, 4499, 1808, 1294, 293.00, 'Gasoline'),
+(7,  1460, 4250, 1845, 1315, 250.00, 'Gasoline'),
+(8,  1650, 4745, 1842, 1400, 250.00, 'Gasoline'),
+(9,  1280, 4265, 1775, 1310, 225.00, 'Gasoline'),
+(10, 1700, 4780, 1897, 1349, 255.00, 'Gasoline'),
+(11, 1450, 4276, 1819, 1436, 250.00, 'Gasoline'),
+(12, 1470, 4675, 1825, 1415, 250.00, 'Gasoline'),
+(13, 1820, 4830, 1870, 1400, 270.00, 'Gasoline'),
+(14, 1640, 4710, 1840, 1430, 230.00, 'Gasoline'),
+(15, 1760, 4751, 1839, 1442, 280.00, 'Gasoline'),
+(16, 1400, 4706, 1802, 1416, 200.00, 'Gasoline'),
+(17, 1820, 5020, 1923, 1460, 230.00, 'Gasoline'),
+(18, 1850, 4694, 1850, 1443, 261.00, 'Electric'),
+(19, 1270, 3850, 1727, 1414, 235.00, 'Gasoline'),
+(20, 1560, 4495, 1810, 1480, 250.00, 'Gasoline'),
+(21, 1680, 4635, 1866, 1480, 250.00, 'Gasoline'),
+(22, 1660, 4639, 1871, 1426, 307.00, 'Gasoline'),
+(23, 1600, 4470, 1885, 1311, 275.00, 'Gasoline'),
+(24, 1550, 4595, 1795, 1475, 255.00, 'Gasoline'),
+(25, 1620, 4640, 1811, 1455, 250.00, 'Gasoline'),
+(26, 1540, 4479, 1802, 1399, 250.00, 'Gasoline'),
+(27, 1520, 4379, 1854, 1292, 250.00, 'Gasoline'),
+(28, 1520, 4390, 1820, 1470, 266.00, 'Gasoline'),
+(29, 1270, 4135, 1750, 1270, 240.00, 'Gasoline'),
+(30, 1340, 4380, 1801, 1294, 281.00, 'Gasoline'),
+(31, 1530, 4492, 1877, 1239, 312.00, 'Gasoline'),
+(32, 1650, 4468, 1854, 1410, 280.00, 'Gasoline'),
+(33, 1750, 4710, 1895, 1370, 315.00, 'Gasoline'),
+(34, 1280, 4285, 1760, 1230, 250.00, 'Gasoline'),
+(35, 1210, 3975, 1735, 1450, 225.00, 'Gasoline');
+
 
 -- 30) Follower_Followee
-INSERT INTO Follower_Followee (FollowerId, FolloweeId)
-VALUES
-(1, 2),
-(2, 1);
+INSERT INTO Follower_Followee (FollowerId, FolloweeId) VALUES
+(1, 2), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5),
+(3, 6), (3, 7), (4, 5), (4, 6), (4, 7), (4, 8), (5, 6), (5, 7), (5, 8), (5, 9),
+(6, 7), (6, 8), (6, 9), (6, 10), (7, 8), (7, 9), (7, 10), (7, 11), (8, 9), (8, 10),
+(8, 11), (8, 12), (9, 10), (9, 11), (9, 12), (9, 13), (10, 11), (10, 12), (10, 13), (10, 14),
+(11, 12), (11, 13), (11, 14), (11, 15), (12, 13), (12, 14), (12, 15), (12, 16), (13, 14), (13, 15),
+(13, 16), (13, 17), (14, 15), (14, 16), (14, 17), (14, 18), (15, 16), (15, 17), (15, 18), (15, 19),
+(16, 17), (16, 18), (16, 19), (16, 20), (17, 18), (17, 19), (17, 20), (17, 21), (18, 19), (18, 20),
+(18, 21), (18, 22), (19, 20), (19, 21), (19, 22), (19, 23), (20, 21), (20, 22), (20, 23), (20, 24),
+(21, 22), (21, 23), (21, 24), (21, 25), (22, 23), (22, 24), (22, 25), (22, 26), (23, 24), (23, 25),
+(23, 26), (23, 27), (24, 25), (24, 26), (24, 27), (24, 28), (25, 26), (25, 27), (25, 28), (25, 29),
+(26, 27), (26, 28), (26, 29), (26, 30), (27, 28), (27, 29), (27, 30), (27, 31), (28, 29), (28, 30),
+(28, 31), (28, 32), (29, 30), (29, 31), (29, 32), (29, 33), (30, 31), (30, 32), (30, 33), (30, 34),
+(31, 32), (31, 33), (31, 34), (31, 35), (32, 33), (32, 34), (32, 35), (32, 36), (33, 34), (33, 35),
+(33, 36), (33, 37), (34, 35), (34, 36), (34, 37), (34, 38), (35, 36), (35, 37), (35, 38), (35, 39),
+(36, 37), (36, 38), (36, 39), (36, 40), (37, 38), (37, 39), (37, 40), (37, 1), (38, 39), (38, 40),
+(38, 1), (38, 2), (39, 40), (39, 1), (39, 2), (39, 3), (40, 1), (40, 2), (40, 3), (40, 4);
