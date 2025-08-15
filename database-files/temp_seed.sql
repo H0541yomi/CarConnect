@@ -46,9 +46,6 @@ VALUES
 ('pitcrew_pam', 'Pamela', 'Jean', 'Cole', 'pamela.cole@example.com', '1987-05-18', 'Philadelphia', 'Pennsylvania', 'USA', 'Female', 'Event ops and safety marshal.', 'https://example.com/avatars/pitcrew_pam.jpg', 'Event Organizer,Consumer'),
 ('modmax', 'Max', NULL, 'Reed', 'max.reed@example.com', '1996-11-27', 'Boise', 'Idaho', 'USA', 'Male', 'ECUs, logs, and long nights.', 'https://example.com/avatars/modmax.jpg', 'Moderator');
 
-
-
-
 INSERT INTO Group_Chat (OwnerId, Name, CreatedAt) VALUES
 (7,  'JDM Night Run',                 '2024-01-14 20:45:10'),
 (12, 'Euro Track Rats',               '2024-03-02 09:12:31'),
@@ -68,7 +65,6 @@ INSERT INTO Group_Chat (OwnerId, Name, CreatedAt) VALUES
 (24, 'Dyno Day Diehards',             '2024-07-03 14:20:48'),
 (6,  'Air-Cooled Alley',              '2024-05-26 11:45:29'),
 (28, 'Fitment & Meaty Tires',         '2025-04-05 09:57:36'),;
-
 
 INSERT INTO Advertiser (Name, Email, CompanyName, CreatedAt) VALUES
 ('Marcus Allen',     'marcus.allen@trackstarpromo.com',   'TrackStar Promotions',          '2024-01-12 10:14:22'),
@@ -139,6 +135,7 @@ INSERT INTO Community (OwnerId, ChatId, CreatedAt, Name, Description) VALUES
 (8,  28,  '2024-11-24 10:10:01', 'Paint Correction',    'Compounds, pads, lighting, and tests.'),
 (32, 29,  '2025-05-02 16:52:43', 'Five-Cyl Fans',       'Odd-fire glory and RS lore.'),
 (23, 30,  '2024-02-05 06:25:44', 'Morning Stretches',   'Early runs, warmups, and coffee maps.');
+
 
 -- 3) Event (needs Users, Community)
 INSERT INTO Event
@@ -734,6 +731,7 @@ INSERT INTO Post_Meta (UserId, PostId, Liked, Disliked, Seen, Clicked) VALUES
 (30, 70, 1, 0, 1, 1),
 (7, 70, 1, 0, 1, 0);
 
+
 -- 10) Comment_Meta
 INSERT INTO Comment_Meta (UserId, CommentId, Liked, Disliked, Seen) VALUES
 (1,1,1,0,1),(22,1,0,0,1),
@@ -1047,7 +1045,6 @@ VALUES
 
 
 -- 13) Post_Images
-
 INSERT INTO Post_Images (PostId, Url) VALUES
 -- Post 1–15 (2 images each)
 (1,  'https://cdn.carsocial.app/posts/1/photo_1.jpg'),
@@ -1224,7 +1221,6 @@ INSERT INTO Bot_Flags_Post (BotId, PostId) VALUES
 
 
 -- 17) Bot_Flags_Comment
-
 INSERT INTO Bot_Flags_Comment (BotId, CommentId) VALUES
 (1,1),(15,1),
 (2,2),(16,2),
@@ -1397,6 +1393,7 @@ INSERT INTO Group_Users (GroupId, UserId) VALUES
 (33,33),(33,40),(33,7),(33,14),(33,21),(33,28),
 (34,34),(34,1),(34,8),(34,15),(34,22),(34,29),
 (35,35),(35,2),(35,9),(35,16),(35,23),(35,30);
+
 
 -- 21) RSVP (needs Users)
 INSERT INTO RSVP (SubmitterId, Status, SubmittedAt) VALUES
@@ -1742,7 +1739,7 @@ INSERT INTO Resources_Templates (EventId, Notes) VALUES
 INSERT INTO Equipment_List (PlanId, Equipment, Amount) VALUES
 (1,  'Marshals', 6),
 (1,  'Radios', 12),
-
+  
 (2,  'Check-in desk', 1),
 (2,  'Waivers', 100),
 
@@ -1829,6 +1826,7 @@ INSERT INTO Equipment_List (PlanId, Equipment, Amount) VALUES
 
 (30, 'Shade tents', 2),
 (30, 'Volunteer checklists', 30);
+
 
 -- 26) Supply_List (needs Resources_Templates)
 INSERT INTO Supply_List (PlanId, Supply, Amount) VALUES
@@ -1934,4 +1932,120 @@ VALUES
 (35, 'Ford',          'Fiesta ST',                   2016, 'Molten Orange',             'Charcoal',     '2017-08-25');
 
 
+-- 28) Car_Build (needs Cars)
+INSERT INTO Car_Build
+(CarId, Exhaust, Turbo, Engine, Wheels, Downpipes)
+VALUES
+(1,  'Invidia N1 Cat-back',            'NA (tuned)',                         'FA20 intake + tune',                 'Enkei RPF1 17x9',                 'N/A'),
+(2,  'Akrapovic Evolution',            'Twin-turbo S55 (stock)',             'S55 OTS Stage 1',                    'BBS CH-R 19x9.5',                 'Catted downpipes'),
+(3,  'Borla S-Type',                   'NA',                                 'SkyActiv-G tune',                    'Kosei K1 17x8',                    'N/A'),
+(4,  'Corsa Xtreme',                   'NA',                                 'Coyote 5.0 tune',                    'Forgestar F14 19x10',              'N/A'),
+(5,  'HKS Legamax',                    'K20C1 stock turbo',                  'Stage 1 (93)',                       'Volk TE37 18x9.5',                 'Catted downpipe'),
+(6,  'AWE SwitchPath',                 '3.0T twin-turbo (stock)',            'Cobb Stage 1',                       'HRE FF04 20x9',                    'Catted downpipes'),
+(7,  'Tomei Expreme Ti',               'NA',                                 'VQ37 intake + tune',                 'Work Emotion 18x10',               'N/A'),
+(8,  'Milltek Cat-back',               'Supercharged 3.0T',                  'Pulley + tune',                      'Rotiform 19x9',                    'High-flow test pipes'),
+(9,  'HKS Hi-Power',                   'NA',                                 'FA24 tune',                          'WedsSport 18x8.5',                 'N/A'),
+(10, 'Borla ATAK',                     'NA',                                 'LT1 cam + tune',                     'ZL1 Replica 20x10',                'N/A'),
+(11, 'AWE Track',                      'IS38 (stock)',                       'APR Stage 2',                        'Pretoria 19x8',                    'Catted downpipe'),
+(12, 'ARK Grip',                       '2.0T (stock)',                       'Stage 1+',                           'Enkei T6R 18x8.5',                 'Catted downpipe'),
+(13, 'Armytrix Valvetronic',           '3.3T twin-turbo (stock)',            'JB4 Map 2',                          'Niche 19x9.5',                     'Catted downpipes'),
+(14, 'Invidia Q300',                   'NA',                                 '2GR-FKS intake',                     'TSW 19x9',                         'N/A'),
+(15, 'Akrapovic Slip-On',              '4.0TT (stock)',                      'M177 Stage 1',                       'AMG 19x9.5',                       'Catted downpipes'),
+(16, 'Remark Cat-back',                '1.5T (stock)',                       'Hondata basemap',                    'Enkei RPF1 17x8',                  'Catted downpipe'),
+(17, 'Flowmaster Outlaw',              'NA',                                 '5.7 HEMI tune',                      'American Racing 20x10',            'N/A'),
+(18, 'N/A (EV)',                       'N/A (EV)',                           'Dual Motor Performance',             'TSW 20x9.5',                       'N/A'),
+(19, 'Milltek Sport',                  '2.0T (stock)',                       'Stage 1',                            'OZ Ultraleggera 17x7.5',           'Catted downpipe'),
+(20, 'Invidia Q300',                   'TD05H (stock)',                      'EcuTek tune',                        'Volk TE37 18x10',                  'Catted downpipe'),
+(21, 'Polestar Performance',           'Turbocharged 2.0',                   'Polestar tune',                      'OZ Leggera 19x8.5',                'Catted downpipe'),
+(22, 'Remus Cat-back',                 '2.9TT (stock)',                      'Stage 1',                            'Alfa Teledial 19x9',               'Catted downpipes'),
+(23, 'Valvetronic Exhaust',            'Supercharged V6',                    'Pulley + tune',                      'Vossen 20x9',                      'High-flow cats'),
+(24, 'COBB Cat-back',                  'IHI VF48',                           'Stage 2',                            'Enkei 18x9.5',                     'Catless downpipe'),
+(25, 'AWE Touring',                    'B58 single (stock)',                 'MHD Stage 2',                        'Apex EC-7 18x9.5',                 'Catted downpipe'),
+(26, 'APR Cat-back',                   'DAZA 2.5T (stock)',                  'Stage 2 E85',                        'Neuspeed RSe10 19x8.5',            'Catted downpipe'),
+(27, 'Akrapovic Cat-back',             'B58 single (stock)',                 'BM3 Stage 2',                        'Titan7 19x9.5',                    'Catted downpipe'),
+(28, 'Mountune Cat-back',              'BorgWarner 2.3T (stock)',            'COBB Stage 2',                       'Sparco Assetto 18x8.5',            'Catted downpipe'),
+(29, 'HKS Hi-Power',                   'NA',                                 'F20C intake + tune',                 'Regamaster 17x9',                  'N/A'),
+(30, 'Fabspeed Maxflo',                'NA',                                 '3.4 DFI tune',                       'BBS FI-R 20x9',                    'N/A'),
+(31, 'Corsa Xtreme',                   'NA',                                 'LT1 tune',                           'Z06 19x10',                        'N/A'),
+(32, 'Remus Race',                     'S55 twin-turbo (stock)',             'Stage 2 93',                         'Apex ARC-8 19x10',                 'Catless downpipes'),
+(33, 'HKS Legamax',                    'VR38DETT (stock)',                   'EcuTek tune',                        'Volk TE37 20x10.5',                'Catted downpipes'),
+(34, 'Fujitsubo Legalis R',            'Sequential twin-turbo',              '13B-REW streetport',                 'Advan RG-D2 18x9.5',               'High-flow midpipe'),
+(35, 'MBRP Cat-back',                  '1.6T (stock)',                       'Stage 2 93',                         'Sparco Terra 16x7',                'Catted downpipe'),
 
+-- additional stage builds
+(1,  'HKS Header-back',                'Jackson Racing C38 (SC)',            'E85 tune + injectors',               'Gram Lights 57CR 17x9',            'N/A'),
+(2,  'AWE Resonated',                  'Twin-turbo S55 (stock)',             'E50 custom tune',                    'Apex VS-5RS 19x10',                'Catless downpipes'),
+(3,  'MXP Comp RS',                    'NA',                                 'Header + E85 tune',                  'Rays 57Transcend 17x8',            'N/A'),
+(5,  'Invidia R400',                   'PRL big turbo',                      'Flex-fuel tune',                     'TE37SL 18x9.5',                    'Catless downpipe'),
+(6,  'Kline Inconel',                  'Hybrid turbos',                      'Protune Stage 2',                    'BBS E88 20x9.5',                   'Catless downpipes'),
+(9,  'GReddy EVOlution',               'Supercharger kit (HKS)',             'ECUTEK SC map',                      'TC105X 18x9',                      'N/A'),
+(11, 'Cobb GESI',                      'IS38+ upgrade',                      'E30 blend map',                      'OZ Hyper GT 18x8.5',               'Catted downpipe'),
+(12, 'Megan Racing',                   '2.0T (stock)',                       'Pop & crackle off',                  'Konig Hypergram 18x8.5',           'High-flow catted'),
+(15, 'IPE Valvetronic',                '4.0TT (stock)',                      'Stage 2 + TCU',                      'HRE P101 19x10',                   'Catless downpipes'),
+(18, 'N/A (EV)',                       'N/A (EV)',                           'Track Pack: pads/lines',             'Forged 20x10',                     'N/A'),
+(20, 'Greddy Revolution',              'MR stock turbo',                     'E85 map + 3-port',                   'Enkei RPF1 18x10.5',               'Catless downpipe'),
+(24, 'Invidia N1',                     'Blouch 20G',                         'Injector + pump upgrade',            'Rays ZE40 18x9.5',                 'Catless downpipe'),
+(25, 'Remus Sport',                    'Pure800',                            'HPFP + LPFP upgrade',                'Apex SM-10 18x10',                 'Catless downpipe'),
+(27, 'AWE Touring',                    'Pure800',                            'Port-injection kit',                 'Advan GT 19x10',                   'Catless downpipe'),
+(33, 'Titanium Y-Pipe',                'VR38DETT (stock)',                   'Alpha Stage 3',                      'Rays TE37 Ultra 20x11',            'Alpha catted downpipes');
+
+
+-- 29) Car_Meta (needs Cars)
+INSERT INTO Car_Meta
+(CarId, Weight, Length, Width, Height, TopSpeed, FuelType)
+VALUES
+(1,  1270, 4240, 1775, 1320, 226.00, 'Gasoline'),
+(2,  1570, 4670, 1877, 1430, 250.00, 'Gasoline'),
+(3,  1120, 3915, 1735, 1235, 215.00, 'Gasoline'),
+(4,  1680, 4784, 1916, 1381, 250.00, 'Gasoline'),
+(5,  1390, 4557, 1876, 1434, 272.00, 'Gasoline'),
+(6,  1430, 4499, 1808, 1294, 293.00, 'Gasoline'),
+(7,  1460, 4250, 1845, 1315, 250.00, 'Gasoline'),
+(8,  1650, 4745, 1842, 1400, 250.00, 'Gasoline'),
+(9,  1280, 4265, 1775, 1310, 225.00, 'Gasoline'),
+(10, 1700, 4780, 1897, 1349, 255.00, 'Gasoline'),
+(11, 1450, 4276, 1819, 1436, 250.00, 'Gasoline'),
+(12, 1470, 4675, 1825, 1415, 250.00, 'Gasoline'),
+(13, 1820, 4830, 1870, 1400, 270.00, 'Gasoline'),
+(14, 1640, 4710, 1840, 1430, 230.00, 'Gasoline'),
+(15, 1760, 4751, 1839, 1442, 280.00, 'Gasoline'),
+(16, 1400, 4706, 1802, 1416, 200.00, 'Gasoline'),
+(17, 1820, 5020, 1923, 1460, 230.00, 'Gasoline'),
+(18, 1850, 4694, 1850, 1443, 261.00, 'Electric'),
+(19, 1270, 3850, 1727, 1414, 235.00, 'Gasoline'),
+(20, 1560, 4495, 1810, 1480, 250.00, 'Gasoline'),
+(21, 1680, 4635, 1866, 1480, 250.00, 'Gasoline'),
+(22, 1660, 4639, 1871, 1426, 307.00, 'Gasoline'),
+(23, 1600, 4470, 1885, 1311, 275.00, 'Gasoline'),
+(24, 1550, 4595, 1795, 1475, 255.00, 'Gasoline'),
+(25, 1620, 4640, 1811, 1455, 250.00, 'Gasoline'),
+(26, 1540, 4479, 1802, 1399, 250.00, 'Gasoline'),
+(27, 1520, 4379, 1854, 1292, 250.00, 'Gasoline'),
+(28, 1520, 4390, 1820, 1470, 266.00, 'Gasoline'),
+(29, 1270, 4135, 1750, 1270, 240.00, 'Gasoline'),
+(30, 1340, 4380, 1801, 1294, 281.00, 'Gasoline'),
+(31, 1530, 4492, 1877, 1239, 312.00, 'Gasoline'),
+(32, 1650, 4468, 1854, 1410, 280.00, 'Gasoline'),
+(33, 1750, 4710, 1895, 1370, 315.00, 'Gasoline'),
+(34, 1280, 4285, 1760, 1230, 250.00, 'Gasoline'),
+(35, 1210, 3975, 1735, 1450, 225.00, 'Gasoline');
+
+
+-- 30) Follower_Followee
+INSERT INTO Follower_Followee (FollowerId, FolloweeId) VALUES
+(1, 2), (1, 3), (1, 4), (1, 5), (2, 3), (2, 4), (2, 5), (2, 6), (3, 4), (3, 5),
+(3, 6), (3, 7), (4, 5), (4, 6), (4, 7), (4, 8), (5, 6), (5, 7), (5, 8), (5, 9),
+(6, 7), (6, 8), (6, 9), (6, 10), (7, 8), (7, 9), (7, 10), (7, 11), (8, 9), (8, 10),
+(8, 11), (8, 12), (9, 10), (9, 11), (9, 12), (9, 13), (10, 11), (10, 12), (10, 13), (10, 14),
+(11, 12), (11, 13), (11, 14), (11, 15), (12, 13), (12, 14), (12, 15), (12, 16), (13, 14), (13, 15),
+(13, 16), (13, 17), (14, 15), (14, 16), (14, 17), (14, 18), (15, 16), (15, 17), (15, 18), (15, 19),
+(16, 17), (16, 18), (16, 19), (16, 20), (17, 18), (17, 19), (17, 20), (17, 21), (18, 19), (18, 20),
+(18, 21), (18, 22), (19, 20), (19, 21), (19, 22), (19, 23), (20, 21), (20, 22), (20, 23), (20, 24),
+(21, 22), (21, 23), (21, 24), (21, 25), (22, 23), (22, 24), (22, 25), (22, 26), (23, 24), (23, 25),
+(23, 26), (23, 27), (24, 25), (24, 26), (24, 27), (24, 28), (25, 26), (25, 27), (25, 28), (25, 29),
+(26, 27), (26, 28), (26, 29), (26, 30), (27, 28), (27, 29), (27, 30), (27, 31), (28, 29), (28, 30),
+(28, 31), (28, 32), (29, 30), (29, 31), (29, 32), (29, 33), (30, 31), (30, 32), (30, 33), (30, 34),
+(31, 32), (31, 33), (31, 34), (31, 35), (32, 33), (32, 34), (32, 35), (32, 36), (33, 34), (33, 35),
+(33, 36), (33, 37), (34, 35), (34, 36), (34, 37), (34, 38), (35, 36), (35, 37), (35, 38), (35, 39),
+(36, 37), (36, 38), (36, 39), (36, 40), (37, 38), (37, 39), (37, 40), (37, 1), (38, 39), (38, 40),
+(38, 1), (38, 2), (39, 40), (39, 1), (39, 2), (39, 3), (40, 1), (40, 2), (40, 3), (40, 4);
