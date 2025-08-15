@@ -1,4 +1,4 @@
-from api.backend.Utils.ISOToSQL import date_to_formatted_date
+from backend.Utils.ISOToSQL import date_to_formatted_date
 from mysql.connector import Error
 from flask import Blueprint, jsonify, request
 from backend.db_connection import db
