@@ -1,5 +1,5 @@
-from api.backend.Utils.ISOToSQL import date_to_formatted_datetime
-from api.backend.Utils.UserStatus import is_event_host, is_moderator
+from backend.Utils.ISOToSQL import date_to_formatted_datetime
+from backend.Utils.UserStatus import is_event_host, is_moderator
 from flask import Blueprint, jsonify, request
 from mysql.connector import Error
 from backend.db_connection import db

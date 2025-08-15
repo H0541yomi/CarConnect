@@ -1,4 +1,3 @@
-from api.backend.Utils.UserStatus import is_moderator
 from flask import Blueprint, jsonify, request
 from backend.db_connection import db
 from mysql.connector import Error

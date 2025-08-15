@@ -1,6 +1,6 @@
-from dateutil.parser import *
-from dateutil.tz import *
+from dateutil.tz import tzoffset, tzutc
 from datetime import *
+from dateutil.parser import parse
 
 def date_to_formatted_date(date):
     try:    
