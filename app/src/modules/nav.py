@@ -1,104 +1,43 @@
-# Idea borrowed from https://github.com/fsmosca/sample-streamlit-authenticator
-
-# This file has function to add certain functionality to the left side bar of the app
-
 import streamlit as st
 
+def _links_moderator():
+    st.sidebar.page_link("src/pages/00_Moderator_Home.py", label="Home", icon="🛡️")
+    st.sidebar.page_link("src/pages/01_Moderator_Bot_Manager.py", label="Bot Manager", icon="🤖")
+    st.sidebar.page_link("src/pages/02_Moderator_Flag_Review.py", label="Flag Review", icon="🚩")
+    st.sidebar.page_link("src/pages/03_Moderator_Verify_Users.py", label="Verify Users", icon="✅")
 
-#### ------------------------ General ------------------------
-def HomeNav():
-    st.sidebar.page_link("Home.py", label="Home", icon="🏠")
+def _links_user():
+    st.sidebar.page_link("src/pages/10_User_Home.py", label="Home", icon="👤")
+    st.sidebar.page_link("src/pages/11_User_Create_Post.py", label="Create Post", icon="✍️")
+    st.sidebar.page_link("src/pages/12_User_Find_And_Follow.py", label="Find & Follow", icon="🔎")
+    st.sidebar.page_link("src/pages/13_User_Compare_Builds.py", label="Compare Builds", icon="⚙️")
 
+def _links_advertiser():
+    st.sidebar.page_link("src/pages/20_Advertiser_Home.py", label="Home", icon="📣")
+    st.sidebar.page_link("src/pages/21_Advertiser_Create_Ad.py", label="Create Ad", icon="🧲")
+    st.sidebar.page_link("src/pages/22_Advertiser_Campaign_Analytics.py", label="Campaign Analytics", icon="📊")
+    st.sidebar.page_link("src/pages/23_Advertiser_Audience_Demographics.py", label="Audience & Tags", icon="👥")
 
-def AboutPageNav():
-    st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
+def _links_event_org():
+    st.sidebar.page_link("src/pages/30_EventOrg_Home.py", label="Home", icon="📅")
+    st.sidebar.page_link("src/pages/31_EventOrg_Create_Event.py", label="Create Event", icon="🆕")
+    st.sidebar.page_link("src/pages/32_EventOrg_RSVP_Tracker.py", label="RSVP Tracker", icon="📋")
+    st.sidebar.page_link("src/pages/33_EventOrg_Announcements_and_Duplicate.py", label="Announcements & Duplicate", icon="📣")
 
-
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
-    st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
-    )
-
-
-def WorldBankVizNav():
-    st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
-    )
-
-
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
-
-
-## ------------------------ Examples for Role of usaid_worker ------------------------
-def ApiTestNav():
-    st.sidebar.page_link("pages/12_API_Test.py", label="Test the API", icon="🛜")
-
-
-def PredictionNav():
-    st.sidebar.page_link(
-        "pages/11_Prediction.py", label="Regression Prediction", icon="📈"
-    )
-
-
-def ClassificationNav():
-    st.sidebar.page_link(
-        "pages/13_Classification.py", label="Classification Demo", icon="🌺"
-    )
-
-
-#### ------------------------ System Admin Role ------------------------
-def AdminPageNav():
-    st.sidebar.page_link("pages/20_Admin_Home.py", label="System Admin", icon="🖥️")
-    st.sidebar.page_link(
-        "pages/21_ML_Model_Mgmt.py", label="ML Model Management", icon="🏢"
-    )
-
-
-# --------------------------------Links Function -----------------------------------------------
-def SideBarLinks(show_home=False):
-    """
-    This function handles adding links to the sidebar of the app based upon the logged-in user's role, which was put in the streamlit session_state object when logging in.
-    """
-
-    # add a logo to the sidebar always
-    st.sidebar.image("assets/logo.png", width=150)
-
-    # If there is no logged in user, redirect to the Home (Landing) page
-    if "authenticated" not in st.session_state:
-        st.session_state.authenticated = False
-        st.switch_page("Home.py")
-
-    if show_home:
-        # Show the Home page link (the landing page)
-        HomeNav()
-
-    # Show the other page navigators depending on the users' role.
-    if st.session_state["authenticated"]:
-
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
-
-        # If the user role is usaid worker, show the Api Testing page
-        if st.session_state["role"] == "usaid_worker":
-            PredictionNav()
-            ApiTestNav()
-            ClassificationNav()
-
-        # If the user is an administrator, give them access to the administrator pages
-        if st.session_state["role"] == "administrator":
-            AdminPageNav()
-
-    # Always show the About page at the bottom of the list of links
-    AboutPageNav()
-
-    if st.session_state["authenticated"]:
-        # Always show a logout button if there is a logged in user
-        if st.sidebar.button("Logout"):
-            del st.session_state["role"]
-            del st.session_state["authenticated"]
-            st.switch_page("Home.py")
+def SideBarLinks():
+    role = st.session_state.get("role")
+    if not role:
+        return
+    st.sidebar.image("assets/logo.png", use_column_width=True)
+    st.sidebar.markdown(f"**Role:** {role}")
+    st.sidebar.divider()
+    if role == "Moderator":
+        _links_moderator()
+    elif role == "User":
+        _links_user()
+    elif role == "Advertiser":
+        _links_advertiser()
+    elif role == "Event Organizer":
+        _links_event_org()
+    else:
+        st.sidebar.info("Unknown role")

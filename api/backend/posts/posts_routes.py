@@ -149,64 +149,117 @@ def get_post(post_id):
     except Error as e:
         return jsonify({"error": str(e)}), 500
 
-# # Update a post, or like/dislike it
-# # Required field: Action (like, dislike, update)
-# # When updating a post, you must provide UserId and at least 1 field to be updated.
-# @posts.route("/<int:post_id>", methods=["PUT"])
-# def update_post(post_id):
-#     try:
-#         cursor = db.get_db().cursor()
-#         data = request.get_json()
+# Update a post, or like/dislike it
+# Required fields: Action (like, dislike, update), UserId (AdvertiserId can be a substitute for update action)
+# When updating a post, you must provide UserId and at least 1 field to be updated.
+@posts.route("/<int:post_id>", methods=["PUT"])
+def update_post(post_id):
+    try:
+        cursor = db.get_db().cursor()
+        data = request.get_json()
         
-#         action = data.get("Action")
-#         if not action:
-#             return jsonify({"error": "Action is required"}), 400
-#         if action not in ["like", "dislike", "update"]:
-#             return jsonify({"error": "Invalid action. Must be 'like', 'dislike', or 'update'."}), 400
+        action = data.get("Action")
+        if not action:
+            return jsonify({"error": "Action is required"}), 400
+        if action not in ["like", "dislike", "update"]:
+            return jsonify({"error": "Invalid action. Must be 'like', 'dislike', or 'update'."}), 400
 
-#         if action == "update":
-#             user_id = data.get("UserId")
-#             if not user_id:
-#                 return jsonify({"error": "UserId is required for update action"}), 400
+        user_id = data.get("UserId")
+        
+        if action == "update":
+            advertiser_id = data.get("AdvertiserId")
+            if not user_id and not advertiser_id:
+                return jsonify({"error": "UserId or AdvertiserId is required for update action"}), 400
             
-#             # Verify that user is author of post
-#             can_update = is_post_author(user_id, post_id) or is_moderator(user_id)
-#             if not can_update:
-#                 return jsonify({"error": "User is not authorized to update this post"}), 403
-
-#             new_title = data.get("Title")
-#             new_body = data.get("Body")
+            # Verify that user can edit this post
+            can_update = is_post_author(user_id, advertiser_id, post_id) or is_moderator(user_id)
+            if not can_update:
+                return jsonify({"error": "User is not authorized to update this post"}), 403
             
-#             if not new_title and not new_body:
-#                 return jsonify({"error": "At least one field (Title or Body) must be provided to update"}), 400
-            
-#             updated_fields = []
-#             params = []
+            # Getting old data, then updating text fields of post
+            cursor.execute("SELECT * FROM Post WHERE PostId = %s", (post_id,))
+            old_data = cursor.fetchone()
 
-#             if new_title:
-#                 updated_fields.append("Title = %s")
-#                 params.append(new_title)
+            event_id = data.get("EventId") or old_data["EventId"]
+            community_id = data.get("CommunityId") or old_data["CommunityId"]
+            title = data.get("Title") or old_data["Title"]
+            body = data.get("Body") or old_data["Body"]
 
-#             if new_body:
-#                 updated_fields.append("Body = %s")
-#                 params.append(new_body)
-                
-#             set_clause = ", ".join(updated_fields)
+            cursor.execute("""
+            UPDATE Post SET EventId = %s, CommunityId = %s, Title = %s, Body = %s
+            WHERE PostId = %s
+            """, (event_id, community_id, title, body, post_id))
+            db.get_db().commit()
+            cursor.close()
+            return jsonify({"status": "Post updated"}), 200
+        elif action == "like" or action == "dislike":
+            sql_action = "Liked" if action == "like" else "Disliked"
+            cursor.execute("SELECT %s FROM Post_Meta WHERE UserId = %s AND PostId = %s", (sql_action, user_id, post_id))
+            action_status = cursor.fetchone()
+            if action_status:
+                cursor.execute("UPDATE Post_Meta SET %s = FALSE WHERE UserId = %s AND PostId = %s", (sql_action, user_id, post_id))
+            elif action_status is None:
+                cursor.execute("INSERT INTO Post_Meta (UserId, PostId, %s) VALUES (%s, %s, TRUE)", (sql_action, user_id, post_id))
+            else:
+                cursor.execute("UPDATE Post_Meta SET %s = TRUE WHERE UserId = %s AND PostId = %s", (sql_action, user_id, post_id))
+            db.get_db().commit()
+            cursor.close()
+            return jsonify({"status": "%s toggled" % action}), 200
+        else:
+            return jsonify({"error": "Invalid action, should not have reached this point!"}), 501
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
 
-#             query = "UPDATE Post SET " + set_clause + " WHERE PostId = %s"
-#             params.append(post_id)
-
-#             cursor.execute(query, params)
-#             db.get_db().commit()
-#             cursor.close()
-
-#             return jsonify({"message": "Post updated successfully"}), 200
-            
-            
-
+# Mark a post as deleted or flagged (Moderator story 1/3)
+# Required params: Either UserId or BotId
 @posts.route("/<int:post_id>", methods=["DELETE"])
 def delete_post(post_id):
-    return jsonify({"status": "api endpoint incomplete"}), 501
+    try:
+        cursor = db.get_db().cursor()
+        data = request.get_json()
+
+        bot_id = data.get("BotId")
+        user_id = data.get("UserId")
+        
+        # Bot flag action
+        if bot_id:
+            # Checking for bot existence
+            cursor.execute("SELECT * FROM Bot WHERE BotId = %s", (bot_id,))
+            if not cursor.fetchone():
+                return jsonify({"error": "Bot not found, cannot flag post!"}), 404
+            
+            # If the bot exists, then flag the post
+            cursor.execute("INSERT INTO Bot_Flags_Post (BotId, PostId) VALUES (%s, %s)", (bot_id, post_id))
+            db.get_db().commit()
+
+            cursor.execute("UPDATE Post SET Flagged = TRUE WHERE PostId = %s", (post_id,))
+            db.get_db().commit()
+            
+        # Moderator/User delete action
+        elif user_id:
+            # Verify that user is a moderator
+            moderator = is_moderator(user_id)
+
+            # Or verify if the user is the author
+            author = is_comment_author(user_id, post_id)
+
+            if not moderator and not author:
+                return jsonify({"error": "User is not authorized to delete this post"}), 403
+
+            cursor.execute("UPDATE Post SET Deleted = TRUE WHERE PostId = %s", (post_id,))
+            db.get_db().commit()
+            
+            if moderator:
+                cursor.execute("INSERT INTO Moderator_Deletes_Post (UserId, PostId) VALUES (%s, %s)", (user_id, post_id))
+                db.get_db().commit()
+
+            return jsonify({"status": "Post deleted"}), 200
+            
+        else:
+            return jsonify({"error": "Pass in a user id or bot id"}), 400
+    except Error as e:
+        return jsonify({"error": str(e)}), 500
+        
 
 
 

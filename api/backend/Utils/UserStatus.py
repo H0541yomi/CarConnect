@@ -5,7 +5,7 @@ from backend.db_connection import db
 def is_post_author(user_id, advertiser_id, post_id):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute("SELECT * FROM Post WHERE (AuthorId = %s OR AdvertiserId = %s) AND PostId = %s", (user_id, post_id))
+        cursor.execute("SELECT * FROM Post WHERE (AuthorId = %s OR AdvertiserId = %s) AND PostId = %s", (user_id, advertiser_id, post_id))
         cursor.close()
         return cursor.fetchone() is not None
     except Error as e:
