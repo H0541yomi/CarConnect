@@ -192,16 +192,20 @@ def update_post(post_id):
             db.get_db().commit()
             cursor.close()
             return jsonify({"status": "Post updated"}), 200
+        
         elif action == "like" or action == "dislike":
             sql_action = "Liked" if action == "like" else "Disliked"
             cursor.execute("SELECT %s FROM Post_Meta WHERE UserId = %s AND PostId = %s", (sql_action, user_id, post_id))
             action_status = cursor.fetchone()
             if action_status:
                 cursor.execute("UPDATE Post_Meta SET %s = FALSE WHERE UserId = %s AND PostId = %s", (sql_action, user_id, post_id))
+                cursor.execute("UPDATE Post SET %s = GREATEST(%s - 1, 0) WHERE PostId = %s", (sql_action, sql_action, post_id))
             elif action_status is None:
                 cursor.execute("INSERT INTO Post_Meta (UserId, PostId, %s) VALUES (%s, %s, TRUE)", (sql_action, user_id, post_id))
+                cursor.execute("UPDATE Post SET %s = %s + 1 WHERE PostId = %s", (sql_action, sql_action, post_id))
             else:
                 cursor.execute("UPDATE Post_Meta SET %s = TRUE WHERE UserId = %s AND PostId = %s", (sql_action, user_id, post_id))
+                cursor.execute("UPDATE Post SET %s = %s + 1 WHERE PostId = %s", (sql_action, sql_action, post_id))
             db.get_db().commit()
             cursor.close()
             return jsonify({"status": "%s toggled" % action}), 200
@@ -322,7 +326,7 @@ def get_comment(post_id, comment_id):
 
 # Update a comment (edit body, like/dislike) (User story 1)
 # Required params: UserId
-# Use booleans when passing in the following optional params: Like, Dislike, UndoLike, UndoDislike
+# Use booleans when passing in the following optional params: Like, Dislike
 @posts.route("/<int:post_id>/comments/<int:comment_id>", methods=["PUT"])
 def update_comment(post_id, comment_id):
     try:
@@ -338,8 +342,6 @@ def update_comment(post_id, comment_id):
         new_body = data.get("Body")
         like = data.get("Like") # boolean
         dislike = data.get("Dislike") # boolean
-        undo_like = data.get("UndoLike") # boolean
-        undo_dislike = data.get("UndoDislike") # boolean
 
         # User updates body action
         if new_body:
@@ -349,25 +351,29 @@ def update_comment(post_id, comment_id):
 
             cursor.execute("UPDATE Comment SET Body = %s WHERE CommentId = %s", (new_body, comment_id))
             db.get_db().commit()
+            cursor.close()
             return jsonify({"status": "Comment updated"}), 200
 
         # User liking actions
-        if like:
-            cursor.execute("UPDATE Comment SET Likes = Likes + 1 WHERE CommentId = %s", (comment_id,))
+        if like and dislike:
+            return jsonify({"error": "Cannot like and dislike at the same time"}), 400
+        if like or dislike: 
+            sql_action = "Liked" if like else "Disliked"
+            cursor.execute("SELECT %s FROM Comment_Meta WHERE UserId = %s AND CommentId = %s", (sql_action, user_id, comment_id))
+            action_status = cursor.fetchone()
+            
+            if action_status:
+                cursor.execute("UPDATE Comment_Meta SET %s = FALSE WHERE UserId = %s AND CommentId = %s", (sql_action, user_id, comment_id))
+                cursor.execute("UPDATE Comment SET %s = GREATEST(%s - 1, 0) WHERE CommentId = %s", (sql_action, sql_action, comment_id))
+            elif action_status is None:
+                cursor.execute("INSERT INTO Comment_Meta (UserId, CommentId, %s) VALUES (%s, %s, TRUE)", (sql_action, user_id, comment_id))
+                cursor.execute("UPDATE Comment SET %s = %s + 1 WHERE CommentId = %s", (sql_action, sql_action, comment_id))
+            else:
+                cursor.execute("UPDATE Comment_Meta SET %s = TRUE WHERE UserId = %s AND CommentId = %s", (sql_action, user_id, comment_id))
+                cursor.execute("UPDATE Comment SET %s = %s + 1 WHERE CommentId = %s", (sql_action, sql_action, comment_id))
             db.get_db().commit()
-            return jsonify({"status": "Comment liked"}), 200
-        if dislike:
-            cursor.execute("UPDATE Comment SET Dislikes = Dislikes + 1 WHERE CommentId = %s", (comment_id,))
-            db.get_db().commit()
-            return jsonify({"status": "Comment disliked"}), 200
-        if undo_like:
-            cursor.execute("UPDATE Comment SET Likes = GREATEST(Likes - 1, 0) WHERE CommentId = %s", (comment_id,))
-            db.get_db().commit()
-            return jsonify({"status": "Like undone"}), 200
-        if undo_dislike:
-            cursor.execute("UPDATE Comment SET Dislikes = GREATEST(Dislikes - 1, 0) WHERE CommentId = %s", (comment_id,))
-            db.get_db().commit()
-            return jsonify({"status": "Dislike undone"}), 200
+            cursor.close()
+            return jsonify({"status": "%s toggled on comment" % sql_action}), 200
 
         return jsonify({"error": "No action taken"}), 400
     except Error as e:
