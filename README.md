@@ -185,17 +185,6 @@ If you are not familiar with web app development, this code base might be confus
 1. Next, explore the `./api` directory. This is where the Flask REST API is located. The REST API is used to interact with the database and perform other server-side tasks.
 1. Finally, explore the `./database-files` directory. This is where the SQL scripts are located that will be used to initialize the MySQL database.
 
-### Setting Up Your Personal Repo
-
-1. In GitHub, click the **fork** button in the upper right corner of the repo screen.
-1. When prompted, give the new repo a unique name, perhaps including your last name and the word 'personal'.
-1. Once the fork has been created, clone YOUR forked version of the repo to your computer.
-1. Set up the `.env` file in the `api` folder based on the `.env.template` file.
-1. For running the testing containers (for your personal repo), you will tell `docker compose` to use a different configuration file named `docker-compose-testing.yaml`.
-   1. `docker compose -f docker-compose-testing.yaml up -d` to start all the containers in the background
-   1. `docker compose -f docker-compose-testing.yaml down` to shutdown and delete the containers
-   1. `docker compose -f docker-compose-testing.yaml up db -d` only start the database container (replace db with api or app for the other two services as needed)
-   1. `docker compose -f docker-compose-testing.yaml stop` to "turn off" the containers but not delete them.
 
 ### Setting Up Your Personal Repo
 
@@ -217,12 +206,6 @@ If you are not familiar with web app development, this code base might be confus
 3. Run containers:  
    ```bash
    docker compose up -d
-   
-1. For running the testing containers (for your team's repo):
-   1. `docker compose up -d` to start all the containers in the background
-   1. `docker compose down` to shutdown and delete the containers
-   1. `docker compose up db -d` only start the database container (replace db with api or app for the other two services as needed)
-   1. `docker compose stop` to "turn off" the containers but not delete them.
  
 **Note:** You can also use the Docker Desktop GUI to start and stop the containers after the first initial run.
 
