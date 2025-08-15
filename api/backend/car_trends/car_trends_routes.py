@@ -4,6 +4,7 @@ from backend.db_connection import db
 
 car_trends = Blueprint("car_trends", __name__)
 
+# Get info on trending car parts, models, etc. (Advertiser story 4)
 @car_trends.route("/", methods=["GET"])
 def get_car_trends():
     try:

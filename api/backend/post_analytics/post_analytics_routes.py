@@ -32,7 +32,7 @@ def get_post_analytics():
     except Error as e:
         return jsonify({"error": str(e)}), 500
 
-# Get detailed analytics for a single post (Advertiser story 2)
+# Get detailed analytics for a single post (Advertiser story 2/6)
 @post_analytics.route("/<int:post_id>", methods=["GET"])
 def get_post_analytics_by_id(post_id):
     try:
