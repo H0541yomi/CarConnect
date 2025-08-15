@@ -47,36 +47,36 @@ VALUES
 ('modmax', 'Max', NULL, 'Reed', 'max.reed@example.com', '1996-11-27', 'Boise', 'Idaho', 'USA', 'Male', 'ECUs, logs, and long nights.', 'https://example.com/avatars/modmax.jpg', 'Moderator');
 
 INSERT INTO Group_Chat (OwnerId, Name, CreatedAt) VALUES
-(7,  'JDM Night Run',                 '2024-01-14 20:45:10'),
-(12, 'Euro Track Rats',               '2024-03-02 09:12:31'),
+(1,  'JDM Night Run',                 '2024-01-14 20:45:10'),
+(2, 'Euro Track Rats',               '2024-03-02 09:12:31'),
 (3,  'Turbo Tuesdays',                 '2025-02-11 18:03:22'),
-(21, 'Muscle Cars & Coffee',          '2023-11-05 08:17:44'),
-(30, 'Canyon Carvers PNW',            '2024-06-22 07:55:13'),
-(15, 'Touge Dawn Patrol',             '2025-05-19 05:42:09'),
-(26, 'EV Swaps & Hybrids',            '2024-09-28 12:03:58'),
-(9,  'Convertible Sunset Crew',       '2024-08-18 19:26:41'),
-(33, 'Time Attack Data Nerds',        '2025-01-09 21:50:35'),
-(18, 'Boxer Burble Society',          '2024-11-12 15:14:27'),
-(5,  'HPDE First-Timers',             '2024-02-25 10:09:02'),
-(22, 'Brake Duct Whisperers',         '2024-04:18 16:22:51'),
-(1,  'Oversteer Anonymous',           '2023-12-29 22:39:10'),
-(37, 'OEM+ Perfectionists',           '2024-10-07 13:01:43'),
-(11, 'NA Screamer Club',              '2025-03-16 17:34:55'),
-(24, 'Dyno Day Diehards',             '2024-07-03 14:20:48'),
-(6,  'Air-Cooled Alley',              '2024-05-26 11:45:29'),
-(28, 'Fitment & Meaty Tires',         '2025-04-05 09:57:36'),
-(13, 'Restomod Roundtable',         '2025-09-20 15:00:00'),
-(27, 'Splitter Science',            '2025-06-11 18:00:00'),
-(20, 'Sleeper Builds',              '2025-12-10 19:00:00'),
-(34, 'Ops & Marshals',              '2025-10-29 09:00:00'),
-(14, 'ECU Tuning Night',            '2025-02-23 19:00:00'),
-(16, 'Drift Night',                 '2025-08-30 17:30:00'),
-(11, 'Track Day Advanced',          '2025-09-14 08:00:00'),
-(9,  'Cars & Coffee',               '2025-08-17 07:30:00'),
-(21, 'Heel-Toe Practice',           '2025-10-21 18:00:00'),
-(2,  'Detailing Pro Tips',          '2025-03-30 10:00:00'),
+(4, 'Muscle Cars & Coffee',          '2023-11-05 08:17:44'),
+(5, 'Canyon Carvers PNW',            '2024-06-22 07:55:13'),
+(6, 'Touge Dawn Patrol',             '2025-05-19 05:42:09'),
+(7, 'EV Swaps & Hybrids',            '2024-09-28 12:03:58'),
+(8,  'Convertible Sunset Crew',       '2024-08-18 19:26:41'),
+(9, 'Time Attack Data Nerds',        '2025-01-09 21:50:35'),
+(10, 'Boxer Burble Society',          '2024-11-12 15:14:27'),
+(11,  'HPDE First-Timers',             '2024-02-25 10:09:02'),
+(12, 'Brake Duct Whisperers',         '2024-04:18 16:22:51'),
+(13,  'Oversteer Anonymous',           '2023-12-29 22:39:10'),
+(14, 'OEM+ Perfectionists',           '2024-10-07 13:01:43'),
+(15, 'NA Screamer Club',              '2025-03-16 17:34:55'),
+(16, 'Dyno Day Diehards',             '2024-07-03 14:20:48'),
+(17,  'Air-Cooled Alley',              '2024-05-26 11:45:29'),
+(18, 'Fitment & Meaty Tires',         '2025-04-05 09:57:36'),
+(19, 'Restomod Roundtable',         '2025-09-20 15:00:00'),
+(20, 'Splitter Science',            '2025-06-11 18:00:00'),
+(21, 'Sleeper Builds',              '2025-12-10 19:00:00'),
+(22, 'Ops & Marshals',              '2025-10-29 09:00:00'),
+(23, 'ECU Tuning Night',            '2025-02-23 19:00:00'),
+(24, 'Drift Night',                 '2025-08-30 17:30:00'),
+(25, 'Track Day Advanced',          '2025-09-14 08:00:00'),
+(26,  'Cars & Coffee',               '2025-08-17 07:30:00'),
+(27, 'Heel-Toe Practice',           '2025-10-21 18:00:00'),
+(28,  'Detailing Pro Tips',          '2025-03-30 10:00:00'),
 (29, 'Quattro Snow Prep',           '2025-01-27 18:00:00'),
-(10, 'Supercharger Talk',           '2025-06-10 19:00:00');
+(30, 'Supercharger Talk',           '2025-06-10 19:00:00');
 
 INSERT INTO Advertiser (Name, Email, CompanyName, CreatedAt) VALUES
 ('Marcus Allen',     'marcus.allen@trackstarpromo.com',   'TrackStar Promotions',          '2024-01-12 10:14:22'),
@@ -870,7 +870,6 @@ VALUES
 
 
 -- 12) Campaign_Posts_Data
-sql
 INSERT INTO Campaign_Posts_Data
 (CampaignId, AnalyticsId, Timestamp)
 VALUES
@@ -1053,7 +1052,7 @@ VALUES
 (20, 40, '2025-04-01 11:35:00'),
 (20, 20, '2025-05-01 11:35:00'),
 (20, 40, '2025-05-01 11:35:00');
-```
+
 
 
 -- 13) Post_Images
@@ -1138,10 +1137,11 @@ INSERT INTO Post_Images (PostId, Url) VALUES
 (38, 'https://cdn.carsocial.app/posts/38/photo_1.jpg'),
 (39, 'https://cdn.carsocial.app/posts/39/photo_1.jpg'),
 (40, 'https://cdn.carsocial.app/posts/40/photo_1.jpg');
-```
+
 
 -- 14) Bot (needs Users)
 INSERT INTO Bot (DevId, Name) VALUES
+(1,  'Bot1'),
 (2,  'TrackHelper'),
 (3,  'DynoWizard'),
 (4,  'RouteScout'),
@@ -1309,7 +1309,7 @@ INSERT INTO Bot_Flags_Comment (BotId, CommentId) VALUES
 (11,73),(25,73),
 (12,74),(26,74),
 (13,75),(27,75);
-```
+
 
 
 -- 18) Moderator_Deletes_Comment
@@ -1399,12 +1399,8 @@ INSERT INTO Group_Users (GroupId, UserId) VALUES
 (27,27),(27,34),(27,1),(27,8),(27,15),(27,22),
 (28,28),(28,35),(28,2),(28,9),(28,16),(28,23),
 (29,29),(29,36),(29,3),(29,10),(29,17),(29,24),
-(30,30),(30,37),(30,4),(30,11),(30,18),(30,25),
-(31,31),(31,38),(31,5),(31,12),(31,19),(31,26),
-(32,32),(32,39),(32,6),(32,13),(32,20),(32,27),
-(33,33),(33,40),(33,7),(33,14),(33,21),(33,28),
-(34,34),(34,1),(34,8),(34,15),(34,22),(34,29),
-(35,35),(35,2),(35,9),(35,16),(35,23),(35,30);
+(30,30),(30,37),(30,4),(30,11),(30,18),(30,25);
+
 
 
 -- 21) RSVP (needs Users)
