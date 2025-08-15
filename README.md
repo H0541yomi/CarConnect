@@ -197,6 +197,14 @@ If you are not familiar with web app development, this code base might be confus
    1. `docker compose -f docker-compose-testing.yaml up db -d` only start the database container (replace db with api or app for the other two services as needed)
    1. `docker compose -f docker-compose-testing.yaml stop` to "turn off" the containers but not delete them.
 
+### Setting Up Your Personal Repo
+
+1. **Fork** this template repo in GitHub → give it a unique name (e.g., `lastname-personal`).
+2. **Clone** your fork locally:  
+   ```bash
+   git clone <your-fork-url>
+   cd <repo-folder>
+
 ### Setting Up Your Team's Repo
 
 **Before you start**: As a team, one person needs to assume the role of _Team Project Repo Owner_.
@@ -216,6 +224,19 @@ If you are not familiar with web app development, this code base might be confus
    1. `docker compose stop` to "turn off" the containers but not delete them.
 
 **Note:** You can also use the Docker Desktop GUI to start and stop the containers after the first initial run.
+
+### Setting Up Your Team's Repo
+
+**Repo Owner**
+1. Fork this template repo → name it after your project.  
+2. Add teammates as **Collaborators** (Settings → Collaborators and Teams).
+
+**All Team Members**
+1. Accept invite → **Clone** the team repo in a separate folder from personal repo.  
+2. Create `.env` in `api` based on `.env.template`.  
+3. Run containers:  
+   ```bash
+   docker compose up -d
 
 ## Handling User Role Access and Control
 
