@@ -22,13 +22,13 @@ def _links_event_org():
     st.sidebar.page_link("./pages/EventOrg_Home.py", label="Home", icon="📅")
     st.sidebar.page_link("./pages/EventOrg_Create_Event.py", label="Create Event", icon="🆕")
     st.sidebar.page_link("./pages/EventOrg_RSVP_Tracker.py", label="RSVP Tracker", icon="📋")
-    st.sidebar.page_link("./pages/EventOrg_Announcements_and_Duplicate.py", label="Announcements & Duplicate", icon="📣")
+    st.sidebar.page_link("./pages/EventOrg_Announcement.py", label="Announcements & Duplicate", icon="📣")
 
 def SideBarLinks():
     role = st.session_state.get("role")
     if not role:
         return
-    st.sidebar.image("assets/logo.png", use_column_width=True)
+    st.sidebar.image("assets/logo.png", use_container_width=True)
     st.sidebar.markdown(f"**Role:** {role}")
     st.sidebar.divider()
     if role == "Moderator":
