@@ -64,7 +64,19 @@ INSERT INTO Group_Chat (OwnerId, Name, CreatedAt) VALUES
 (11, 'NA Screamer Club',              '2025-03-16 17:34:55'),
 (24, 'Dyno Day Diehards',             '2024-07-03 14:20:48'),
 (6,  'Air-Cooled Alley',              '2024-05-26 11:45:29'),
-(28, 'Fitment & Meaty Tires',         '2025-04-05 09:57:36'),;
+(28, 'Fitment & Meaty Tires',         '2025-04-05 09:57:36'),
+(13, 'Restomod Roundtable',         '2025-09-20 15:00:00'),
+(27, 'Splitter Science',            '2025-06-11 18:00:00'),
+(20, 'Sleeper Builds',              '2025-12-10 19:00:00'),
+(34, 'Ops & Marshals',              '2025-10-29 09:00:00'),
+(14, 'ECU Tuning Night',            '2025-02-23 19:00:00'),
+(16, 'Drift Night',                 '2025-08-30 17:30:00'),
+(11, 'Track Day Advanced',          '2025-09-14 08:00:00'),
+(9,  'Cars & Coffee',               '2025-08-17 07:30:00'),
+(21, 'Heel-Toe Practice',           '2025-10-21 18:00:00'),
+(2,  'Detailing Pro Tips',          '2025-03-30 10:00:00'),
+(29, 'Quattro Snow Prep',           '2025-01-27 18:00:00'),
+(10, 'Supercharger Talk',           '2025-06-10 19:00:00');
 
 INSERT INTO Advertiser (Name, Email, CompanyName, CreatedAt) VALUES
 ('Marcus Allen',     'marcus.allen@trackstarpromo.com',   'TrackStar Promotions',          '2024-01-12 10:14:22'),
