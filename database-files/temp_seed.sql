@@ -860,65 +860,543 @@ VALUES
 
 
 -- 12) Campaign_Posts_Data
-INSERT INTO Campaign_Posts_Data (CampaignId, Timestamp, AnalyticsId)
+```sql
+INSERT INTO Campaign_Posts_Data
+(CampaignId, AnalyticsId, Timestamp)
 VALUES
-(1, '2025-08-01 12:00:00', 1),
-(2, '2025-08-02 12:00:00', 2);
+-- Campaign 1 (Mar/Apr/May)
+(1, 1,  '2025-03-01 10:00:00'),
+(1, 11, '2025-03-01 10:00:00'),
+(1, 21, '2025-03-01 10:00:00'),
+(1, 1,  '2025-04-01 10:00:00'),
+(1, 21, '2025-04-01 10:00:00'),
+(1, 1,  '2025-05-01 10:00:00'),
+(1, 21, '2025-05-01 10:00:00'),
+
+-- Campaign 2
+(2, 2,  '2025-03-01 10:05:00'),
+(2, 12, '2025-03-01 10:05:00'),
+(2, 22, '2025-03-01 10:05:00'),
+(2, 2,  '2025-04-01 10:05:00'),
+(2, 22, '2025-04-01 10:05:00'),
+(2, 2,  '2025-05-01 10:05:00'),
+(2, 22, '2025-05-01 10:05:00'),
+
+-- Campaign 3
+(3, 3,  '2025-03-01 10:10:00'),
+(3, 13, '2025-03-01 10:10:00'),
+(3, 23, '2025-03-01 10:10:00'),
+(3, 3,  '2025-04-01 10:10:00'),
+(3, 23, '2025-04-01 10:10:00'),
+(3, 3,  '2025-05-01 10:10:00'),
+(3, 23, '2025-05-01 10:10:00'),
+
+-- Campaign 4
+(4, 4,  '2025-03-01 10:15:00'),
+(4, 14, '2025-03-01 10:15:00'),
+(4, 24, '2025-03-01 10:15:00'),
+(4, 4,  '2025-04-01 10:15:00'),
+(4, 24, '2025-04-01 10:15:00'),
+(4, 4,  '2025-05-01 10:15:00'),
+(4, 24, '2025-05-01 10:15:00'),
+
+-- Campaign 5
+(5, 5,  '2025-03-01 10:20:00'),
+(5, 15, '2025-03-01 10:20:00'),
+(5, 25, '2025-03-01 10:20:00'),
+(5, 5,  '2025-04-01 10:20:00'),
+(5, 25, '2025-04-01 10:20:00'),
+(5, 5,  '2025-05-01 10:20:00'),
+(5, 25, '2025-05-01 10:20:00'),
+
+-- Campaign 6
+(6, 6,  '2025-03-01 10:25:00'),
+(6, 16, '2025-03-01 10:25:00'),
+(6, 26, '2025-03-01 10:25:00'),
+(6, 6,  '2025-04-01 10:25:00'),
+(6, 26, '2025-04-01 10:25:00'),
+(6, 6,  '2025-05-01 10:25:00'),
+(6, 26, '2025-05-01 10:25:00'),
+
+-- Campaign 7
+(7, 7,  '2025-03-01 10:30:00'),
+(7, 17, '2025-03-01 10:30:00'),
+(7, 27, '2025-03-01 10:30:00'),
+(7, 7,  '2025-04-01 10:30:00'),
+(7, 27, '2025-04-01 10:30:00'),
+(7, 7,  '2025-05-01 10:30:00'),
+(7, 27, '2025-05-01 10:30:00'),
+
+-- Campaign 8
+(8, 8,  '2025-03-01 10:35:00'),
+(8, 18, '2025-03-01 10:35:00'),
+(8, 28, '2025-03-01 10:35:00'),
+(8, 8,  '2025-04-01 10:35:00'),
+(8, 28, '2025-04-01 10:35:00'),
+(8, 8,  '2025-05-01 10:35:00'),
+(8, 28, '2025-05-01 10:35:00'),
+
+-- Campaign 9
+(9, 9,  '2025-03-01 10:40:00'),
+(9, 19, '2025-03-01 10:40:00'),
+(9, 29, '2025-03-01 10:40:00'),
+(9, 9,  '2025-04-01 10:40:00'),
+(9, 29, '2025-04-01 10:40:00'),
+(9, 9,  '2025-05-01 10:40:00'),
+(9, 29, '2025-05-01 10:40:00'),
+
+-- Campaign 10
+(10, 10, '2025-03-01 10:45:00'),
+(10, 20, '2025-03-01 10:45:00'),
+(10, 30, '2025-03-01 10:45:00'),
+(10, 10, '2025-04-01 10:45:00'),
+(10, 30, '2025-04-01 10:45:00'),
+(10, 10, '2025-05-01 10:45:00'),
+(10, 30, '2025-05-01 10:45:00'),
+
+-- Campaign 11
+(11, 11, '2025-03-01 10:50:00'),
+(11, 21, '2025-03-01 10:50:00'),
+(11, 31, '2025-03-01 10:50:00'),
+(11, 11, '2025-04-01 10:50:00'),
+(11, 31, '2025-04-01 10:50:00'),
+(11, 11, '2025-05-01 10:50:00'),
+(11, 31, '2025-05-01 10:50:00'),
+
+-- Campaign 12
+(12, 12, '2025-03-01 10:55:00'),
+(12, 22, '2025-03-01 10:55:00'),
+(12, 32, '2025-03-01 10:55:00'),
+(12, 12, '2025-04-01 10:55:00'),
+(12, 32, '2025-04-01 10:55:00'),
+(12, 12, '2025-05-01 10:55:00'),
+(12, 32, '2025-05-01 10:55:00'),
+
+-- Campaign 13
+(13, 13, '2025-03-01 11:00:00'),
+(13, 23, '2025-03-01 11:00:00'),
+(13, 33, '2025-03-01 11:00:00'),
+(13, 13, '2025-04-01 11:00:00'),
+(13, 33, '2025-04-01 11:00:00'),
+(13, 13, '2025-05-01 11:00:00'),
+(13, 33, '2025-05-01 11:00:00'),
+
+-- Campaign 14
+(14, 14, '2025-03-01 11:05:00'),
+(14, 24, '2025-03-01 11:05:00'),
+(14, 34, '2025-03-01 11:05:00'),
+(14, 14, '2025-04-01 11:05:00'),
+(14, 34, '2025-04-01 11:05:00'),
+(14, 14, '2025-05-01 11:05:00'),
+(14, 34, '2025-05-01 11:05:00'),
+
+-- Campaign 15
+(15, 15, '2025-03-01 11:10:00'),
+(15, 25, '2025-03-01 11:10:00'),
+(15, 35, '2025-03-01 11:10:00'),
+(15, 15, '2025-04-01 11:10:00'),
+(15, 35, '2025-04-01 11:10:00'),
+(15, 15, '2025-05-01 11:10:00'),
+(15, 35, '2025-05-01 11:10:00'),
+
+-- Campaign 16
+(16, 16, '2025-03-01 11:15:00'),
+(16, 26, '2025-03-01 11:15:00'),
+(16, 36, '2025-03-01 11:15:00'),
+(16, 16, '2025-04-01 11:15:00'),
+(16, 36, '2025-04-01 11:15:00'),
+(16, 16, '2025-05-01 11:15:00'),
+(16, 36, '2025-05-01 11:15:00'),
+
+-- Campaign 17
+(17, 17, '2025-03-01 11:20:00'),
+(17, 27, '2025-03-01 11:20:00'),
+(17, 37, '2025-03-01 11:20:00'),
+(17, 17, '2025-04-01 11:20:00'),
+(17, 37, '2025-04-01 11:20:00'),
+(17, 17, '2025-05-01 11:20:00'),
+(17, 37, '2025-05-01 11:20:00'),
+
+-- Campaign 18
+(18, 18, '2025-03-01 11:25:00'),
+(18, 28, '2025-03-01 11:25:00'),
+(18, 38, '2025-03-01 11:25:00'),
+(18, 18, '2025-04-01 11:25:00'),
+(18, 38, '2025-04-01 11:25:00'),
+(18, 18, '2025-05-01 11:25:00'),
+(18, 38, '2025-05-01 11:25:00'),
+
+-- Campaign 19
+(19, 19, '2025-03-01 11:30:00'),
+(19, 29, '2025-03-01 11:30:00'),
+(19, 39, '2025-03-01 11:30:00'),
+(19, 19, '2025-04-01 11:30:00'),
+(19, 39, '2025-04-01 11:30:00'),
+(19, 19, '2025-05-01 11:30:00'),
+(19, 39, '2025-05-01 11:30:00'),
+
+-- Campaign 20
+(20, 20, '2025-03-01 11:35:00'),
+(20, 30, '2025-03-01 11:35:00'),
+(20, 40, '2025-03-01 11:35:00'),
+(20, 20, '2025-04-01 11:35:00'),
+(20, 40, '2025-04-01 11:35:00'),
+(20, 20, '2025-05-01 11:35:00'),
+(20, 40, '2025-05-01 11:35:00');
+```
+
 
 -- 13) Post_Images
-INSERT INTO Post_Images (PostId, Url)
-VALUES
-(1, 'https://example.com/image1.jpg'),
-(2, 'https://example.com/image2.jpg');
+```sql
+INSERT INTO Post_Images (PostId, Url) VALUES
+-- Post 1–15 (2 images each)
+(1,  'https://cdn.carsocial.app/posts/1/photo_1.jpg'),
+(1,  'https://cdn.carsocial.app/posts/1/photo_2.jpg'),
+(2,  'https://cdn.carsocial.app/posts/2/photo_1.jpg'),
+(2,  'https://cdn.carsocial.app/posts/2/photo_2.jpg'),
+(3,  'https://cdn.carsocial.app/posts/3/photo_1.jpg'),
+(3,  'https://cdn.carsocial.app/posts/3/photo_2.jpg'),
+(4,  'https://cdn.carsocial.app/posts/4/photo_1.jpg'),
+(4,  'https://cdn.carsocial.app/posts/4/photo_2.jpg'),
+(5,  'https://cdn.carsocial.app/posts/5/photo_1.jpg'),
+(5,  'https://cdn.carsocial.app/posts/5/photo_2.jpg'),
+(6,  'https://cdn.carsocial.app/posts/6/photo_1.jpg'),
+(6,  'https://cdn.carsocial.app/posts/6/photo_2.jpg'),
+(7,  'https://cdn.carsocial.app/posts/7/photo_1.jpg'),
+(7,  'https://cdn.carsocial.app/posts/7/photo_2.jpg'),
+(8,  'https://cdn.carsocial.app/posts/8/photo_1.jpg'),
+(8,  'https://cdn.carsocial.app/posts/8/photo_2.jpg'),
+(9,  'https://cdn.carsocial.app/posts/9/photo_1.jpg'),
+(9,  'https://cdn.carsocial.app/posts/9/photo_2.jpg'),
+(10, 'https://cdn.carsocial.app/posts/10/photo_1.jpg'),
+(10, 'https://cdn.carsocial.app/posts/10/photo_2.jpg'),
+(11, 'https://cdn.carsocial.app/posts/11/photo_1.jpg'),
+(11, 'https://cdn.carsocial.app/posts/11/photo_2.jpg'),
+(12, 'https://cdn.carsocial.app/posts/12/photo_1.jpg'),
+(12, 'https://cdn.carsocial.app/posts/12/photo_2.jpg'),
+(13, 'https://cdn.carsocial.app/posts/13/photo_1.jpg'),
+(13, 'https://cdn.carsocial.app/posts/13/photo_2.jpg'),
+(14, 'https://cdn.carsocial.app/posts/14/photo_1.jpg'),
+(14, 'https://cdn.carsocial.app/posts/14/photo_2.jpg'),
+(15, 'https://cdn.carsocial.app/posts/15/photo_1.jpg'),
+(15, 'https://cdn.carsocial.app/posts/15/photo_2.jpg'),
+
+-- Post 16–35 (2 images each)
+(16, 'https://cdn.carsocial.app/posts/16/photo_1.jpg'),
+(16, 'https://cdn.carsocial.app/posts/16/photo_2.jpg'),
+(17, 'https://cdn.carsocial.app/posts/17/photo_1.jpg'),
+(17, 'https://cdn.carsocial.app/posts/17/photo_2.jpg'),
+(18, 'https://cdn.carsocial.app/posts/18/photo_1.jpg'),
+(18, 'https://cdn.carsocial.app/posts/18/photo_2.jpg'),
+(19, 'https://cdn.carsocial.app/posts/19/photo_1.jpg'),
+(19, 'https://cdn.carsocial.app/posts/19/photo_2.jpg'),
+(20, 'https://cdn.carsocial.app/posts/20/photo_1.jpg'),
+(20, 'https://cdn.carsocial.app/posts/20/photo_2.jpg'),
+(21, 'https://cdn.carsocial.app/posts/21/photo_1.jpg'),
+(21, 'https://cdn.carsocial.app/posts/21/photo_2.jpg'),
+(22, 'https://cdn.carsocial.app/posts/22/photo_1.jpg'),
+(22, 'https://cdn.carsocial.app/posts/22/photo_2.jpg'),
+(23, 'https://cdn.carsocial.app/posts/23/photo_1.jpg'),
+(23, 'https://cdn.carsocial.app/posts/23/photo_2.jpg'),
+(24, 'https://cdn.carsocial.app/posts/24/photo_1.jpg'),
+(24, 'https://cdn.carsocial.app/posts/24/photo_2.jpg'),
+(25, 'https://cdn.carsocial.app/posts/25/photo_1.jpg'),
+(25, 'https://cdn.carsocial.app/posts/25/photo_2.jpg'),
+(26, 'https://cdn.carsocial.app/posts/26/photo_1.jpg'),
+(26, 'https://cdn.carsocial.app/posts/26/photo_2.jpg'),
+(27, 'https://cdn.carsocial.app/posts/27/photo_1.jpg'),
+(27, 'https://cdn.carsocial.app/posts/27/photo_2.jpg'),
+(28, 'https://cdn.carsocial.app/posts/28/photo_1.jpg'),
+(28, 'https://cdn.carsocial.app/posts/28/photo_2.jpg'),
+(29, 'https://cdn.carsocial.app/posts/29/photo_1.jpg'),
+(29, 'https://cdn.carsocial.app/posts/29/photo_2.jpg'),
+(30, 'https://cdn.carsocial.app/posts/30/photo_1.jpg'),
+(30, 'https://cdn.carsocial.app/posts/30/photo_2.jpg'),
+(31, 'https://cdn.carsocial.app/posts/31/photo_1.jpg'),
+(31, 'https://cdn.carsocial.app/posts/31/photo_2.jpg'),
+(32, 'https://cdn.carsocial.app/posts/32/photo_1.jpg'),
+(32, 'https://cdn.carsocial.app/posts/32/photo_2.jpg'),
+(33, 'https://cdn.carsocial.app/posts/33/photo_1.jpg'),
+(33, 'https://cdn.carsocial.app/posts/33/photo_2.jpg'),
+(34, 'https://cdn.carsocial.app/posts/34/photo_1.jpg'),
+(34, 'https://cdn.carsocial.app/posts/34/photo_2.jpg'),
+(35, 'https://cdn.carsocial.app/posts/35/photo_1.jpg'),
+(35, 'https://cdn.carsocial.app/posts/35/photo_2.jpg'),
+
+-- Post 36–40 (1 image each)  => total 75 rows
+(36, 'https://cdn.carsocial.app/posts/36/photo_1.jpg'),
+(37, 'https://cdn.carsocial.app/posts/37/photo_1.jpg'),
+(38, 'https://cdn.carsocial.app/posts/38/photo_1.jpg'),
+(39, 'https://cdn.carsocial.app/posts/39/photo_1.jpg'),
+(40, 'https://cdn.carsocial.app/posts/40/photo_1.jpg');
+```
 
 -- 14) Bot (needs Users)
-INSERT INTO Bot (DevId, Name)
-VALUES
-(1, 'SpamBot'),
-(2, 'AutoModerator');
-
-INSERT INTO Bot (Name, DevId)
-VALUES ('AutoMod', 10);  -- replace 1 with the actual UserId
+INSERT INTO Bot (DevId, Name) VALUES
+(2,  'TrackHelper'),
+(3,  'DynoWizard'),
+(4,  'RouteScout'),
+(5,  'GripAdvisor'),
+(6,  'FitmentGenie'),
+(7,  'TorqueTutor'),
+(8,  'PitCrewBot'),
+(9,  'PaintGuru'),
+(10, 'BoostBuddy'),
+(11, 'EventHerald'),
+(12, 'PhotoPicker'),
+(13, 'PadMatcher'),
+(14, 'FuelEconomy'),
+(15, 'LapTimer'),
+(16, 'GearboxGuide'),
+(17, 'MapMarker'),
+(18, 'AlertBeacon'),
+(19, 'VendorFinder'),
+(20, 'PostScheduler'),
+(21, 'SpamShield'),
+(22, 'TrendWatcher'),
+(23, 'MeetupMatcher'),
+(24, 'AeroAdvisor'),
+(25, 'DynoPlanner'),
+(26, 'TuneTracker'),
+(27, 'TrackMarshal'),
+(28, 'PartsCrawler'),
+(29, 'RoutePlanner'),
+(30, 'WrapDesigner'),
+(31, 'RSVPHelper');
 
 
 -- 15) Script (needs Bot)
 INSERT INTO Script (BotId, Script)
 VALUES
-(1, 'if post.contains("spam") then delete'),
-(2, 'flag inappropriate comments');
+(1,  'if post.contains("scam") then flag'),
+(2,  'if (logs.missing("afr")) { notify("upload logs"); }'),
+(3,  'if (route.reports > 3) { warn("hazard ahead"); }'),
+(4,  'if (track.temp_c < 10) { suggest("raise tire psi"); }'),
+(5,  'if (wheel.offset < +30) { alert("check fender clearance"); }'),
+(6,  'if (part == "wheel_lug") { reply("torque 90 lb-ft"); }'),
+(7,  'if (radio.chatter == "high") { post("use push-to-talk"); }'),
+(8,  'if comment.contains("swirl") then suggest("finishing pad")'),
+(9,  'if (boost.leak == true) { post("smoke test recommended"); }'),
+(10, 'if (event.startsInHours(24)) { announce("final reminder"); }'),
+(11, 'if (photo.sharpness < 0.7) { reject("pick another cover"); }'),
+(12, 'if (rotor.temp > 500) { recommend("endurance pads"); }'),
+(13, 'if (trip.range_km < 80) { addStop("fuel"); }'),
+(14, 'if (lap.delta < -0.2) { cheer("new PB!"); }'),
+(15, 'if (shift == "3->2") { coach("blip throttle"); }'),
+(16, 'if (spot.type == "photo") { addPin(); }'),
+(17, 'if report.contains("gravel") then broadcast("turn 7 hazard")'),
+(18, 'if (price.drop > 10) { notify("deal found"); }'),
+(19, 'if (engagement.hour == "high") { schedule(post); }'),
+(20, 'if post.contains("spam") then delete'),
+(21, 'if (topic.trending) { suggest("#hashtag"); }'),
+(22, 'if (user.nearby && seats > 0) { suggest("carpool"); }'),
+(23, 'if (rake_mm < 5) { advise("increase rake"); }'),
+(24, 'if (dyno.queue > 10) { openSlot(30); }'),
+(25, 'if (map == "E85") { note("use colder plugs"); }'),
+(26, 'if (incident.reported) { flag("needs review"); }'),
+(27, 'if (stock == 0) { watch("HX-88"); }'),
+(28, 'if route.contains("toll") then avoid("toll")'),
+(29, 'if (theme == "retro90s") { suggest("teal/purple"); }'),
+(30, 'if (rsvp.remaining < 5) { notify("almost full"); }'),
+(31, 'if (rsvp.window == "24h") { remind("respond now"); }');
 
-INSERT INTO Script (BotId, Script)
-VALUES
-(10, 'if (post.includes("spam")) { flag(); }'),
-(10, 'if (comment.length > 1000) { notify("too long"); }');
 
 
 -- 16) Bot_Flags_Post
-INSERT INTO Bot_Flags_Post (BotId, PostId)
-VALUES
-(1, 1),
-(2, 2);
+INSERT INTO Bot_Flags_Post (BotId, PostId) VALUES
+-- one flag per post (Posts 1–70), BotId cycles 1–31
+(1,1),(2,2),(3,3),(4,4),(5,5),(6,6),(7,7),(8,8),(9,9),(10,10),
+(11,11),(12,12),(13,13),(14,14),(15,15),(16,16),(17,17),(18,18),(19,19),(20,20),
+(21,21),(22,22),(23,23),(24,24),(25,25),(26,26),(27,27),(28,28),(29,29),(30,30),
+(31,31),
+(1,32),(2,33),(3,34),(4,35),(5,36),(6,37),(7,38),(8,39),(9,40),(10,41),
+(11,42),(12,43),(13,44),(14,45),(15,46),(16,47),(17,48),(18,49),(19,50),(20,51),
+(21,52),(22,53),(23,54),(24,55),(25,56),(26,57),(27,58),(28,59),(29,60),(30,61),
+(31,62),
+(1,63),(2,64),(3,65),(4,66),(5,67),(6,68),(7,69),(8,70),
+
+-- extra moderation on key posts (e.g., ads/spam-sensitive)
+(20,45),(31,45),
+(20,50),(31,50),(21,50),
+(20,15),(20,35),
+(21,25),(21,29),
+(20,41);
+
 
 -- 17) Bot_Flags_Comment
-INSERT INTO Bot_Flags_Comment (BotId, CommentId)
-VALUES
-(1, 1),
-(2, 2);
+```sql
+INSERT INTO Bot_Flags_Comment (BotId, CommentId) VALUES
+(1,1),(15,1),
+(2,2),(16,2),
+(3,3),(17,3),
+(4,4),(18,4),
+(5,5),(19,5),
+(6,6),(20,6),
+(7,7),(21,7),
+(8,8),(22,8),
+(9,9),(23,9),
+(10,10),(24,10),
+(11,11),(25,11),
+(12,12),(26,12),
+(13,13),(27,13),
+(14,14),(28,14),
+(15,15),(29,15),
+(16,16),(30,16),
+(17,17),(31,17),
+(18,18),(1,18),
+(19,19),(2,19),
+(20,20),(3,20),
+(21,21),(4,21),
+(22,22),(5,22),
+(23,23),(6,23),
+(24,24),(7,24),
+(25,25),(8,25),
+(26,26),(9,26),
+(27,27),(10,27),
+(28,28),(11,28),
+(29,29),(12,29),
+(30,30),(13,30),
+(31,31),(14,31),
+(1,32),(15,32),
+(2,33),(16,33),
+(3,34),(17,34),
+(4,35),(18,35),
+(5,36),(19,36),
+(6,37),(20,37),
+(7,38),(21,38),
+(8,39),(22,39),
+(9,40),(23,40),
+(10,41),(24,41),
+(11,42),(25,42),
+(12,43),(26,43),
+(13,44),(27,44),
+(14,45),(28,45),
+(15,46),(29,46),
+(16,47),(30,47),
+(17,48),(31,48),
+(18,49),(1,49),
+(19,50),(2,50),
+(20,51),(3,51),
+(21,52),(4,52),
+(22,53),(5,53),
+(23,54),(6,54),
+(24,55),(7,55),
+(25,56),(8,56),
+(26,57),(9,57),
+(27,58),(10,58),
+(28,59),(11,59),
+(29,60),(12,60),
+(30,61),(13,61),
+(31,62),(14,62),
+(1,63),(15,63),
+(2,64),(16,64),
+(3,65),(17,65),
+(4,66),(18,66),
+(5,67),(19,67),
+(6,68),(20,68),
+(7,69),(21,69),
+(8,70),(22,70),
+(9,71),(23,71),
+(10,72),(24,72),
+(11,73),(25,73),
+(12,74),(26,74),
+(13,75),(27,75);
+```
+
 
 -- 18) Moderator_Deletes_Comment
-INSERT INTO Moderator_Deletes_Comment (UserId, CommentId)
-VALUES
-(3, 1);
+INSERT INTO Moderator_Deletes_Comment (UserId, CommentId) VALUES
+(3, 50),
+(7, 12),
+(11, 18),
+(15, 25),
+(19, 33),
+(23, 37),
+(27, 45),
+(31, 57),
+(35, 60),
+(39, 63),
+(5, 5),
+(9, 22),
+(13, 29),
+(17, 41),
+(21, 44),
+(25, 49),
+(29, 52),
+(33, 55),
+(37, 61),
+(1, 64),
+(6, 66),
+(10, 69),
+(14, 71),
+(18, 73);
+
 
 -- 19) Moderator_Deletes_Post
-INSERT INTO Moderator_Deletes_Post (UserId, PostId)
-VALUES
-(3, 1);
+INSERT INTO Moderator_Deletes_Post (UserId, PostId) VALUES
+(3, 50),
+(7, 45),
+(11, 41),
+(15, 35),
+(19, 20),
+(23, 27),
+(27, 31),
+(31, 33),
+(35, 39),
+(39, 52),
+(5, 12),
+(9, 18),
+(13, 24),
+(17, 56),
+(21, 58),
+(25, 61),
+(29, 63),
+(33, 66),
+(37, 68),
+(1, 69),
+(6, 70),
+(10, 15),
+(14, 25),
+(18, 47);
+
 
 -- 20) Group_Users
-INSERT INTO Group_Users (GroupId, UserId)
-VALUES
-(1, 1), (1, 2), (2, 2), (2, 3);
+INSERT INTO Group_Users (GroupId, UserId) VALUES
+(1,1),(1,8),(1,15),(1,22),(1,29),(1,36),
+(2,2),(2,9),(2,16),(2,23),(2,30),(2,37),
+(3,3),(3,10),(3,17),(3,24),(3,31),(3,38),
+(4,4),(4,11),(4,18),(4,25),(4,32),(4,39),
+(5,5),(5,12),(5,19),(5,26),(5,33),(5,40),
+(6,6),(6,13),(6,20),(6,27),(6,34),(6,1),
+(7,7),(7,14),(7,21),(7,28),(7,35),(7,2),
+(8,8),(8,15),(8,22),(8,29),(8,36),(8,3),
+(9,9),(9,16),(9,23),(9,30),(9,37),(9,4),
+(10,10),(10,17),(10,24),(10,31),(10,38),(10,5),
+(11,11),(11,18),(11,25),(11,32),(11,39),(11,6),
+(12,12),(12,19),(12,26),(12,33),(12,40),(12,7),
+(13,13),(13,20),(13,27),(13,34),(13,1),(13,8),
+(14,14),(14,21),(14,28),(14,35),(14,2),(14,9),
+(15,15),(15,22),(15,29),(15,36),(15,3),(15,10),
+(16,16),(16,23),(16,30),(16,37),(16,4),(16,11),
+(17,17),(17,24),(17,31),(17,38),(17,5),(17,12),
+(18,18),(18,25),(18,32),(18,39),(18,6),(18,13),
+(19,19),(19,26),(19,33),(19,40),(19,7),(19,14),
+(20,20),(20,27),(20,34),(20,1),(20,8),(20,15),
+(21,21),(21,28),(21,35),(21,2),(21,9),(21,16),
+(22,22),(22,29),(22,36),(22,3),(22,10),(22,17),
+(23,23),(23,30),(23,37),(23,4),(23,11),(23,18),
+(24,24),(24,31),(24,38),(24,5),(24,12),(24,19),
+(25,25),(25,32),(25,39),(25,6),(25,13),(25,20),
+(26,26),(26,33),(26,40),(26,7),(26,14),(26,21),
+(27,27),(27,34),(27,1),(27,8),(27,15),(27,22),
+(28,28),(28,35),(28,2),(28,9),(28,16),(28,23),
+(29,29),(29,36),(29,3),(29,10),(29,17),(29,24),
+(30,30),(30,37),(30,4),(30,11),(30,18),(30,25),
+(31,31),(31,38),(31,5),(31,12),(31,19),(31,26),
+(32,32),(32,39),(32,6),(32,13),(32,20),(32,27),
+(33,33),(33,40),(33,7),(33,14),(33,21),(33,28),
+(34,34),(34,1),(34,8),(34,15),(34,22),(34,29),
+(35,35),(35,2),(35,9),(35,16),(35,23),(35,30);
 
 -- 21) RSVP (needs Users)
 INSERT INTO RSVP (SubmitterId, Status)
