@@ -1,0 +1,1 @@
+# Shows details about events

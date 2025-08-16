@@ -1,0 +1,1 @@
+# Allows moderators, users, advertisers, event organizers to make a post

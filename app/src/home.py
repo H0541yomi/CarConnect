@@ -13,20 +13,9 @@ logger = logging.getLogger(__name__)
 import streamlit as st
 from modules.nav import SideBarLinks
 
-# streamlit supports reguarl and wide layout (how the controls
+# streamlit supports regular and wide layout (how the controls
 # are organized/displayed on the screen).
 st.set_page_config(layout = 'wide')
-
-# If a user is at this page, we assume they are not 
-# authenticated.  So we change the 'authenticated' value
-# in the streamlit session_state to false. 
-st.session_state['authenticated'] = False
-
-# Use the SideBarLinks function from src/modules/nav.py to control
-# the links displayed on the left-side panel. 
-# IMPORTANT: ensure src/.streamlit/config.toml sets
-# showSidebarNavigation = false in the [client] section
-SideBarLinks()
 
 # ***************************************************
 #    The major content of this page
@@ -45,7 +34,6 @@ st.write('### HI! As which user would you like to log in?')
 if st.button('Moderator', 
             type = 'primary', 
             use_container_width=True):
-    st.session_state['authenticated'] = True
     st.session_state['role'] = 'Moderator'
     st.session_state['UserId'] = 347194
     st.switch_page('pages/Moderator_Home.py')
@@ -53,8 +41,6 @@ if st.button('Moderator',
 if st.button("User", 
             type = 'primary', 
             use_container_width=True):
-    # when user clicks the button, they are now considered authenticated
-    st.session_state['authenticated'] = True
     # we set the role of the current user
     st.session_state['role'] = 'User'
     st.session_state['UserId'] = 642942
@@ -65,7 +51,6 @@ if st.button("User",
 if st.button('Advertiser', 
             type = 'primary', 
             use_container_width=True):
-    st.session_state['authenticated'] = True
     st.session_state['role'] = 'Advertiser'
     st.session_state['AdvertiserId'] = 494720
     st.switch_page('pages/Advertiser_Home.py')
@@ -73,7 +58,6 @@ if st.button('Advertiser',
 if st.button('Event Organizer', 
             type = 'primary', 
             use_container_width=True):
-    st.session_state['authenticated'] = True
     st.session_state['role'] = 'Event Organizer'
     st.session_state['UserId'] = 947294
     st.switch_page('pages/EventOrg_Home.py')
