@@ -8,7 +8,8 @@ from backend.Utils.UserStatus import is_moderator, is_comment_author, is_post_au
 posts = Blueprint("posts", __name__)
 
 # Get a list of posts, filterable with params (Moderator story 3, Advertiser story 2, User story 2/4)
-# Optional params: Title, EventName, CommunityName, PostedAfter
+# Optional params: Title, EventName, CommunityName, PostedAfter@posts.route("/", methods=["GET"])
+# PASSED
 @posts.route("/", methods=["GET"])
 def get_posts():
     try:
@@ -19,30 +20,30 @@ def get_posts():
         FROM Post JOIN Event ON Post.EventID = Event.EventID
         JOIN Community ON Post.CommunityID = Community.CommunityID
         WHERE Deleted = FALSE
-        ORDER BY CreatedAt DESC
         """
         
         filters = []
         for param in ["Title", "EventName", "CommunityName"]:
-            filter = request.args.get(param)
-            if filter:
+            value = request.args.get(param)
+            if value:
                 query += f" AND {param} = %s"
-                filters.append(filter)
-                
+                filters.append(value)
+        
         posted_after = request.args.get("PostedAfter")
         if posted_after:
-            query += " AND CreatedAt > %s"
             formatted_datetime = date_to_formatted_datetime(posted_after)
+            query += " AND Post.CreatedAt > %s"
             filters.append(formatted_datetime)
 
-        cursor.execute(query, filters)
+        query += " ORDER BY Post.CreatedAt DESC"
+
+        cursor.execute(query)
         posts = cursor.fetchall()
         cursor.close()
         return jsonify({"posts": posts}), 200
 
     except Error as e:
         return jsonify({"error": str(e)}), 500
-
 # Create a post (Moderator story 2, Advertiser story 1, User story 1, Event organizer story 3/5)
 @posts.route("/", methods=["POST"])
 def create_post():
