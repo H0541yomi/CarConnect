@@ -36,7 +36,7 @@ if st.button('Moderator',
             use_container_width=True):
     st.session_state['role'] = 'Moderator'
     st.session_state['UserId'] = 347194
-    st.switch_page('pages/Moderator_Home.py')
+    st.switch_page('pages/PostsScroll.py')
 
 if st.button("User", 
             type = 'primary', 
@@ -46,7 +46,7 @@ if st.button("User",
     st.session_state['UserId'] = 642942
     # finally, we ask streamlit to switch to another page, in this case, the 
     # landing page for this particular user type
-    st.switch_page('pages/User_Home.py')
+    st.switch_page('pages/PostsScroll.py')
 
 if st.button('Advertiser', 
             type = 'primary', 
@@ -60,4 +60,4 @@ if st.button('Event Organizer',
             use_container_width=True):
     st.session_state['role'] = 'Event Organizer'
     st.session_state['UserId'] = 947294
-    st.switch_page('pages/EventOrg_Home.py')
+    st.switch_page('pages/PostsScroll.py')
