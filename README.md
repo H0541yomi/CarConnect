@@ -76,4 +76,3 @@ printf 'API_BASE_URL = "http://api:4000"\n' > app/src/.streamlit/secrets.toml
  - Haoran Wei
  - Ethan Cabalona
  - Brian Kubinec
- - Ayan Imran
