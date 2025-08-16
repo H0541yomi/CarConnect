@@ -130,19 +130,25 @@ def get_post(post_id):
         cursor = db.get_db().cursor()
         
         basic_info_query = """
-        SELECT * FROM Post WHERE PostId = %s
+        SELECT Post.*, Advertiser.Name AS AdvertiserName, Users.Username AS AuthorUsername
+        FROM Post LEFT JOIN Advertiser ON Post.AdvertiserId = Advertiser.AdvertiserId
+        LEFT JOIN Users ON Post.AuthorId = Users.UserId
+        WHERE PostId = %s
         """
         analytics_query = """
         SELECT * FROM Post_Analytics WHERE PostId = %s
         """
         analytics_after = request.args.get("AnalyticsAfter")
+        analytics_query_params = [post_id]
+        formatted_datetime = None
         if analytics_after:
             analytics_query += " AND Timestamp > %s"
             formatted_datetime = date_to_formatted_datetime(analytics_after)
-            
+            analytics_query_params.append(formatted_datetime)
+
         cursor.execute(basic_info_query, (post_id,))
         basic_info = cursor.fetchone()
-        cursor.execute(analytics_query, (post_id, formatted_datetime))
+        cursor.execute(analytics_query, analytics_query_params)
         analytics_info = cursor.fetchall()
         
         cursor.close()
@@ -278,7 +284,7 @@ def delete_post(post_id):
 def get_comments(post_id):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute("SELECT * FROM Comment WHERE PostID = %s AND Deleted = FALSE ORDER BY Likes DESC", (post_id,))
+        cursor.execute("SELECT Comment.*, Users.Username AS Author FROM Comment JOIN Users ON Comment.AuthorID = Users.UserId WHERE PostID = %s AND Deleted = FALSE ORDER BY Likes", (post_id,))
         comments = cursor.fetchall()
         cursor.close()
         return jsonify(comments), 200
@@ -315,7 +321,7 @@ def create_comment(post_id):
 def get_comment(post_id, comment_id):
     try:
         cursor = db.get_db().cursor()
-        cursor.execute("SELECT * FROM Comment WHERE PostID = %s AND CommentID = %s AND Deleted = FALSE", (post_id, comment_id))
+        cursor.execute("SELECT Comment.*, Users.Username AS Author FROM Comment JOIN Users ON Comment.AuthorID = Users.UserId WHERE PostID = %s AND CommentID = %s AND Deleted = FALSE", (post_id, comment_id))
         comment = cursor.fetchone()
         cursor.close()
         if comment:
