@@ -71,6 +71,9 @@ printf 'API_BASE_URL = "http://api:4000"\n' > app/src/.streamlit/secrets.toml
 - **404 hitting `/api/...`** → client should NOT include `/api/`. Use `bots/`, `follows/`, etc.
 - **Empty DB** → run a clean reset (see reset DB snippet above).
 
+## Presentation
+Our presentation of this project can be found on YouTube with the link `https://youtu.be/0nwRRr60jyQ`
+
 ## Team Members 
  - Sam Penubothula
  - Haoran Wei
